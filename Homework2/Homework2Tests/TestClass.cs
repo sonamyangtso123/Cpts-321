@@ -11,11 +11,19 @@ namespace Homework2Tests
     public class TestClass
     {
         [Test]
-        public void TestMethod()
+        public void TestCountDistinctIntegersUsingHash()
         {
             int[] array = new int[] { 1, 4, 6, 8, 5, 5, 6, 7, 8, 6 };
-            int distinctIntegerCount = Finder.CountDistinctIntegers(array);
+            int distinctIntegerCount = Finder.CountDistinctIntegersUsingHash(array);
             Assert.That(distinctIntegerCount, Is.EqualTo(6));
+        }
+
+        [Test]
+        public void TestCountDistinctIntegerByStorageComplexity()
+        {
+            int[] array = new int[] {1};
+            int uniqueCount = Finder.CountDistinctIntegerByStorageComplexity(array);
+            Assert.That(uniqueCount, Is.EqualTo(1));
         }
     }
 }

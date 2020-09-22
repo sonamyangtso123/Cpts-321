@@ -8,14 +8,21 @@ namespace Homework2
 {
     public class Finder
     {
-        public static int CountDistinctIntegers(int[] array)
+        public static int CountDistinctIntegersUsingHash(int[] array)
         {
             HashSet<int> myHash = new HashSet<int>();
-            //foreach (int number in array)
-            //{
-            //    myHash.Add(number);
-            //}
+            foreach (int number in array)
+            {
+                myHash.Add(number);
+            }
             return myHash.Count();
+        }
+
+        public static int CountDistinctIntegerByStorageComplexity(int[] array)
+        {
+            int uniqueCount = 0;
+            
+            return uniqueCount;
         }
     }
 }
