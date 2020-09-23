@@ -44,5 +44,12 @@ namespace Homework2Tests
             int distinctCount = Finder.CountDistinctIntegerBySort(array);
             Assert.That(distinctCount, Is.EqualTo(5));
         }
+        [Test]
+        public void TestCountDistinctIntegerBySortWhenNoDuplicates()
+        {
+            int[] arry = new int[] { 1, 3, 5, 6, 7 };
+            int distinctCount = Finder.CountDistinctIntegerBySort(arry);
+            Assert.That(distinctCount, Is.EqualTo(5));
+        }
     }
 }
