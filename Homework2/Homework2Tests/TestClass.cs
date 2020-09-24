@@ -1,5 +1,7 @@
-﻿// NUnit 3 tests
-// See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
+﻿// <copyright file="TestClass.cs" company="Sonam yangtso">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace Homework2Tests
 {
     using System;
@@ -8,9 +10,16 @@ namespace Homework2Tests
     using Homework2;
     using NUnit.Framework;
 
+    /// <summary>
+    /// this is a test class for distinct integer count methods.
+    /// </summary>
     [TestFixture]
     public class TestClass
     {
+        /// <summary>
+        /// This method test the CountDistinctIntegersUsingHash method, which count the number of distinct
+        /// integers in array using hashset.
+        /// </summary>
         [Test]
         public void TestCountDistinctIntegersUsingHash()
         {
@@ -19,6 +28,10 @@ namespace Homework2Tests
             Assert.That(distinctIntegerCount, Is.EqualTo(6));
         }
 
+        /// <summary>
+        /// This method test the CountDistinctIntegerByStorage method,which counts the number of distinct integers
+        /// in an array by O(1) space complexity.
+        /// </summary>
         [Test]
         public void TestCountDistinctIntegerByStorage()
         {
@@ -27,6 +40,10 @@ namespace Homework2Tests
             Assert.That(uniqueCount, Is.EqualTo(5));
         }
 
+        /// <summary>
+        /// This method test the CountDistinctIntegerByStorage method,which counts the number of distinct integers
+        /// in an array by O(1) space complexity when there is only two same elements.
+        /// </summary>
         [Test]
         public void TestCountDistinctIntegerByStorageOfTwoSameIntegers()
         {
@@ -35,6 +52,10 @@ namespace Homework2Tests
             Assert.That(uniqueCount, Is.EqualTo(1));
         }
 
+        /// <summary>
+        /// This method test the CountDistinctIntegerByStorage method,which counts the number of distinct integers
+        /// in an array by O(1) space complexity when an array is empty.
+        /// </summary>
         [Test]
         public void TestCountDistinctIntegerByStorageForEmptyArray()
         {
@@ -43,6 +64,10 @@ namespace Homework2Tests
             Assert.That(uniqueCount, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// This method test the CountDistinctIntegerBySort method,which counts the number of distinct integers
+        /// in an array by using build in sort method.
+        /// </summary>
         [Test]
         public void TestCountDistinctIntegerBySort()
         {
@@ -51,6 +76,10 @@ namespace Homework2Tests
             Assert.That(distinctCount, Is.EqualTo(5));
         }
 
+        /// <summary>
+        /// This method test the CountDistinctIntegerBySort method,which counts the number of distinct integers
+        /// in an array by using build in sort method whe there is ni duplicates element presents.
+        /// </summary>
         [Test]
         public void TestCountDistinctIntegerBySortWhenNoDuplicates()
         {
@@ -59,6 +88,10 @@ namespace Homework2Tests
             Assert.That(distinctCount, Is.EqualTo(5));
         }
 
+        /// <summary>
+        /// This method test the CountDistinctIntegerBySort method,which counts the number of distinct integers
+        /// in an array by using build in sort method for empty array.
+        /// </summary>
         [Test]
         public void TestCountDistnctIntegerBySortForEmptyArray()
         {
