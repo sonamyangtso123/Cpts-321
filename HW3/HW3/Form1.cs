@@ -46,5 +46,15 @@ namespace HW3
         {
 
         }
+        private void  LoadText (StreamReader sr)
+        {
+            string word = "";
+            string line;
+            while((line = sr.ReadLine()) !=null)
+            {
+                word += line;
+            }
+            this.textBox1.Text = word;
+        }
     }
 }
