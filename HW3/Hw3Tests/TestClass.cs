@@ -10,11 +10,30 @@ namespace HW3Tests
     public class TestClass
     {
         [Test]
-        public void TestReadline()
+        public void TestFibReadline()
         {
-            FibonacciTextReader fibTest = new FibonacciTextReader(1);
-            string output = fibTest.ReadLine();
-            Assert.That(output, Is.EqualTo(1));
+            FibonacciTextReader tr = new FibonacciTextReader(1);
+            string output = tr.ReadLine();
+            Assert.That(output, Is.EqualTo("1"));
         }
+
+        [Test]
+        public void TestFibReadlineForNegativeMaxValue()
+        {
+            FibonacciTextReader tr = new FibonacciTextReader(-2);
+            Assert.AreEqual(null, tr.ReadLine());
+        }
+
+        [Test]
+        public void TestFibReadLine()
+        {
+            FibonacciTextReader tr= new FibonacciTextReader(7);
+            //tr.MaxValue = 7;
+            Assert.AreEqual("0", "1", "1", "2", "3", "5", "8", tr.ReadLine());
+
+
+        }
+
+
     }
 }
