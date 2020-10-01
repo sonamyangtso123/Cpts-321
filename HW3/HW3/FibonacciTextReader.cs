@@ -11,15 +11,19 @@ namespace HW3
     public class FibonacciTextReader : TextReader
     {
         private int maxValue;
+        private BigInteger firstNumber;
+        private BigInteger secondNumber;
+        private int count;
+
 
         // constructor
-        public FibonacciTextReader()
+
+        public FibonacciTextReader(int number)
         {
-            //this.MaxValue = 0;
-        }
-        public FibonacciTextReader(int value)
-        {
-            this.maxValue = value;
+            this.maxValue = number;
+            this.firstNumber = 0;
+            this.secondNumber = 1;
+            this.count = 0;
         }
 
         public int MaxValue
@@ -30,31 +34,36 @@ namespace HW3
 
         public override string ReadLine()
         {
-            BigInteger firstNumber = 0;
-            BigInteger secondNumber = 1;
             BigInteger temp;
-            int count = 0;
-            while (count < this.MaxValue)
+
+            while (count <= this.maxValue) 
+
             {
-                if (this.MaxValue == 0)
+                if (count == 0)
                 {
                     count++;
                     return firstNumber.ToString();
+
                 }
-                else if (MaxValue == 1)
+                if (count == 1)
                 {
                     count++;
                     return secondNumber.ToString();
                 }
                 else
                 {
+
                     temp = firstNumber + secondNumber;
                     firstNumber = secondNumber;
                     secondNumber = temp;
+                    count++;
                     return temp.ToString();
                 }
+
             }
-            return null;
+        return null;
+
         }
     }
 }
+

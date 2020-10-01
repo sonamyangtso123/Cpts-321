@@ -46,7 +46,7 @@ namespace HW3
         {
 
         }
-        private void  LoadText (StreamReader sr)
+        private void  LoadText (TextReader sr)
         {
             string word = "";
             string line;
@@ -55,6 +55,49 @@ namespace HW3
                 word += line;
             }
             this.textBox1.Text = word;
+        }
+
+        private void loadFromToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            DialogResult result = openFileDialog1.ShowDialog();
+            StreamReader readFile;
+            if (result == DialogResult.OK)
+            {
+                using (readFile = File.OpenText(openFileDialog1.FileName))
+                {
+                    LoadText(readFile);
+                }
+            }
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loadFirst50FibanacciNumbersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FibonacciTextReader fibReader = new FibonacciTextReader(50);
+
+
+            string index = "maxValue\t|   Fibonacci Values\r\n********\t|    ************************\r\n";
+            for (int i = 1; i <= 50; i++)
+            {
+                index += i.ToString() + "\t|    " + fibReader.ReadLine() + "\r\n";
+            }
+            textBox1.Text = index;
+        }
+
+        private void loadFibonacciNumbersfirst100ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FibonacciTextReader fibReader = new FibonacciTextReader(100);
+            string index = "maxValue\t|   Fibonacci Values\r\n********\t|    ************************\r\n";
+            for (int i = 1; i <= 100; i++)
+            {
+                index += i.ToString() + "\t|    " + fibReader.ReadLine() + "\r\n";
+            }
+            textBox1.Text = index;
         }
     }
 }
