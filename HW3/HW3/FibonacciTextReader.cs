@@ -1,23 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Numerics;
-
+﻿// Sonam Yangtso
+// <copyright file="fibonacciTextReader.cs" company="wsu">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace HW3
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Numerics;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// This is FibonacciTextReader class.It extends TextReader class and override readLine method.
+    /// </summary>
     public class FibonacciTextReader : TextReader
     {
+        // fields
         private int maxValue;
         private BigInteger firstNumber;
         private BigInteger secondNumber;
         private int count;
 
-
-        // constructor
-
+        /// <summary>
+        /// This is constructor and takes the maximum number of numbers sequence
+        /// </summary>
+        /// <param name="number"></param>
         public FibonacciTextReader(int number)
         {
             this.maxValue = number;
@@ -32,38 +41,45 @@ namespace HW3
             set { this.maxValue = value; }
         }
 
+        /// <summary>
+        /// Override the ReadLine method which delivers the next number (as a string) in the
+        /// Fibonaccisequence.You need logic in this function to handle the first two numbers as
+        /// special cases. You must return null after the nth call, where n is the integer value passed
+        /// to the constructor
+        /// </summary>
+        /// <returns></returns>
         public override string ReadLine()
         {
             BigInteger temp;
 
-            while (count <= this.maxValue) 
-
+            while (this.count <= this.maxValue)
             {
-                if (count == 0)
+                // if maxValue is 0
+                if (this.count == 0)
                 {
-                    count++;
-                    return firstNumber.ToString();
-
+                    this.count++;
+                    return this.firstNumber.ToString();
                 }
-                if (count == 1)
+
+                // if maxvlue is 1
+                if (this.count == 1)
                 {
-                    count++;
-                    return secondNumber.ToString();
+                    this.count++;
+                    return this.secondNumber.ToString();
                 }
                 else
                 {
-
-                    temp = firstNumber + secondNumber;
-                    firstNumber = secondNumber;
-                    secondNumber = temp;
-                    count++;
+                    // maxvlue is greater than 1
+                    temp = this.firstNumber + this.secondNumber;
+                    this.firstNumber = this.secondNumber;
+                    this.secondNumber = temp;
+                    this.count++;
                     return temp.ToString();
                 }
-
             }
-        return null;
 
+            // mavalue is is less than zero
+            return null;
         }
     }
 }
-

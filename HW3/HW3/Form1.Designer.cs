@@ -48,7 +48,7 @@
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(707, 409);
             this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
             // openFileDialog1
             // 
@@ -77,14 +77,14 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 31);
             this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
+            this.fileToolStripMenuItem.Click += new System.EventHandler(this.FileToolStripMenuItem_Click);
             // 
             // loadFromToolStripMenuItem
             // 
             this.loadFromToolStripMenuItem.Name = "loadFromToolStripMenuItem";
             this.loadFromToolStripMenuItem.Size = new System.Drawing.Size(374, 34);
             this.loadFromToolStripMenuItem.Text = "Load From File";
-            this.loadFromToolStripMenuItem.Click += new System.EventHandler(this.loadFromToolStripMenuItem_Click);
+            this.loadFromToolStripMenuItem.Click += new System.EventHandler(this.LoadFromToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -98,7 +98,7 @@
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(374, 34);
             this.loadToolStripMenuItem.Text = "Load fibonacci numbers (first 50)";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadFirst50FibanacciNumbersToolStripMenuItem_Click);
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.LoadFirst50FibanacciNumbersToolStripMenuItem_Click);
             // 
             // toolStripTextBox2
             // 
@@ -111,7 +111,7 @@
             this.loadFibonacciNumbersfirst100ToolStripMenuItem.Name = "loadFibonacciNumbersfirst100ToolStripMenuItem";
             this.loadFibonacciNumbersfirst100ToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             this.loadFibonacciNumbersfirst100ToolStripMenuItem.Text = "Load fibonacci numbers (first 100)";
-            this.loadFibonacciNumbersfirst100ToolStripMenuItem.Click += new System.EventHandler(this.loadFibonacciNumbersfirst100ToolStripMenuItem_Click);
+            this.loadFibonacciNumbersfirst100ToolStripMenuItem.Click += new System.EventHandler(this.LoadFibonacciNumbersfirst100ToolStripMenuItem_Click);
             // 
             // Form1
             // 
