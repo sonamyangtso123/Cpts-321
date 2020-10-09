@@ -20,8 +20,8 @@ namespace Cpt321
         // constructor
         public Cell(int rowIndex, int columnIndex)
         {
-            this.rowIndex = rowIndex;
-            this.columnIndex = columnIndex;
+            //this.rowIndex = rowIndex;
+            //this.columnIndex = columnIndex;
         }
 
         // 
@@ -43,8 +43,13 @@ namespace Cpt321
             get { return this.text; }
             set
             {
+                //if the text is set to the exact same text, then ignore
                 if (value == this.text) { return;}
+                
+                // if the text is changed,then update the text
                 this.text =value;
+
+                // call the property change event when the text changes
                 PropertyChanged(this, new PropertyChangedEventArgs("Text"));
             }
         }

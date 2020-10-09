@@ -8,27 +8,33 @@ using System.Threading.Tasks;
 
 namespace Cpts321
 {
-    class Spreadsheet
+    public class Spreadsheet
     {
         private int numberOfRows;
         private int numberOfColumns;
-        private Cell[,] cells;
+        public Cell[,] ArrayOfCells; // initialize the array if cells
         public event PropertyChangedEventHandler CellPropertyChanged = delegate { };
 
         public Spreadsheet(int rowCount, int columnCount)
         {
-            this.numberOfRows = rowCount;
-            this.numberOfColumns = columnCount;
-            this. cells = new Cell[rowCount, columnCount];
-            for(int i= 0; i<rowCount;i++)
-            {
-                for(int j = 0; j < columnCount; j++)  
-                {
-                    this.cells [i, j] = new SCell (i, j); 
-                }
-            }
+           
+
 
         }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SpreadsheetCell cell = sender as SpreadsheetCell;
+            if ("Text" == e.PropertyName)
+            {
+                if (cell.Text[0] != '=')
+                {
+                    cell.Value = cell.Text;
+                }
+            }
+            this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(e.PropertyName));
+        }
+    
 
         public int RowCount
         {
@@ -42,9 +48,9 @@ namespace Cpts321
 
         public Cell GetCell(int row, int column)
         {
-            if (this.cells[row, column] != null)
+            if (this.ArrayOfCells[row, column] != null)
             {
-                return this.cells[row, column];
+                return this.ArrayOfCells[row, column];
             }
             return null;
         }
