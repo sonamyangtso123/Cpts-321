@@ -25,9 +25,11 @@ namespace Cpts321
         private int numberOfColumns;
 
         /// <summary>
-        /// This is a property changed event handler and hold the list of funtion pointers.
+        /// Initailize am  a property changed event handler to empty.
         /// </summary>
-        public event PropertyChangedEventHandler CellPropertyChanged = (sender, e) => { };
+#pragma warning disable SA1130 // Use lambda syntax
+        public event PropertyChangedEventHandler CellPropertyChanged = delegate { };
+#pragma warning restore SA1130 // Use lambda syntax
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.It creates an array of 2D
@@ -61,12 +63,12 @@ namespace Cpts321
         /// <returns>return the given row and coulmn index cell.</returns
         public Cell GetCell(int row, int column)
         {
-            if (this.ArrayOfCells[row, column] != null)
+            if (this.ArrayOfCells[row, column] == null)
             {
-                return this.ArrayOfCells[row, column];
+                return null;
             }
 
-            return null;
+            return this.ArrayOfCells[row, column];
         }
 
         /// <summary>
@@ -89,14 +91,13 @@ namespace Cpts321
                 }
                 else
                 {
-
-                    int rowIndex = Convert.ToInt32(cell.Text.Substring(2)) - 1;
-                    //int columnIndex = Convert.ToInt32(cell.Text[1] - 065);
-                    cell.Value = this.GetCell(rowIndex, 2).Value;
+                    int rowIndex = int.Parse(cell.Text.Substring(2)) - 1;
+                    int columnIndex = (int)(cell.Text[1] - 065);
+                    cell.Value = this.GetCell(rowIndex, columnIndex).Value;
                 }
             }
 
-             // CellPropertyChanged(this, new PropertyChangedEventArgs("Text"));
+              // CellPropertyChanged(Cell, new PropertyChangedEventArgs("Text"));
             this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(e.PropertyName));
         }
 

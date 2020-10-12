@@ -29,6 +29,8 @@ namespace Spreadsheet_Sonam_Yangtso
         public Form1()
         {
             this.InitializeComponent();
+
+            // Initialize a Spreadsheet object with 50rows and 26 columns.
             this.sheet = new Spreadsheet(50, 26);
         }
 
@@ -52,6 +54,7 @@ namespace Spreadsheet_Sonam_Yangtso
                 this.dataGridView1.Rows[row - 1].HeaderCell.Value = row.ToString();
             }
 
+            // subscribe to the property changed event
             this.sheet.CellPropertyChanged += this.OnCellPropertyChanged;
         }
 
