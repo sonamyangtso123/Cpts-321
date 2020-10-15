@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Spreadsheet_Sonam_Yangtso;
-using Cpts321;
+using CptS321;
 
 namespace NUnit.Tests
 {
@@ -69,5 +69,16 @@ namespace NUnit.Tests
             this.sheet.GetCell(3, 5).Text = "hello";
             Assert.That(this.sheet.GetCell(3, 5).Text, Is.EqualTo("hello"));
         }
+
+
+        // Start here with Homework5 Test cases
+
+        [Test]
+        public void TestExpressionNodeConstructor()
+        {
+            ExpressionTree expression = new ExpressionTree("A1+B1");
+            Assert.AreEqual("A1+b1", expression.InputExpression);
+        }
+
     }
 }

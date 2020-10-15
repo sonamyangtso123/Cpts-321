@@ -2,9 +2,9 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using Cpt321;
+using CptS321;
 
-namespace Cpts321
+namespace CptS321
 {
     /// <summary>
     /// This is a SpreadsheetCell class. It is a subclass of abstract class Cell.

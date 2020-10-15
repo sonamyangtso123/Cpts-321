@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Cpts321
+namespace CptS321
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace Cpts321
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Cpt321;
+    using CptS321;
 
     /// <summary>
     /// This is a spreadsheet class.
@@ -94,6 +94,7 @@ namespace Cpts321
                     int rowIndex = int.Parse(cell.Text.Substring(2)) - 1;
                     int columnIndex = (int)(cell.Text[1] - 065);
                     cell.Value = this.GetCell(rowIndex, columnIndex).Value;
+                    //cell.Value(GetCell(cell.Text.Substring(1)).Value);
                 }
             }
 

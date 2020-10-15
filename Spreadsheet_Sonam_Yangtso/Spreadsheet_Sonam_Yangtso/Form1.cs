@@ -13,7 +13,7 @@ namespace Spreadsheet_Sonam_Yangtso
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using Cpts321;
+    using CptS321;
 
     /// <summary>
     /// This is another main class.

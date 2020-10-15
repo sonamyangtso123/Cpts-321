@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Cpt321
+namespace CptS321
 {
     using System;
     using System.Collections.Generic;
