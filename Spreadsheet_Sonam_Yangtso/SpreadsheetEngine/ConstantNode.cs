@@ -15,17 +15,20 @@ namespace CptS321
             this.value = value;
 
         }
+        public ConstantNode()
+        {
 
+        }
         public double Value
         {
-            get { return this.value; }
+            get;set;
 
         }
 
         /// <inheritdoc/>
         public override double Evaluate()
         {
-            return value;
+            return Value;
         }
     }
 }

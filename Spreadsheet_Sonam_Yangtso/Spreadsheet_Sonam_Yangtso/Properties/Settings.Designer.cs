@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Spreadsheet_Sonam_Yangtso.Properties
+namespace CptS321.Properties
 {
 
 

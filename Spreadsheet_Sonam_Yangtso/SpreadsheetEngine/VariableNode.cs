@@ -5,12 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpreadsheetEngine
+namespace CptS321
 {
     public class VariableNode : ExpressionTreeNode
     {
         private readonly string name;
         private Dictionary<string, double> variables;
+
+        public VariableNode()
+        {
+        }
 
         public VariableNode(string name, Dictionary<string, double> variable)
         {
@@ -20,18 +24,18 @@ namespace SpreadsheetEngine
 
         public string Name
         {
-            get; set;
+            get;set; 
         }
 
         public override double Evaluate()
         {
-            double value = 0.0;
-            if (this.variables.ContainsKey(this.name))
+
+            if (this.variables.ContainsKey(this.Name))
             {
-                value = this.variables[this.name];
+                return this.variables[this.Name];
             }
 
-            return value;
+            return 0.0;
         }
     }
 }

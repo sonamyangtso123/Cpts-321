@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CptS321;
 
-namespace SpreadsheetEngine
+namespace CptS321
 {
-    class MinusOperatorNode :OperatorNode
+    public class MinusOperatorNode :OperatorNode
     {
         public static char Operator
         {
@@ -29,7 +30,7 @@ namespace SpreadsheetEngine
 
         public override double Evaluate()
         {
-            return Left.Evaluate() + Right.Evaluate();
+            return Left.Evaluate() - Right.Evaluate();
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpreadsheetEngine
+namespace CptS321
 {
-    class DivisionOperatorNode : OperatorNode
+    public class DivisionOperatorNode : OperatorNode
     {
         public static char Operator
         {
@@ -15,7 +15,7 @@ namespace SpreadsheetEngine
 
         public static ushort Precedence
         {
-            get { return 7; }
+            get { return 6; }
         }
 
         public static Associative Associativity

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpreadsheetEngine
+namespace CptS321
 {
     public abstract class OperatorNode : ExpressionTreeNode
     {

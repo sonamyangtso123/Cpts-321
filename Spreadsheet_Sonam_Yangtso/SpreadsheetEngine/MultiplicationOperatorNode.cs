@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpreadsheetEngine
+namespace CptS321
 {
-    class MultiplicationOperatorNode: OperatorNode
+    public class MultiplicationOperatorNode: OperatorNode
     {
         public static char Operator
         {

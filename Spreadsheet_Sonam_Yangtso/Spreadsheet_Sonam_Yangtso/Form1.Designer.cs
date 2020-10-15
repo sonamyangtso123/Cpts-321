@@ -1,4 +1,4 @@
-﻿namespace Spreadsheet_Sonam_Yangtso
+﻿namespace CptS321
 {
     partial class Form1
     {

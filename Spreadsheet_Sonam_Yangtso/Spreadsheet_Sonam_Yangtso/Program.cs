@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Spreadsheet_Sonam_Yangtso
+namespace CptS321
 {
     using System;
     using System.Collections.Generic;

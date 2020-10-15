@@ -5,7 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Spreadsheet_Sonam_Yangtso;
+using CptS321;
 using CptS321;
 
 namespace NUnit.Tests
@@ -76,8 +76,8 @@ namespace NUnit.Tests
         [Test]
         public void TestExpressionNodeConstructor()
         {
-            ExpressionTree expression = new ExpressionTree("A1+B1");
-            Assert.AreEqual("A1+b1", expression.InputExpression);
+            ExpressionTree expression = new ExpressionTree("8*2");
+            Assert.AreEqual("16", expression.Evaluate().ToString());
         }
 
     }

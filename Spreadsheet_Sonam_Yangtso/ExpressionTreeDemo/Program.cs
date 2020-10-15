@@ -5,21 +5,22 @@ using CptS321;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using CptS321;
 
 namespace CptS321
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            ExpressionTree input = new ExpressionTree("");
-            string expression = input.InputExpression;
             
+            ExpressionTree tree = new ExpressionTree();
+            string expression = "A1+12+B1";
             
             bool exitApp = false;
             do
             {
-                Console.WriteLine("Menu (current expression = " + expression + ")");
+                Console.WriteLine("Menu (current expression =" + expression +")");
                 MenuOption();
                 string userInput = Console.ReadLine();
                 Console.WriteLine();
@@ -38,19 +39,21 @@ namespace CptS321
                         double val = double.Parse(value);
 
 
-                        if (ExpressionTree.variables.ContainsKey(variable))
+                        if (tree.variables.ContainsKey(variable))
                         {
-                            ExpressionTree.variables[variable] = val;
+                            tree.variables[variable] = val;
                         }
                         else
                         {
-                            ExpressionTree.variables.Add(variable, val);
+                            tree.variables.Add(variable, val);
                         }
                         break;
 
                     case "3":
-                        double result = input.Evaluate();
-                        Console.WriteLine(result);
+                        tree = new ExpressionTree(expression);
+                        
+                      
+                        Console.WriteLine(tree.Evaluate());
                         break;
 
                     case "4":
