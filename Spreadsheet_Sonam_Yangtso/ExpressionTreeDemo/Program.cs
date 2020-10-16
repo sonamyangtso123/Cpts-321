@@ -33,30 +33,23 @@ namespace CptS321
 
                     case "2":
                         Console.WriteLine("Enter variable name:");
-                        string variable = Console.ReadLine();
+                        string varName = Console.ReadLine();
                         Console.WriteLine("Enter variable value:");
-                        string value = Console.ReadLine();
-                        double val = double.Parse(value);
+                        string varValue = Console.ReadLine();
+                       
+                        tree.SetVariable(varName, Convert.ToDouble(varValue));
 
 
-                        if (tree.variables.ContainsKey(variable))
-                        {
-                            tree.variables[variable] = val;
-                        }
-                        else
-                        {
-                            tree.variables.Add(variable, val);
-                        }
+                        
                         break;
 
                     case "3":
                         tree = new ExpressionTree(expression);
-                        
-                      
                         Console.WriteLine(tree.Evaluate());
                         break;
 
                     case "4":
+                        System.Environment.Exit(0);
                         exitApp = true;
                         break;
 
@@ -72,7 +65,7 @@ namespace CptS321
         private static void MenuOption()
         {
             Console.WriteLine("1 = Enter a new expression");
-            Console.WriteLine("2 = Set aa variable value");
+            Console.WriteLine("2 = Set a variable value");
             Console.WriteLine("3 = Evaluate tree");
             Console.WriteLine("4 = Quit");
         }

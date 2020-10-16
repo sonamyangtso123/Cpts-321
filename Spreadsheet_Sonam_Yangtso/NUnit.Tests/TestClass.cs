@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using CptS321;
 using CptS321;
+using System.Globalization;
 
 namespace NUnit.Tests
 {
@@ -70,15 +71,55 @@ namespace NUnit.Tests
             Assert.That(this.sheet.GetCell(3, 5).Text, Is.EqualTo("hello"));
         }
 
-
         // Start here with Homework5 Test cases
 
         [Test]
         public void TestExpressionNodeConstructor()
         {
-            ExpressionTree expression = new ExpressionTree("8*2");
-            Assert.AreEqual("16", expression.Evaluate().ToString());
+            ExpressionTree expression = new ExpressionTree("8+2");
+            Assert.AreEqual("10", expression.Evaluate().ToString());
         }
+
+        [Test]
+        public void TestPlusEvaluateMethod()
+        {
+            string expression = "3+4+3";
+            ExpressionTree tree = new ExpressionTree(expression);
+            Assert.AreEqual("10", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestMinusEvaluateMethod()
+        {
+            string expression = "7-3-0";
+            ExpressionTree tree = new ExpressionTree(expression);
+            Assert.AreEqual("4", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestMultiplicationEvaluateMethd()
+        {
+            string expression = "10*3*2";
+            ExpressionTree tree = new ExpressionTree(expression);
+            Assert.AreEqual("60", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestDivisionEvaluateMethod()
+        {
+            string expression = "5/2";
+            ExpressionTree tree = new ExpressionTree(expression);
+            Assert.AreEqual("2.5", tree.Evaluate().ToString());
+        }
+        [Test]
+        public void TestDivideByZero()
+        {
+            string expression = "3950/0";
+            ExpressionTree tree = new ExpressionTree(expression);
+            Assert.AreEqual("∞", tree.Evaluate().ToString());
+
+        }
+
 
     }
 }

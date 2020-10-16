@@ -24,18 +24,16 @@ namespace CptS321
 
         public string Name
         {
-            get;set; 
+            get; set;
         }
 
         public override double Evaluate()
         {
+            double value = 0.0;
 
-            if (this.variables.ContainsKey(this.Name))
-            {
-                return this.variables[this.Name];
-            }
+            value = this.variables[this.Name];
 
-            return 0.0;
+            return value;
         }
     }
 }

@@ -5,6 +5,7 @@
 using CptS321;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CptS321
 
@@ -12,9 +13,9 @@ namespace CptS321
     public class ExpressionTree
     {
         private ExpressionTreeNode root;
-        
 
-        public Dictionary<string, double> variables = new Dictionary<string, double>();
+
+        private Dictionary<string, double> variables = new Dictionary<string, double>();
 
         public ExpressionTree()
         {
@@ -29,151 +30,67 @@ namespace CptS321
             root = Compile(expression);
         }
 
-        
-       
-
-        private static ExpressionTreeNode Compile(string s)
+        private static ExpressionTreeNode Compile(string expression)
         {
-            if (string.IsNullOrEmpty(s))
+            char[] operators = { '+', '-', '*', '/', };
+            if (string.IsNullOrEmpty(expression))
             {
                 return null;
-            }
 
-            // Check for extra parentheses and get rid of them, e.g. (((((2+3)-(4+5)))))
-            if (s[0] == '(')
-            {
-                int parenthesisCounter = 1;
-                for (int characterIndex = 1; characterIndex < s.Length; characterIndex++)
-                {
-                    // if open parenthisis increment a counter
-                    if (s[characterIndex] == '(')
-                    {
-                        parenthesisCounter++;
-                    }
-
-                    // if closed parenthisis decrement the counter
-                    else if (s[characterIndex] == ')')
-                    {
-                        parenthesisCounter--;
-                        // if the counter is 0 check where we are
-                        if (parenthesisCounter == 0)
-                        {
-                            if (characterIndex != s.Length - 1)
-                            {
-                                // if we are not at the end, then get out (there are no extra parentheses)
-                                break;
-                            }
-                            else
-                            {
-                                // Else get rid of the outer most parentheses and start over
-                                return Compile(s.Substring(1, s.Length - 2));
-                            }
-                        }
-                    }
-                }
             }
-
-            // define the operators we want to look for in that order
-            char[] operators = { '+', '-', '*', '/', '^' };
-            foreach (char op in operators)
-            {
-                ExpressionTreeNode n = Compile(s, op);
-                if (n != null)
-                {
-                    return n;
-                }
-            }
-
-            // what can we see here?  
-            double number;
-            // a constant
-            if (double.TryParse(s, out number))
-            {
-                // We need a ConstantNode
-                return new ConstantNode()
-                {
-                    Value = number,
-                };
-            }
-            // or variable
             else
             {
-                // We need a VariableNode
-                return new VariableNode()
+                int expressionIndex = expression.Length - 1;
+                while (expressionIndex > 0 && !operators.Contains(expression[expressionIndex]))
                 {
-                    Name = s,
-                };
-            }
-        }
-
-        private static ExpressionTreeNode Compile(string expression, char op)
-        {
-            // track the parentheses
-            int parenthesisCounter = 0;
-            // iterate from back to front
-            for (int expressionIndex = expression.Length - 1; expressionIndex >= 0; expressionIndex--)
-            {
-                // if closed parenthisis INcrement the counter
-                if (expression[expressionIndex] == ')')
-                {
-                    parenthesisCounter++;
+                    expressionIndex--;
                 }
 
-                // if open parenthisis DEcrement the counter
-                else if (expression[expressionIndex] == '(')
+                if (operators.Contains(expression[expressionIndex]))
                 {
-                    parenthesisCounter--;
-                }
-
-                // if the counter is at 0 and we have the operator that we are looking for
-                if (parenthesisCounter == 0 && op == expression[expressionIndex])
-                {
-                    // build an operator node
                     OperatorNode operatorNode = OperatorNodeFactory.CreateNewNode(expression[expressionIndex]);
                     // and start over with the left and right sub-expressions
                     operatorNode.Left = Compile(expression.Substring(0, expressionIndex));
                     operatorNode.Right = Compile(expression.Substring(expressionIndex + 1));
                     return operatorNode;
-                }
-            }
 
-            // if the counter is not at 0 something was off
-            if (parenthesisCounter != 0)
-            {
-                // throw a general exception
-                throw new Exception();
+                }
+
+                double number;
+                if (double.TryParse(expression, out number))
+                {
+                    // we need a constantnode
+                    ConstantNode newNode = new ConstantNode();
+
+                    newNode.Value = number;
+                    return newNode;
+
+                }
+                // or variable
+                else
+                {
+                    // we need a variablenode
+                    VariableNode newNode = new VariableNode();
+
+                    newNode.Name = expression;
+                    return newNode;
+                }
+
             }
-            // we did not find the operator
-            return null;
         }
 
-        // Precondition: n is non-null
+
+
+
+        //// Precondition: n is non-null
         private double Evaluate(ExpressionTreeNode node)
         {
             // try to evaluate the node as a constant
             // the "as" operator is evaluated to null 
             // as opposed to throwing an exception
-            ConstantNode constantNode = node as ConstantNode;
-            if (constantNode != null)
-            {
-                return constantNode.Value;
-            }
 
-            // as a variable
-            VariableNode variableNode = node as VariableNode;
-            if (variableNode != null)
-            {
-                return this.variables[variableNode.Name];
-            }
-
-            // it is an operator node if we came here
-            OperatorNode operatorNode = node as OperatorNode;
-            if (operatorNode != null)
-            {
-                return operatorNode.Evaluate();
-            }
-
-            throw new NotSupportedException();
+            return 0.0;
+            //throw new NotSupportedException();
         }
 
         public double Evaluate()
@@ -183,8 +100,10 @@ namespace CptS321
 
         public void SetVariable(string name, double value)
         {
-            variables[name] = value;
+            if (this.variables.ContainsKey(name))
+            {
+                this.variables[name] = value;
+            }
         }
     }
 }
-
