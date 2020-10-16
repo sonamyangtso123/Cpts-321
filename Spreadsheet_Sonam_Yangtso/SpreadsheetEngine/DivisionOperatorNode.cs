@@ -23,10 +23,9 @@ namespace CptS321
             get { return Associative.Left; }
         }
 
-        //public DivisionOperatorNode()
-        //{
-        //}
-
+        // public DivisionOperatorNode()
+        // {
+        // }
         public override double Evaluate()
         {
             return this.Left.Evaluate() / this.Right.Evaluate();

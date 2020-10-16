@@ -7,7 +7,7 @@ using CptS321;
 
 namespace CptS321
 {
-    public class MinusOperatorNode :OperatorNode
+    public class MinusOperatorNode : OperatorNode
     {
         public static char Operator
         {
@@ -24,10 +24,9 @@ namespace CptS321
             get { return Associative.Left; }
         }
 
-        //public minusoperatornode()
-        //{
-        //}
-
+        // public minusoperatornode()
+        // {
+        // }
         public override double Evaluate()
         {
             return this.Left.Evaluate() - this.Right.Evaluate();

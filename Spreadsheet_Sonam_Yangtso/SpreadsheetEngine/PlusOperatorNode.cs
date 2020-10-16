@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CptS321
 {
-    public class PlusOperatorNode: OperatorNode
+    public class PlusOperatorNode : OperatorNode
     {
         public static char Operator
         {
@@ -23,10 +23,9 @@ namespace CptS321
             get { return Associative.Left; }
         }
 
-        //public PlusOperatorNode()
-        //{
-        //}
-
+        // public PlusOperatorNode()
+        // {
+        // }
         public override double Evaluate()
         {
             return this.Left.Evaluate() + this.Right.Evaluate();

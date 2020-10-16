@@ -9,7 +9,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace CptS321
-
 {
     public class ExpressionTree
     {
@@ -50,7 +49,6 @@ namespace CptS321
                     operatorNode.Left = this.Compile(expression.Substring(0, expressionIndex));
                     operatorNode.Right = this.Compile(expression.Substring(expressionIndex + 1));
                     return operatorNode;
-
                 }
 
                 double number;
@@ -61,8 +59,8 @@ namespace CptS321
 
                     newNode.Value = number;
                     return newNode;
-
                 }
+
                 // or variable
                 else
                 {
@@ -73,14 +71,12 @@ namespace CptS321
 
                     return newNode;
                 }
-
             }
         }
 
         //// Precondition: n is non-null
         private double Evaluate(ExpressionTreeNode node)
         {
-
             ConstantNode constantNode = node as ConstantNode;
             if (constantNode != null)
             {
@@ -101,7 +97,6 @@ namespace CptS321
             }
 
             throw new NotSupportedException();
-
         }
 
         public double Evaluate()

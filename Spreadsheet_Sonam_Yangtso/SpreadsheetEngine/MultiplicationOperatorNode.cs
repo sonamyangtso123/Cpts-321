@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CptS321
 {
-    public class MultiplicationOperatorNode: OperatorNode
+    public class MultiplicationOperatorNode : OperatorNode
     {
         public static char Operator
         {

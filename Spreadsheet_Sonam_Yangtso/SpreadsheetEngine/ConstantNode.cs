@@ -13,7 +13,6 @@ namespace CptS321
         public ConstantNode(double value)
         {
             this.value = value;
-
         }
 
         public ConstantNode()
@@ -22,14 +21,13 @@ namespace CptS321
 
         public double Value
         {
-            get;set;
-
+            get; set;
         }
 
         /// <inheritdoc/>
         public override double Evaluate()
         {
-            return Value;
+            return this.Value;
         }
     }
 }

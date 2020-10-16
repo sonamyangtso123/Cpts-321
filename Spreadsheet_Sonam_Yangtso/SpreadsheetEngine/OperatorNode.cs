@@ -9,15 +9,14 @@ namespace CptS321
 {
     public abstract class OperatorNode : ExpressionTreeNode
     {
-        //public OperatorNode()
-        //{
-        //}
-
+        // public OperatorNode()
+        // {
+        // }
         public enum Associative
         {
             Right,
             Left,
-        };
+        }
 
         public ExpressionTreeNode Left { get; set; }
 

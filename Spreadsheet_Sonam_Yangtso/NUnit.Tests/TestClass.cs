@@ -73,7 +73,6 @@ namespace NUnit.Tests
         }
 
         // Start here with Homework5 Test cases
-
         [Test]
         public void TestExpressionNodeConstructor()
         {
@@ -112,26 +111,26 @@ namespace NUnit.Tests
             ExpressionTree tree = new ExpressionTree(expression);
             Assert.AreEqual("2.5", tree.Evaluate().ToString());
         }
+
         [Test]
         public void TestDivideByZero()
         {
             string expression = "3950/0";
             ExpressionTree tree = new ExpressionTree(expression);
             Assert.AreEqual("∞", tree.Evaluate().ToString());
-
         }
+
         [Test]
         public void TestSetVariableMethod()
         {
-            ExpressionTree tree  = new ExpressionTree("10+x+y");
-           
+            ExpressionTree tree = new ExpressionTree("10+x+y");
+
             Assert.AreEqual("10+x+y", tree.Expression);
-            
+
             tree.SetVariable("x", 2.0);
             tree.SetVariable("y", 4.0);
 
-           Assert.AreEqual("16", tree.Evaluate().ToString());
+            Assert.AreEqual("16", tree.Evaluate().ToString());
         }
-
     }
 }

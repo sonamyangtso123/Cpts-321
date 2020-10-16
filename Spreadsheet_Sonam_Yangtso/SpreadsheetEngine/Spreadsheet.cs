@@ -94,7 +94,6 @@ namespace CptS321
                     int rowIndex = int.Parse(cell.Text.Substring(2)) - 1;
                     int columnIndex = (int)(cell.Text[1] - 065);
                     cell.Value = this.GetCell(rowIndex, columnIndex).Value;
-                    //cell.Value(GetCell(cell.Text.Substring(1)).Value);
                 }
             }
 
