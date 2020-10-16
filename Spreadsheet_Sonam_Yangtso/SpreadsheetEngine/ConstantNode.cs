@@ -15,10 +15,11 @@ namespace CptS321
             this.value = value;
 
         }
+
         public ConstantNode()
         {
-
         }
+
         public double Value
         {
             get;set;

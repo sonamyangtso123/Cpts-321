@@ -14,6 +14,7 @@ namespace CptS321
 
         public VariableNode()
         {
+            this.variables = new Dictionary<string, double>();
         }
 
         public VariableNode(string name, Dictionary<string, double> variable)

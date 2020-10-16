@@ -15,7 +15,7 @@ namespace CptS321
 
         public static ushort Precedence
         {
-            get { return 6; }
+            get { return 1; }
         }
 
         public static Associative Associativity
@@ -29,7 +29,7 @@ namespace CptS321
 
         public override double Evaluate()
         {
-            return Left.Evaluate() * Right.Evaluate();
+            return this.Left.Evaluate() * this.Right.Evaluate();
         }
     }
 }

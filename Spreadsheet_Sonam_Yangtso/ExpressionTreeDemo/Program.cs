@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using CptS321;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CptS321
 {
@@ -13,14 +14,15 @@ namespace CptS321
     {
         public static void Main(string[] args)
         {
-            
-            ExpressionTree tree = new ExpressionTree();
-            string expression = "A1+12+B1";
-            
+            string expression = "x+y";
+            ExpressionTree tree = new ExpressionTree(expression);
+            //string expression = "x+12+y";
+            string varName = string.Empty;
+            string varVal = string.Empty;
             bool exitApp = false;
             do
             {
-                Console.WriteLine("Menu (current expression =" + expression +")");
+                Console.WriteLine("Menu (current expression =" + tree.Expression +")");
                 MenuOption();
                 string userInput = Console.ReadLine();
                 Console.WriteLine();
@@ -28,12 +30,12 @@ namespace CptS321
                 {
                     case "1":
                         Console.WriteLine("Enter new epression: ");
-                        expression = Console.ReadLine();
+                        tree = new ExpressionTree(Console.ReadLine());
                         break;
 
                     case "2":
                         Console.WriteLine("Enter variable name:");
-                        string varName = Console.ReadLine();
+                        varName = Console.ReadLine();
                         Console.WriteLine("Enter variable value:");
                         string varValue = Console.ReadLine();
                        
@@ -44,7 +46,7 @@ namespace CptS321
                         break;
 
                     case "3":
-                        tree = new ExpressionTree(expression);
+                        //tree = new ExpressionTree(expression);
                         Console.WriteLine(tree.Evaluate());
                         break;
 

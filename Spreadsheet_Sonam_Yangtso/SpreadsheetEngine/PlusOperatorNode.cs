@@ -15,7 +15,7 @@ namespace CptS321
 
         public static ushort Precedence
         {
-            get { return 7; }
+            get { return 2; }
         }
 
         public static Associative Associativity
@@ -23,13 +23,13 @@ namespace CptS321
             get { return Associative.Left; }
         }
 
-        public PlusOperatorNode()
-        {
-        }
+        //public PlusOperatorNode()
+        //{
+        //}
 
         public override double Evaluate()
         {
-            return Left.Evaluate() + Right.Evaluate();
+            return this.Left.Evaluate() + this.Right.Evaluate();
         }
     }
 }

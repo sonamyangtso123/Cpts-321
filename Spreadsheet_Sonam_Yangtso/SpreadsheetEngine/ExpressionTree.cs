@@ -6,6 +6,7 @@ using CptS321;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CptS321
 
@@ -14,29 +15,25 @@ namespace CptS321
     {
         private ExpressionTreeNode root;
 
-
         private Dictionary<string, double> variables = new Dictionary<string, double>();
 
-        public ExpressionTree()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExpressionTreeCodeDemo.Expression"/> class.
-        /// </summary>
         public ExpressionTree(string expression)
         {
-            
-            root = Compile(expression);
+            this.Expression = expression;
+            this.root = this.Compile(expression);
         }
 
-        private static ExpressionTreeNode Compile(string expression)
+        public string Expression
+        {
+            get; set;
+        }
+
+        private ExpressionTreeNode Compile(string expression)
         {
             char[] operators = { '+', '-', '*', '/', };
             if (string.IsNullOrEmpty(expression))
             {
                 return null;
-
             }
             else
             {
@@ -50,8 +47,8 @@ namespace CptS321
                 {
                     OperatorNode operatorNode = OperatorNodeFactory.CreateNewNode(expression[expressionIndex]);
                     // and start over with the left and right sub-expressions
-                    operatorNode.Left = Compile(expression.Substring(0, expressionIndex));
-                    operatorNode.Right = Compile(expression.Substring(expressionIndex + 1));
+                    operatorNode.Left = this.Compile(expression.Substring(0, expressionIndex));
+                    operatorNode.Right = this.Compile(expression.Substring(expressionIndex + 1));
                     return operatorNode;
 
                 }
@@ -70,32 +67,27 @@ namespace CptS321
                 else
                 {
                     // we need a variablenode
-                    VariableNode newNode = new VariableNode();
+                    VariableNode newNode = new VariableNode(expression, this.variables);
 
                     newNode.Name = expression;
+
                     return newNode;
                 }
 
             }
         }
 
-
-
-
         //// Precondition: n is non-null
         private double Evaluate(ExpressionTreeNode node)
         {
-            // try to evaluate the node as a constant
-            // the "as" operator is evaluated to null 
-            // as opposed to throwing an exception
 
             return 0.0;
-            //throw new NotSupportedException();
+
         }
 
         public double Evaluate()
         {
-            return Evaluate(root);
+            return this.Evaluate(this.root);
         }
 
         public void SetVariable(string name, double value)
@@ -103,6 +95,10 @@ namespace CptS321
             if (this.variables.ContainsKey(name))
             {
                 this.variables[name] = value;
+            }
+            else
+            {
+                this.variables.Add(name, value);
             }
         }
     }
