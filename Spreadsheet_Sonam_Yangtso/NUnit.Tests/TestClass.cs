@@ -6,8 +6,9 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using CptS321;
-using CptS321;
 using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NUnit.Tests
 {
@@ -119,7 +120,18 @@ namespace NUnit.Tests
             Assert.AreEqual("∞", tree.Evaluate().ToString());
 
         }
+        [Test]
+        public void TestSetVariableMethod()
+        {
+            ExpressionTree tree  = new ExpressionTree("10+x+y");
+           
+            Assert.AreEqual("10+x+y", tree.Expression);
+            
+            tree.SetVariable("x", 2.0);
+            tree.SetVariable("y", 4.0);
 
+           Assert.AreEqual("16", tree.Evaluate().ToString());
+        }
 
     }
 }

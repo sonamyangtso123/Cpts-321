@@ -81,7 +81,26 @@ namespace CptS321
         private double Evaluate(ExpressionTreeNode node)
         {
 
-            return 0.0;
+            ConstantNode constantNode = node as ConstantNode;
+            if (constantNode != null)
+            {
+                return constantNode.Value;
+            }
+
+            // as a variable
+            VariableNode variableNode = node as VariableNode;
+            if (variableNode != null)
+            {
+                return this.variables[variableNode.Name];
+            }
+
+            OperatorNode operatorNode = node as OperatorNode;
+            if (operatorNode != null)
+            {
+                return operatorNode.Evaluate();
+            }
+
+            throw new NotSupportedException();
 
         }
 
