@@ -1,7 +1,8 @@
 ﻿using System;
+
 namespace CptS321
 {
-    class Program
+    public class Program
     {
         public static void Main(string[] args)
         {
