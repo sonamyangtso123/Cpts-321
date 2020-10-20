@@ -22,7 +22,7 @@ namespace CptS321
             // create an instance of ExpressionTree class.
             ExpressionTree tree = new ExpressionTree(expression);
 
-            // set varname to empty and varVal to empty.
+            // set varname and varVal to empty.
             string varName = string.Empty;
             string varVal = string.Empty;
             do
@@ -34,20 +34,25 @@ namespace CptS321
                 switch (userInput)
                 {
                     case "1":
+                        // get a new expression and display the new expression
                         Console.WriteLine("Enter new epression: ");
                         tree = new ExpressionTree(Console.ReadLine());
                         break;
 
                     case "2":
+                        // reads the vraible name and varible value.
                         Console.WriteLine("Enter variable name:");
                         varName = Console.ReadLine();
                         Console.WriteLine("Enter variable value:");
                         string varValue = Console.ReadLine();
+
+                        // if variable name is in the dictionary set new value to that otherwise add variable 
+                        // name and value pair in the dictionary
                         tree.SetVariable(varName, Convert.ToDouble(varValue));
                         break;
 
                     case "3":
-                        // tree = new ExpressionTree(expression);
+                        // evaluate the result of the expression.
                         Console.WriteLine(tree.Evaluate());
                         break;
 
