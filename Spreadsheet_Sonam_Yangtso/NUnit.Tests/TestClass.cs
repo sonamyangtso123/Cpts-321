@@ -73,6 +73,10 @@ namespace NUnit.Tests
         }
 
         // Start here with Homework5 Test cases
+
+        /// <summary>
+        /// Test ExpressionTree constructor.
+        /// </summary>
         [Test]
         public void TestExpressionNodeConstructor()
         {
@@ -80,6 +84,9 @@ namespace NUnit.Tests
             Assert.AreEqual("10", expression.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// test evaluate method for addition expression.
+        /// </summary>
         [Test]
         public void TestPlusEvaluateMethod()
         {
@@ -88,6 +95,9 @@ namespace NUnit.Tests
             Assert.AreEqual("10", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// Test evaluate method for subtraction expression.
+        /// </summary>
         [Test]
         public void TestMinusEvaluateMethod()
         {
@@ -96,6 +106,9 @@ namespace NUnit.Tests
             Assert.AreEqual("4", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// test evalute method for multiplication expression.
+        /// </summary>
         [Test]
         public void TestMultiplicationEvaluateMethd()
         {
@@ -104,6 +117,9 @@ namespace NUnit.Tests
             Assert.AreEqual("60", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// test evalaute method for division expression.
+        /// </summary>
         [Test]
         public void TestDivisionEvaluateMethod()
         {
@@ -112,6 +128,9 @@ namespace NUnit.Tests
             Assert.AreEqual("2.5", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// test evalute method for decimal expression.
+        /// </summary>
         [Test]
         public void TestDecimalEvaluateMethod()
         {
@@ -119,12 +138,19 @@ namespace NUnit.Tests
             Assert.AreEqual("7.9", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// test the evaluate method if an expression is multiply by zero.
+        /// </summary>
         [Test]
         public void TestMultiplyByZeroEvaluateMethod()
         {
             ExpressionTree tree = new ExpressionTree("3*4*3*99*7*0");
             Assert.AreEqual("0", tree.Evaluate().ToString());
         }
+
+        /// <summary>
+        /// test the evaluate method if the expression is divided by zero.
+        /// </summary>
         [Test]
         public void TestDivideByZero()
         {
@@ -133,6 +159,9 @@ namespace NUnit.Tests
             Assert.AreEqual("∞", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// test the setVaraible method.
+        /// </summary>
         [Test]
         public void TestSetVariableMethod()
         {

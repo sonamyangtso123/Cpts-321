@@ -9,12 +9,12 @@
   "settings": {
     "documentationRules": {
       "companyName": "Sonam Yangtso"
-      "copyrightText": "Copyright (c) {companyName}. All rights reserved.",
-"documentPrivateElements": true,
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved."
+      "documentPrivateElements": true,
 "documentPrivateFields": true
 },
 "orderingRules": {
 "usingDirectivesPlacement": "outsideNamespace"
-    }
-  }
+}
+}
 }

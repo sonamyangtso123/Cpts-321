@@ -1,13 +1,28 @@
-﻿using System;
+﻿// <copyright file="Program.cs" company="P">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using System;
 
 namespace CptS321
 {
+    /// <summary>
+    /// console class.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// this is a main method which has direct interaction  with the user.
+        /// </summary>
+        /// <param name="args"> args.</param>
         public static void Main(string[] args)
         {
             string expression = "x+y";
+
+            // create an instance of ExpressionTree class.
             ExpressionTree tree = new ExpressionTree(expression);
+
+            // set varname to empty and varVal to empty.
             string varName = string.Empty;
             string varVal = string.Empty;
             do
