@@ -113,6 +113,19 @@ namespace NUnit.Tests
         }
 
         [Test]
+        public void TestDecimalEvaluateMethod()
+        {
+            ExpressionTree tree = new ExpressionTree("2.35+3.45+2.10");
+            Assert.AreEqual("7.9", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestMultiplyByZeroEvaluateMethod()
+        {
+            ExpressionTree tree = new ExpressionTree("3*4*3*99*7*0");
+            Assert.AreEqual("0", tree.Evaluate().ToString());
+        }
+        [Test]
         public void TestDivideByZero()
         {
             string expression = "3950/0";

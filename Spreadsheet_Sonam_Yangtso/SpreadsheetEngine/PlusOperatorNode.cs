@@ -23,9 +23,6 @@ namespace CptS321
             get { return Associative.Left; }
         }
 
-        // public PlusOperatorNode()
-        // {
-        // }
         public override double Evaluate()
         {
             return this.Left.Evaluate() + this.Right.Evaluate();
