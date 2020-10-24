@@ -174,5 +174,33 @@ namespace NUnit.Tests
 
             Assert.AreEqual("16", tree.Evaluate().ToString());
         }
+
+        [Test]
+        public void TestMultiplicationPrecedenceProperty()
+        {
+            ExpressionTree tree = new ExpressionTree("3+4*3");
+            Assert.AreEqual("15", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestParenthesisProperty()
+        {
+            ExpressionTree tree = new ExpressionTree("(3+3) -(2+2)");
+            Assert.AreEqual("2", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestDivisionPrecedenceProperty()
+        {
+            ExpressionTree tree = new ExpressionTree("5+10/2");
+            Assert.AreEqual("10", tree.Evaluate().ToString());
+        }
+
+        [Test]
+        public void TestAnExpression()
+        {
+            ExpressionTree tree = new ExpressionTree("3+4*3/2-7");
+            Assert.AreEqual("2", tree.Evaluate().ToString());
+        }
     }
 }
