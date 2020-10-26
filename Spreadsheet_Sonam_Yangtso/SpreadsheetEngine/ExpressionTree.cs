@@ -12,10 +12,6 @@ namespace CptS321
 
     public class ExpressionTree
     {
-        private ExpressionTreeNode root;
-        private Dictionary<string, double> variables = new Dictionary<string, double>();
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// constructor that takes expression as an argument.
@@ -23,12 +19,10 @@ namespace CptS321
         /// <param name="expression"> input expression.</param>
         public ExpressionTree(string expression)
         {
-
             this.InFix = expression;
-            this.Root = null;
             this.Variables = new Dictionary<string, double>();
-
             
+            this.ConstructTheTree();
         }
 
         public Dictionary<string, double> Variables { get; set; }
@@ -49,6 +43,7 @@ namespace CptS321
         {
             return OperatorNodeFactory.Variables.ContainsKey(op);
         }
+        
 
         public void SetVariable(string name, double value)
         {
@@ -57,8 +52,8 @@ namespace CptS321
 
         public double Evaluate()
         {
-            
 
+            this.ConstructTheTree();
             // Root of the tree should be an operator.
             if (this.Root != null)
             {
@@ -70,7 +65,59 @@ namespace CptS321
             return 0.0;
         }
 
-        
+        private void ConstructTheTree()
+        {
+            Stack<ExpressionTreeNode> operators = new Stack<ExpressionTreeNode>();
+            ExpressionTreeNode newNode;
+
+            // Compile the tree to find post fix function.
+            this.ConvertToPostFix();
+
+            // Then evaluate the function.
+            foreach (var item in this.PostFix.Split(' '))
+            {
+                // token is a constant value
+                if (item != string.Empty)
+                {
+
+                    if (double.TryParse(item, out double d))
+                    {
+                        newNode = new ConstantNode(double.Parse(item));
+                    }
+
+                    // Check whether item is a variable 
+                    else if (this.Variables.Keys.Contains(item))
+                    {
+                        newNode = new VariableNode(item, this.Variables[item]);
+                    }
+
+                    // if the incoming item is an OperatorNode
+                    else if (OperatorNodeFactory.Variables.ContainsKey(item[0]))
+                    {
+                        newNode = OperatorNodeFactory.CreateNewNode(item[0]);
+                        ((OperatorNode)newNode).Left = operators.Pop();
+                        ((OperatorNode)newNode).Right = operators.Pop();
+                    }
+                    else
+                    {
+                        newNode = null;
+                    }
+
+                    operators.Push(newNode);
+                }
+            }
+
+            try
+            {
+                this.Root = operators.Pop() as OperatorNode;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Not an operator.");
+            }
+        }
+
+
 
 
         private void ConvertToPostFix()
@@ -126,6 +173,10 @@ namespace CptS321
                         if (newNode.Precedence >= currentNode.Precedence)
                         {
                             output.Add(opStack.Pop());
+                        }
+                        else
+                        {
+                            break;
                         }
  
                     }

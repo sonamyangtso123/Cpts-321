@@ -30,7 +30,9 @@ namespace CptS321
         /// <summary>
         /// gets the precedence of the operator.
         /// </summary>
-        public override ushort Precedence { get; set; } = 6;
+        public override ushort Precedence => 6;
+
+        public static Associative Associativity => Associative.Left;
 
         /// <summary>
         /// Gets the Assocaitivity of the operator.

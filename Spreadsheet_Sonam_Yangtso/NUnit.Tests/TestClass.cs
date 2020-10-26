@@ -40,14 +40,6 @@ namespace NUnit.Tests
             Assert.That(this.cell.ColumnIndex, Is.EqualTo(8));
         }
 
-       [Test]
-        public void TestExpressionTreeWithCombinationOfOperators()
-        {
-            ExpressionTree tree = new ExpressionTree("(2*3)+6");
-            double value = tree.Evaluate();
-            Assert.AreEqual(Convert.ToDouble(12), value);
-        }
-
         /// <summary>
         /// test case for the Spreadsheet class constructor.
         /// </summary>
@@ -86,30 +78,26 @@ namespace NUnit.Tests
         /// <summary>
         /// Test ExpressionTree constructor.
         /// </summary>
-        /// 
-
+        ///
         [Test]
         public void TestExpressionTreeConstructorWithAString()
         {
             ExpressionTree tree = new ExpressionTree("A1+B1");
             Assert.AreEqual(tree.InFix, "A1+B1");
         }
+
+        /// <summary>
+        /// This Test method test the plus operator.
+        /// </summary>
         [Test]
-        public void TestExpressionTreeWithAddition()
+        public void TestExpressionTreeWithPlusOperator()
         {
             ExpressionTree tree = new ExpressionTree("10+0");
             double value = tree.Evaluate();
-            Assert.AreEqual(Convert.ToDouble(10.0), value);
+            Assert.AreEqual("10", value.ToString());
         }
 
-        [Test]
-        public void TestExpressionNodeConstructor()
-        {
-            ExpressionTree expression = new ExpressionTree("8+0");
-            Assert.AreEqual("8", expression.Evaluate().ToString());
-        }
-
-        /// <summary>
+      /// <summary>
         /// test evaluate method for addition expression.
         /// </summary>
         [Test]
@@ -123,7 +111,7 @@ namespace NUnit.Tests
         /// <summary>
         /// Test evaluate method for subtraction expression.
         /// </summary>
-       [Test]
+        [Test]
         public void TestMinusEvaluateMethod()
         {
             string expression = "7-3-0";
@@ -154,16 +142,6 @@ namespace NUnit.Tests
         }
 
         /// <summary>
-        /// test evalute method for decimal expression.
-        /// </summary>
-        [Test]
-        public void TestDecimalEvaluateMethod()
-        {
-            ExpressionTree tree = new ExpressionTree("2.0+3.0");
-            Assert.AreEqual("7.9", tree.Evaluate().ToString());
-        }
-
-        /// <summary>
         /// test the evaluate method if an expression is multiply by zero.
         /// </summary>
         [Test]
@@ -171,6 +149,16 @@ namespace NUnit.Tests
         {
             ExpressionTree tree = new ExpressionTree("3*4*3*99*7*0");
             Assert.AreEqual("0", tree.Evaluate().ToString());
+        }
+
+        /// <summary>
+        /// This method test the constructor of the ExpressionTree constructor.
+        /// </summary>
+        [Test]
+        public void TestExpressionTreeConstructor()
+        {
+            ExpressionTree expression = new ExpressionTree("8");
+            Assert.AreEqual("8", expression.InFix.ToString());
         }
 
         /// <summary>
@@ -194,38 +182,93 @@ namespace NUnit.Tests
 
             Assert.AreEqual("10+x+y", tree.InFix);
 
-            tree.SetVariable("x", 2.0);
+            tree.SetVariable("x", 5.0);
             tree.SetVariable("y", 4.0);
 
-            Assert.AreEqual("16", tree.Evaluate().ToString());
+            Assert.AreEqual("19", tree.Evaluate().ToString());
         }
 
+        // Additional Test cases for homework 6
+
+        /// <summary>
+        /// This test method test the multiplication operator  precedence over plus operator.
+        /// </summary>
         [Test]
         public void TestMultiplicationPrecedenceProperty()
         {
-            ExpressionTree tree = new ExpressionTree("3+4*3");
-            Assert.AreEqual("15", tree.Evaluate().ToString());
+            ExpressionTree tree = new ExpressionTree("3+4*3+4");
+            Assert.AreEqual("19", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// This method test the parenthesis precedence over other operators.
+        /// </summary>
         [Test]
-        public void TestParenthesisProperty()
+        public void TestParenthesisPrecedence()
         {
-            ExpressionTree tree = new ExpressionTree("(3+3) -(2+2)");
-            Assert.AreEqual("2", tree.Evaluate().ToString());
+            ExpressionTree tree = new ExpressionTree("(((3-3))-((2+2)))+ 8");
+            Assert.AreEqual("4", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// This test method for Parenthesis precedence over multiplication.
+        /// </summary>
         [Test]
-        public void TestDivisionPrecedenceProperty()
+        public void TestParenthesisPrecedenceOverMultiplicationOperator()
         {
-            ExpressionTree tree = new ExpressionTree("5+10/2");
-            Assert.AreEqual("10", tree.Evaluate().ToString());
+            ExpressionTree tree = new ExpressionTree("((3+3)*2)");
+            Assert.AreEqual("12", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// This method test the division operator precedence.
+        /// </summary>
         [Test]
-        public void TestAnExpression()
+        public void TestDivisionPrecedence()
         {
-            ExpressionTree tree = new ExpressionTree("3+4*3/2-7");
-            Assert.AreEqual("2", tree.Evaluate().ToString());
+            ExpressionTree tree = new ExpressionTree("5+10/2+5-2");
+            Assert.AreEqual("13", tree.Evaluate().ToString());
+        }
+
+        /// <summary>
+        /// This test the precedence of all the operators over each other.
+        /// </summary>
+        [Test]
+        public void TestOperatorPrecedence()
+        {
+            ExpressionTree tree = new ExpressionTree("3+4*3+14/7");
+            Assert.AreEqual("17", tree.Evaluate().ToString());
+        }
+
+        /// <summary>
+        /// This method tests an expression for varible value pair.
+        /// </summary>
+        [Test]
+        public void TestExpressionTreeWithNumbersAndVariables()
+        {
+            ExpressionTree tree = new ExpressionTree("w-2+y+3");
+            double value = tree.Evaluate();
+            Assert.AreEqual("1", value.ToString());
+        }
+
+        /// <summary>
+        /// This method test combination of operators.
+        /// </summary>
+        [Test]
+        public void TestExpressionTreeWithCombinationOfOperators()
+        {
+            ExpressionTree tree = new ExpressionTree("(2+3)*6-3/2");
+            Assert.AreEqual("28.5", tree.Evaluate().ToString());
+        }
+
+        /// <summary>
+        /// This Test method test for new variable in the dictionary.
+        /// </summary>
+        [Test]
+        public void TestForNewVaraible()
+        {
+            ExpressionTree tree = new ExpressionTree("x");
+            Assert.AreEqual("0", tree.Evaluate().ToString());
         }
     }
 }

@@ -20,23 +20,27 @@ namespace CptS321
     /// </summary>
     public abstract class OperatorNode : ExpressionTreeNode
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OperatorNode"/> class.
-        /// An overrloaded constructor that initializes variables.
-        /// </summary>
-        /// <param name="c">
-        /// Gets the character to initialize.
-        /// </param>
-        public OperatorNode(char c)
-        {
-            this.Operator = c;
-            this.Left = this.Right = null;
-        }
 
         /// <summary>
-        /// Gets or sets an operator.
+        /// Initializes a new instance of the <see cref="OperatorNode"/> class.
         /// </summary>
-        public char Operator { get; set; }
+        /// <param name="op"> sign for corresponding operator.</param>
+        public OperatorNode(char op)
+        {
+            this.Operator = op;
+        }
+
+        public enum Associative
+        {
+            Right,
+
+            Left,
+        };
+
+        /// <summary>
+        /// Gets an operator.
+        /// </summary>
+        public char Operator { get; }
 
         /// <summary>
         /// Gets or sets the left child of node.
@@ -51,7 +55,7 @@ namespace CptS321
         /// <summary>
         /// Gets or sets the precedence.
         /// </summary>
-        public abstract ushort Precedence { get; set; }
+        public abstract ushort Precedence { get; }
 
         /// <summary>
         /// Must be overridden in subclasses to perform some evaluation on its contents and return a double result.

@@ -22,18 +22,15 @@ namespace CptS321
         public MultiplicationOperatorNode()
             : base('*')
         {
-
         }
 
         /// <summary>
         /// Gets the precedence of the Operator.
         /// </summary>
-        public override ushort Precedence { get; set; } = 6;
+        public override ushort Precedence => 6;
 
-        /// <summary>
-        /// Gets the left assocaitive of this operator.
-        /// </summary>
-        
+        public static Associative Associativity => Associative.Left;
+
 
         /// <summary>
         /// This is an override method for Evaluation.
