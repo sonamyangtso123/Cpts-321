@@ -16,34 +16,25 @@ namespace CptS321
     public class PlusOperatorNode : OperatorNode
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="PlusOperatorNode"/> class.
         /// gets the plus operator sign.
         /// </summary>
-        public static char Operator
+        ///
+        public PlusOperatorNode()
+            : base('+')
         {
-            get { return '+'; }
-        }
-
-         /// <summary>
-         ///
-         /// gets the precedence of the operator.
-         /// </summary>
-        public static ushort Precedence
-        {
-            get { return 2; }
         }
 
         /// <summary>
-        /// gets the left associative.
+        ///
+        /// gets the precedence of the operator.
         /// </summary>
-        public static Associative Associativity
-        {
-            get { return Associative.Left; }
-        }
+        public override ushort Precedence { get; set; } = 5;
 
-         /// <summary>
-         /// Evaluate the left and right subnodes.
-         /// </summary>
-         /// <returns> calcualated value. </returns>
+        /// <summary>
+        /// Evaluate the left and right subnodes.
+        /// </summary>
+        /// <returns> calcualated value. </returns>
         public override double Evaluate()
         {
             return this.Left.Evaluate() + this.Right.Evaluate();

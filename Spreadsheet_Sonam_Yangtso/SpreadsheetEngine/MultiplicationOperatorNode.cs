@@ -16,28 +16,24 @@ namespace CptS321
     public class MultiplicationOperatorNode : OperatorNode
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="MultiplicationOperatorNode"/> class.
         /// Gets the * sign.
         /// </summary>
-        public static char Operator
+        public MultiplicationOperatorNode()
+            : base('*')
         {
-            get { return '*'; }
+
         }
 
         /// <summary>
         /// Gets the precedence of the Operator.
         /// </summary>
-        public static ushort Precedence
-        {
-            get { return 1; }
-        }
+        public override ushort Precedence { get; set; } = 6;
 
         /// <summary>
         /// Gets the left assocaitive of this operator.
         /// </summary>
-        public static Associative Associativity
-        {
-            get { return Associative.Left; }
-        }
+        
 
         /// <summary>
         /// This is an override method for Evaluation.

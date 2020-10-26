@@ -15,7 +15,7 @@ namespace CptS321
     /// </summary>
     public class ConstantNode : ExpressionTreeNode
     {
-        private readonly double value;
+        //private readonly double value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstantNode"/> class.
@@ -24,7 +24,7 @@ namespace CptS321
         /// <param name="value"> value.</param>
         public ConstantNode(double value)
         {
-            this.value = value;
+            this.Value = value;
         }
 
         /// <summary>

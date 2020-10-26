@@ -9,6 +9,7 @@ using CptS321;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System;
 
 namespace NUnit.Tests
 {
@@ -37,6 +38,14 @@ namespace NUnit.Tests
             this.cell = new SpreadsheetCell(9, 8);
             Assert.That(this.cell.RowIndex, Is.EqualTo(9));
             Assert.That(this.cell.ColumnIndex, Is.EqualTo(8));
+        }
+
+       [Test]
+        public void TestExpressionTreeWithCombinationOfOperators()
+        {
+            ExpressionTree tree = new ExpressionTree("(2*3)+6");
+            double value = tree.Evaluate();
+            Assert.AreEqual(Convert.ToDouble(12), value);
         }
 
         /// <summary>
@@ -77,11 +86,27 @@ namespace NUnit.Tests
         /// <summary>
         /// Test ExpressionTree constructor.
         /// </summary>
+        /// 
+
+        [Test]
+        public void TestExpressionTreeConstructorWithAString()
+        {
+            ExpressionTree tree = new ExpressionTree("A1+B1");
+            Assert.AreEqual(tree.InFix, "A1+B1");
+        }
+        [Test]
+        public void TestExpressionTreeWithAddition()
+        {
+            ExpressionTree tree = new ExpressionTree("10+0");
+            double value = tree.Evaluate();
+            Assert.AreEqual(Convert.ToDouble(10.0), value);
+        }
+
         [Test]
         public void TestExpressionNodeConstructor()
         {
-            ExpressionTree expression = new ExpressionTree("8+2");
-            Assert.AreEqual("10", expression.Evaluate().ToString());
+            ExpressionTree expression = new ExpressionTree("8+0");
+            Assert.AreEqual("8", expression.Evaluate().ToString());
         }
 
         /// <summary>
@@ -98,7 +123,7 @@ namespace NUnit.Tests
         /// <summary>
         /// Test evaluate method for subtraction expression.
         /// </summary>
-        [Test]
+       [Test]
         public void TestMinusEvaluateMethod()
         {
             string expression = "7-3-0";
@@ -134,7 +159,7 @@ namespace NUnit.Tests
         [Test]
         public void TestDecimalEvaluateMethod()
         {
-            ExpressionTree tree = new ExpressionTree("2.35+3.45+2.10");
+            ExpressionTree tree = new ExpressionTree("2.0+3.0");
             Assert.AreEqual("7.9", tree.Evaluate().ToString());
         }
 
@@ -167,7 +192,7 @@ namespace NUnit.Tests
         {
             ExpressionTree tree = new ExpressionTree("10+x+y");
 
-            Assert.AreEqual("10+x+y", tree.Expression);
+            Assert.AreEqual("10+x+y", tree.InFix);
 
             tree.SetVariable("x", 2.0);
             tree.SetVariable("y", 4.0);

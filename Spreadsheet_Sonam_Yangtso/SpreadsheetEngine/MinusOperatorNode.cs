@@ -17,28 +17,19 @@ namespace CptS321
     public class MinusOperatorNode : OperatorNode
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="MinusOperatorNode"/> class.
         /// Gets - sign operator.
         /// </summary>
-        public static char Operator
+        public MinusOperatorNode()
+            : base ('-')
         {
-            get { return '-'; }
+
         }
 
         /// <summary>
         /// Gets the precedence of this operator.
         /// </summary>
-        public static ushort Precedence
-        {
-            get { return 2; }
-        }
-
-        /// <summary>
-        /// Gets Left associative.
-        /// </summary>
-        public static Associative Associativity
-        {
-            get { return Associative.Left; }
-        }
+        public override ushort Precedence { get; set; } = 5;
 
         /// <summary>
         /// It is a evaluate method.
@@ -46,7 +37,7 @@ namespace CptS321
         /// <returns> gets the calculated value. </returns>
         public override double Evaluate()
         {
-            return this.Left.Evaluate() - this.Right.Evaluate();
+            return this.Right.Evaluate() - this.Left.Evaluate();
         }
     }
 }

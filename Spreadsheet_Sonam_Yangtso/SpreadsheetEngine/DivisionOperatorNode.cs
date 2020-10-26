@@ -13,31 +13,28 @@ namespace CptS321
     /// <summary>
     /// DivisionOperatorNode extends from OperatorNode.
     /// </summary>
-    public class DivisionOperatorNode : OperatorNode
+    internal class DivisionOperatorNode : OperatorNode
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="DivisionOperatorNode"/> class.
         /// Gets static method this returns the Operator sign.
         /// </summary>
-        public static char Operator
+        ///
+        public DivisionOperatorNode()
+            : base('/')
         {
-            get { return '/'; }
         }
+
+
 
         /// <summary>
         /// gets the precedence of the operator.
         /// </summary>
-        public static ushort Precedence
-        {
-            get { return 1; }
-        }
+        public override ushort Precedence { get; set; } = 6;
 
         /// <summary>
         /// Gets the Assocaitivity of the operator.
         /// </summary>
-        public static Associative Associativity
-        {
-            get { return Associative.Left; }
-        }
 
         /// <summary>
         /// This is an override method that returns the evaluated value.
@@ -45,7 +42,7 @@ namespace CptS321
         /// <returns> caluated value. </returns>
         public override double Evaluate()
         {
-            return this.Left.Evaluate() / this.Right.Evaluate();
+            return this.Right.Evaluate() / this.Left.Evaluate();
         }
     }
 }

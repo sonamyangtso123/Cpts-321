@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace CptS321
@@ -14,30 +15,32 @@ namespace CptS321
     /// </summary>
     internal class OperatorNodeFactory
     {
-        /// <summary>
-        /// this method returns an operator node based on the types of operator argument passed.
-        /// </summary>
-        /// <param name="op"> operator. </param>
-        /// <returns> operatorNode. </returns>
-        public static OperatorNode CreateNewNode(char op)
+        public static Dictionary<char, Type> Variables = new Dictionary<char, Type>
         {
-            switch (op)
+            { '+', typeof(PlusOperatorNode) }, 
+            { '-', typeof(MinusOperatorNode) },
+            { '*', typeof(MultiplicationOperatorNode) },
+            { '/', typeof(DivisionOperatorNode) },
+        };
+
+        //public OperatorNodeFactory()
+        //{
+        //}
+
+        public static OperatorNode CreateNewNode(char character)
+        {
+            if (Variables.ContainsKey(character))
             {
-                case '+':
-                    return new PlusOperatorNode();
+                object operatorNodeObject = System.Activator.CreateInstance(Variables[character]);
+                if (operatorNodeObject is OperatorNode)
+                {
+                    return (OperatorNode)operatorNodeObject;
+                }
 
-                case '-':
-                    return new MinusOperatorNode();
-
-                case '*':
-                    return new MultiplicationOperatorNode();
-
-                case '/':
-                    return new DivisionOperatorNode();
-
-                default:
-                    return null;
+                throw new Exception("Unhandled exception");
             }
+
+            return null;
         }
     }
 }

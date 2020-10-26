@@ -16,17 +16,15 @@ namespace CptS321
     /// </summary>
     public class VariableNode : ExpressionTreeNode
     {
-        private readonly string name;
 
-        // dictonary to hold the name value pair.
-        private Dictionary<string, double> variables;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
         // </summary>
-        public VariableNode()
+        public VariableNode(string item,double value )
         {
-            this.variables = new Dictionary<string, double>();
+            this.Name = item;
+            this.Value = value;
         }
 
         /// <summary>
@@ -34,12 +32,7 @@ namespace CptS321
         /// </summary>
         /// <param name="name"> varaibel name.</param>
         /// <param name="variable"> dictionary that holds name value pair.</param>
-        public VariableNode(string name, Dictionary<string, double> variable)
-        {
-            this.name = name;
-            this.variables = variable;
-        }
-
+      
         /// <summary>
         /// Gets or sets get and set the varible name.
         /// </summary>
@@ -47,18 +40,16 @@ namespace CptS321
         {
             get; set;
         }
+        
+        public double Value { get; set; }
 
-    /// <summary>
-    ///  returns the value of the corresponding varible name.
-    /// </summary>
-    /// <returns> value of the varibel name.</returns>
+        /// <summary>
+        ///  returns the value of the corresponding varible name.
+        /// </summary>
+        /// <returns> value of the varibel name.</returns>
         public override double Evaluate()
         {
-            double value = 0.0;
-
-            value = this.variables[this.Name];
-
-            return value;
+            return Value;
         }
     }
 }
