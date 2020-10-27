@@ -17,7 +17,6 @@ namespace CptS321
     /// </summary>
     public class ExpressionTree
     {
-        private ExpressionTreeNode root;
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// constructor that takes expression as an argument.
@@ -45,8 +44,7 @@ namespace CptS321
         /// </summary>
         public OperatorNode Root { get; set; }
 
-
-        /// <summary>
+      /// <summary>
         /// this method set a value to a varibale in the Variable dictionary.
         /// </summary>
         /// <param name="variableName"> varible Name.</param>
@@ -55,9 +53,6 @@ namespace CptS321
         {
             this.Variables[variableName] = variableValue;
         }
-
-
-
 
         /// <summary>
         ///  This method evaluate the given expression by first converting the expression to a postfix expression
@@ -79,10 +74,10 @@ namespace CptS321
         }
 
         /// <summary>
-        /// This method calls ConvertToPostFix method which converts the user expression into an postfix 
+        /// This method calls ConvertToPostFix method which converts the user expression into an postfix
         /// expression and then builds an expression tree.
         /// </summary>
-        private void  BuildExpressionTree()
+        private void BuildExpressionTree()
         {
             Stack<ExpressionTreeNode> nodes = new Stack<ExpressionTreeNode>();
 
@@ -117,23 +112,11 @@ namespace CptS321
                 }
                 else
                 {
-                    ExpressionTreeNode newNode = null;
                 }
-
-               //nodes.Push(newNode);
             }
 
-            this.Root =  nodes.Pop() as OperatorNode;
-            //this.Root = nodes.Pop() as OperatorNode;
-            //    s
-            //try
-            //{
-            //    this.Root = nodes.Pop() as OperatorNode;
-            //}
-            //catch (Exception)
-            //{
-            //    throw new Exception("not an operator.");
-            //}
+        // save each node to Root.
+            this.Root = nodes.Pop() as OperatorNode;
         }
 
         /// <summary>
@@ -147,24 +130,28 @@ namespace CptS321
             return OperatorNodeFactory.Variables.ContainsKey(op);
         }
 
-
+        /// <summary>
+        /// This method converts the user expression to a postfix expression.
+        ///
+        /// </summary>
+        /// <returns> a list of string . </returns>
         private List<string> ConvertToPostFix()
         {
             Stack<string> opStack = new Stack<string>();
             List<string> output = new List<string>();
-            for (int i = 0; i < InFixExpression.Length; i++)
+            for (int i = 0; i < this.InFixExpression.Length; i++)
             {
-                char sub = InFixExpression[i];
+                char sub = this.InFixExpression[i];
                 if (char.IsDigit(sub))
                 {
                     string digit = string.Empty;
-                    while (i < InFixExpression.Length && char.IsDigit(sub))
+                    while (i < this.InFixExpression.Length && char.IsDigit(sub))
                     {
                         digit += sub;
                         i++;
-                        if (i < InFixExpression.Length)
+                        if (i < this.InFixExpression.Length)
                         {
-                            sub = InFixExpression[i];
+                            sub = this.InFixExpression[i];
                         }
                     }
 
@@ -214,13 +201,13 @@ namespace CptS321
                 else
                 {
                     string variableNameBuilder = string.Empty;
-                    while (!OperatorNodeFactory.Variables.ContainsKey(sub) && i < InFixExpression.Length)
+                    while (!OperatorNodeFactory.Variables.ContainsKey(sub) && i < this.InFixExpression.Length)
                     {
                         variableNameBuilder += sub;
                         i++;
-                        if (i < InFixExpression.Length)
+                        if (i < this.InFixExpression.Length)
                         {
-                            sub = InFixExpression[i];
+                            sub = this.InFixExpression[i];
                         }
                     }
 
@@ -236,14 +223,13 @@ namespace CptS321
                 }
             }
 
-
             while (opStack.Count > 0)
             {
                 var top = opStack.Pop();
                 output.Add(top);
             }
-            return output;
 
+            return output;
         }
     }
 }

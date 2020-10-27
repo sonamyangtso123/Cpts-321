@@ -16,12 +16,11 @@ namespace CptS321
     /// </summary>
     public class VariableNode : ExpressionTreeNode
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
         /// </summary>
         /// <param name="item"> variable name. </param>
-        /// <param name="value">value corresponding to varibale name </param>
+        /// <param name="value">value corresponding to varibale name. </param>
         public VariableNode(string item, double value)
         {
             this.Name = item;
@@ -55,4 +54,3 @@ namespace CptS321
         }
     }
 }
-
