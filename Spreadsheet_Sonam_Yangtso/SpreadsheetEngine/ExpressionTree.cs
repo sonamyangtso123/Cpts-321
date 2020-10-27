@@ -7,9 +7,6 @@ namespace CptS321
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.Remoting.Messaging;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// This is a ExpressionTree class. This class converts an expression to a tree and does all the mathematical
@@ -26,7 +23,6 @@ namespace CptS321
         {
             this.InFixExpression = expression;
             this.Variables = new Dictionary<string, double>();
-            this.BuildExpressionTree();
         }
 
         /// <summary>
@@ -44,7 +40,7 @@ namespace CptS321
         /// </summary>
         public OperatorNode Root { get; set; }
 
-      /// <summary>
+        /// <summary>
         /// this method set a value to a varibale in the Variable dictionary.
         /// </summary>
         /// <param name="variableName"> varible Name.</param>
@@ -114,7 +110,7 @@ namespace CptS321
                 }
             }
 
-        // save each node to Root.
+            // save each node to Root.
             this.Root = nodes.Pop() as OperatorNode;
         }
 
@@ -157,10 +153,16 @@ namespace CptS321
                     output.Add(digit + " ");
                     i--;
                 }
+
+                // 2. If the incoming symbol is a left parentheses, push it on the stack.
                 else if (sub == '(')
                 {
                     opStack.Push(sub.ToString());
                 }
+
+                // 3. If the incoming symbol is a right parenthesis: discard the right parenthesis,
+                //    pop and print the stack symbols until you see a left parenthesis.
+                //    Pop the left parenthesis and discard it.
                 else if (sub == ')')
                 {
                     string operand = opStack.Pop();
@@ -170,14 +172,20 @@ namespace CptS321
                         operand = opStack.Pop();
                     }
 
+                    // if you don't see a left parenthesis that pairs for right parenthesis
                     if (operand != "(")
                     {
                         throw new ArgumentException("No matching left parenthesis.");
                     }
                 }
+
+                // If the incoming symbol is an operator
                 else if (this.IsOperator(sub))
                 {
                     OperatorNode currentNode = OperatorNodeFactory.CreateNewNode(sub);
+
+                    // If the incoming symbol is an operator and has either lower precedence than the operator on the top of the stack,
+                    // or has the same precedence as the operator on the top of the stack then pop it and add to output list.
                     while (opStack.Count > 0 && this.IsOperator(char.Parse(opStack.Peek())))
                     {
                         OperatorNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
@@ -191,6 +199,8 @@ namespace CptS321
                         }
                     }
 
+                    // If the incoming symbol is an operator and has either higher precedence than the operator on the top of the stack,
+                    //  or has the same precedence as the operator on the top of the stack and push it on the stack.
                     opStack.Push(sub.ToString());
                 }
                 else
@@ -217,12 +227,14 @@ namespace CptS321
                 }
             }
 
+            // pop out all the operators in opStack stack and add to output list untill the stack get empty.
             while (opStack.Count > 0)
             {
                 var top = opStack.Pop();
                 output.Add(top);
             }
 
+            // return the output list in postfix form expression.
             return output;
         }
     }
