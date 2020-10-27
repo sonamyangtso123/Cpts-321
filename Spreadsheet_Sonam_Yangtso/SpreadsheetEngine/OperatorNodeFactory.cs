@@ -23,10 +23,6 @@ namespace CptS321
             { '/', typeof(DivisionOperatorNode) },
         };
 
-        //public OperatorNodeFactory()
-        //{
-        //}
-
         public static OperatorNode CreateNewNode(char character)
         {
             if (Variables.ContainsKey(character))
@@ -37,7 +33,7 @@ namespace CptS321
                     return (OperatorNode)operatorNodeObject;
                 }
 
-                throw new Exception("Unhandled exception");
+                throw new Exception("Unhandled operator");
             }
 
             return null;

@@ -27,7 +27,7 @@ namespace CptS321
             string varVal = string.Empty;
             do
             {
-                Console.WriteLine("Menu (current expression =" + tree.InFix + ")");
+                Console.WriteLine("Menu (current expression =" + tree.InFixExpression + ")");
                 MenuOption();
                 string userInput = Console.ReadLine();
                 Console.WriteLine();

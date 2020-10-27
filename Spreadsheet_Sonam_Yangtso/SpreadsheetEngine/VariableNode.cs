@@ -16,6 +16,7 @@ namespace CptS321
     /// </summary>
     public class VariableNode : ExpressionTreeNode
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
         /// </summary>
@@ -54,3 +55,4 @@ namespace CptS321
         }
     }
 }
+

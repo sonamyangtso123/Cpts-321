@@ -83,7 +83,7 @@ namespace NUnit.Tests
         public void TestExpressionTreeConstructorWithAString()
         {
             ExpressionTree tree = new ExpressionTree("A1+B1");
-            Assert.AreEqual(tree.InFix, "A1+B1");
+            Assert.AreEqual(tree.InFixExpression, "A1+B1");
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace NUnit.Tests
         [Test]
         public void TestMinusEvaluateMethod()
         {
-            string expression = "7-3-0";
+            string expression = "4-5";
             ExpressionTree tree = new ExpressionTree(expression);
-            Assert.AreEqual("4", tree.Evaluate().ToString());
+            Assert.AreEqual("-1", tree.Evaluate().ToString());
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace NUnit.Tests
         public void TestExpressionTreeConstructor()
         {
             ExpressionTree expression = new ExpressionTree("8");
-            Assert.AreEqual("8", expression.InFix.ToString());
+            Assert.AreEqual("8", expression.InFixExpression.ToString());
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace NUnit.Tests
         {
             ExpressionTree tree = new ExpressionTree("10+x+y");
 
-            Assert.AreEqual("10+x+y", tree.InFix);
+            Assert.AreEqual("10+x+y", tree.InFixExpression);
 
             tree.SetVariable("x", 5.0);
             tree.SetVariable("y", 4.0);
@@ -246,9 +246,9 @@ namespace NUnit.Tests
         [Test]
         public void TestExpressionTreeWithNumbersAndVariables()
         {
-            ExpressionTree tree = new ExpressionTree("w-2+y+3");
+            ExpressionTree tree = new ExpressionTree("w-5+y+3");
             double value = tree.Evaluate();
-            Assert.AreEqual("1", value.ToString());
+            Assert.AreEqual("-2", value.ToString());
         }
 
         /// <summary>
