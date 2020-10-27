@@ -1,4 +1,4 @@
-﻿// <copyright file="Program.cs" company="P">
+﻿// <copyright file="Program.cs" company="Sonam Yangtso">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -46,7 +46,7 @@ namespace CptS321
                         Console.WriteLine("Enter variable value:");
                         string varValue = Console.ReadLine();
 
-                        // if variable name is in the dictionary set new value to that otherwise add variable 
+                        // if variable name is in the dictionary set new value to that otherwise add variable
                         // name and value pair in the dictionary
                         tree.SetVariable(varName, Convert.ToDouble(varValue));
                         break;

@@ -21,9 +21,8 @@ namespace CptS321
         /// Gets - sign operator.
         /// </summary>
         public MinusOperatorNode()
-            : base ('-')
+            : base('-')
         {
-
         }
 
         /// <summary>
@@ -31,9 +30,10 @@ namespace CptS321
         /// </summary>
         public override ushort Precedence => 5;
 
+        /// <summary>
+        /// Gets the Assocaitivity of the operator.
+        /// </summary>
         public static Associative Associativity => Associative.Left;
-
-
 
         /// <summary>
         /// It is a evaluate method.

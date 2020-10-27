@@ -94,8 +94,7 @@ namespace CptS321
                     nodes.Push(newNode);
                 }
 
-
-                // Check whether item is a variable 
+                // Check whether item is a variable.
                 else if (this.Variables.Keys.Contains(item))
                 {
                     ExpressionTreeNode newNode = new VariableNode(item, this.Variables[item]);
@@ -120,7 +119,7 @@ namespace CptS321
         }
 
         /// <summary>
-        /// This method checks the incoming character is an operator node present in the dictionary Variables in 
+        /// This method checks the incoming character is an operator node present in the dictionary Variables in
         /// the OperatorNodeFactory.
         /// </summary>
         /// <param name="op"> is an operator.</param>
@@ -181,10 +180,7 @@ namespace CptS321
                     OperatorNode currentNode = OperatorNodeFactory.CreateNewNode(sub);
                     while (opStack.Count > 0 && this.IsOperator(char.Parse(opStack.Peek())))
                     {
-
                         OperatorNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
-
-
                         if (newNode.Precedence >= currentNode.Precedence)
                         {
                             output.Add(opStack.Pop());
@@ -193,7 +189,6 @@ namespace CptS321
                         {
                             break;
                         }
-
                     }
 
                     opStack.Push(sub.ToString());
@@ -212,7 +207,6 @@ namespace CptS321
                     }
 
                     output.Add(variableNameBuilder);
-
 
                     if (!this.Variables.ContainsKey(variableNameBuilder))
                     {
@@ -233,117 +227,3 @@ namespace CptS321
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //    private void ConvertToPostFix()
-    //    {
-    //        Stack<string> opStack = new Stack<string>();
-    //        List<string> output = new List<string>();
-    //        for (int i = 0; i < this.InFix.Length; i++)
-    //        {
-    //            char sub = this.InFix[i];
-    //            if (char.IsDigit(sub))
-    //            {
-    //                string digit = string.Empty;
-    //                while (i < this.InFix.Length && char.IsDigit(sub))
-    //                {
-    //                    digit += sub;
-    //                    i++;
-    //                    if (i < this.InFix.Length)
-    //                    {
-    //                        sub = this.InFix[i];
-    //                    }
-    //                }
-
-    //                output.Add(digit + " ");
-    //                i--;
-    //            }
-    //            else if (sub == '(')
-    //            {
-    //                opStack.Push(sub.ToString());
-    //            }
-    //            else if (sub == ')')
-    //            {
-    //                string operand = opStack.Pop();
-    //                while (opStack.Count > 0 && (operand != "("))
-    //                {
-    //                    output.Add(operand);
-    //                    operand = opStack.Pop();
-    //                }
-
-    //                if (operand != "(")
-    //                {
-    //                    throw new ArgumentException("No matching left parenthesis.");
-    //                }
-    //            }
-    //            else if (this.IsOperator(sub))
-    //            {
-    //                OperatorNode currentNode  = OperatorNodeFactory.CreateNewNode(sub);
-    //                while (opStack.Count > 0 && this.IsOperator(char.Parse(opStack.Peek())))
-    //                {
-
-    //                    OperatorNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
-
-
-    //                    if (newNode.Precedence >= currentNode.Precedence)
-    //                    {
-    //                        output.Add(opStack.Pop());
-    //                    }
-    //                    else
-    //                    {
-    //                        break;
-    //                    }
-
-    //                }
-
-    //                opStack.Push(sub.ToString());
-    //            }
-
-    //            else
-    //            {
-    //                string variableNameBuilder = string.Empty;
-    //                while (!OperatorNodeFactory.Variables.ContainsKey(sub) && i < this.InFix.Length)
-    //                {
-    //                    variableNameBuilder += sub;
-    //                    i++;
-    //                    if (i < this.InFix.Length)
-    //                    {
-    //                        sub = this.InFix[i];
-    //                    }
-    //                }
-
-    //                output.Add(variableNameBuilder);
-
-
-    //                if (!this.Variables.ContainsKey(variableNameBuilder))
-    //                {
-    //                    this.Variables.Add(variableNameBuilder, 0);
-    //                }
-
-    //                i--;
-    //            }
-    //        }
-
-
-    //        while (opStack.Count > 0)
-    //        {
-    //            var top = opStack.Pop();
-    //            output.Add(top);
-    //        }
-
-    //        this.PostFix = string.Join(" ", output);
-    //    }
-    //}

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace CptS321
 {
     /// <summary>
-    /// plusoperatorNode.
+    /// plusOperatorNode.
     /// </summary>
     public class PlusOperatorNode : OperatorNode
     {
@@ -31,10 +31,12 @@ namespace CptS321
         /// </summary>
         public override ushort Precedence => 5;
 
+        /// <summary>
+        /// Gets the Assocaitivity of the operator.
+        /// </summary>
         public static Associative Associativity => Associative.Left;
 
-
-        /// <summary>
+         /// <summary>
         /// Evaluate the left and right subnodes.
         /// </summary>
         /// <returns> calcualated value. </returns>

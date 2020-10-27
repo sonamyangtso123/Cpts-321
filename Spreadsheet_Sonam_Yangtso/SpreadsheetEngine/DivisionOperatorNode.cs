@@ -25,18 +25,15 @@ namespace CptS321
         {
         }
 
-
-
         /// <summary>
         /// gets the precedence of the operator.
         /// </summary>
         public override ushort Precedence => 6;
 
-        public static Associative Associativity => Associative.Left;
-
         /// <summary>
         /// Gets the Assocaitivity of the operator.
         /// </summary>
+        public static Associative Associativity => Associative.Left;
 
         /// <summary>
         /// This is an override method that returns the evaluated value.

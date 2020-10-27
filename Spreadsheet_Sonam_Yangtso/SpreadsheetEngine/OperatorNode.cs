@@ -2,10 +2,6 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-/*
-    
- */
-
 namespace CptS321
 {
     using System;
@@ -20,7 +16,6 @@ namespace CptS321
     /// </summary>
     public abstract class OperatorNode : ExpressionTreeNode
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OperatorNode"/> class.
         /// </summary>
@@ -30,14 +25,23 @@ namespace CptS321
             this.Operator = op;
         }
 
+        /// <summary>
+        /// enum for Assciative left and right.
+        /// </summary>
         public enum Associative
         {
+            /// <summary>
+            /// retruns right
+            /// </summary>
             Right,
 
+            /// <summary>
+            /// returns left
+            /// </summary>
             Left,
-        };
+        }
 
-        /// <summary>
+       /// <summary>
         /// Gets an operator.
         /// </summary>
         public char Operator { get; }
@@ -53,7 +57,7 @@ namespace CptS321
         public ExpressionTreeNode Right { get; set; }
 
         /// <summary>
-        /// Gets or sets the precedence.
+        /// Gets the precedence.
         /// </summary>
         public abstract ushort Precedence { get; }
 
