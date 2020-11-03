@@ -138,7 +138,7 @@ namespace CptS321
             {
 
                 char sub = this.InFixExpression[i];
-                if (char.IsDigit(InFixExpression[i]))
+                if (char.IsDigit(this.InFixExpression[i]))
                 {
                     string digit = string.Empty;
                     while (char.IsDigit(sub) && i < this.InFixExpression.Length)
