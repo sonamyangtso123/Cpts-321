@@ -120,7 +120,7 @@ namespace CptS321
         /// </summary>
         /// <param name="op"> is an operator.</param>
         /// <returns> true if it is a operator node.</returns>
-        private bool IsOperator(char op)
+        public bool IsOperator(char op)
         {
             return OperatorNodeFactory.Variables.ContainsKey(op);
         }
@@ -204,7 +204,7 @@ namespace CptS321
                     // If the incoming symbol is an operator and has either higher precedence than the operator on the top of the stack,
                     //  or has the same precedence as the operator on the top of the stack and push it on the stack.
                     opStack.Push(sub.ToString());
-                    //output.Add(opStack.Pop());
+
                 }
                 else
                 {
