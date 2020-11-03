@@ -43,7 +43,7 @@ namespace CptS321
         /// <returns> retruns the calculated value. </returns>
         public override double Evaluate()
         {
-            return this.Left.Evaluate() * this.Right.Evaluate();
+            return this.Right .Evaluate() * this.Left.Evaluate();
         }
     }
 }

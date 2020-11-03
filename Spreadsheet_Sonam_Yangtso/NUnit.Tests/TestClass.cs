@@ -125,9 +125,9 @@ namespace NUnit.Tests
         [Test]
         public void TestMultiplicationEvaluateMethd()
         {
-            string expression = "10*3*2";
+            string expression = "10+3-2";
             ExpressionTree tree = new ExpressionTree(expression);
-            Assert.AreEqual("60", tree.Evaluate().ToString());
+            Assert.AreEqual("11", tree.Evaluate().ToString());
         }
 
         /// <summary>

@@ -7,6 +7,9 @@ namespace CptS321
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.Remoting.Messaging;
+    using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// This is a ExpressionTree class. This class converts an expression to a tree and does all the mathematical
@@ -98,15 +101,12 @@ namespace CptS321
                 }
 
                 // if the incoming item is an OperatorNode
-                else if (this.IsOperator(item[0]))
+                else if (this.IsOperator(char.Parse(item)))
                 {
-                    ExpressionTreeNode newNode = OperatorNodeFactory.CreateNewNode(item[0]);
+                    ExpressionTreeNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(item));
                     ((OperatorNode)newNode).Left = nodes.Pop();
                     ((OperatorNode)newNode).Right = nodes.Pop();
                     nodes.Push(newNode);
-                }
-                else
-                {
                 }
             }
 
@@ -125,22 +125,23 @@ namespace CptS321
             return OperatorNodeFactory.Variables.ContainsKey(op);
         }
 
-        /// <summary>
+        /// < summary >
         /// This method converts the user expression to a postfix expression.
-        ///
         /// </summary>
         /// <returns> a list of string . </returns>
         private List<string> ConvertToPostFix()
         {
+
             Stack<string> opStack = new Stack<string>();
             List<string> output = new List<string>();
             for (int i = 0; i < this.InFixExpression.Length; i++)
             {
+
                 char sub = this.InFixExpression[i];
-                if (char.IsDigit(sub))
+                if (char.IsDigit(InFixExpression[i]))
                 {
                     string digit = string.Empty;
-                    while (i < this.InFixExpression.Length && char.IsDigit(sub))
+                    while (char.IsDigit(sub) && i < this.InFixExpression.Length)
                     {
                         digit += sub;
                         i++;
@@ -188,10 +189,11 @@ namespace CptS321
                     // or has the same precedence as the operator on the top of the stack then pop it and add to output list.
                     while (opStack.Count > 0 && this.IsOperator(char.Parse(opStack.Peek())))
                     {
-                        OperatorNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
-                        if (newNode.Precedence >= currentNode.Precedence)
+                        OperatorNode stackNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
+                        if (currentNode.Precedence <= stackNode.Precedence)
                         {
                             output.Add(opStack.Pop());
+                            //opStack.Push(sub.ToString());
                         }
                         else
                         {
@@ -202,6 +204,7 @@ namespace CptS321
                     // If the incoming symbol is an operator and has either higher precedence than the operator on the top of the stack,
                     //  or has the same precedence as the operator on the top of the stack and push it on the stack.
                     opStack.Push(sub.ToString());
+                    //output.Add(opStack.Pop());
                 }
                 else
                 {
