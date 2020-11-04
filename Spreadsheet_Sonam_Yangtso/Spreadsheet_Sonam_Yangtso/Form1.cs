@@ -42,6 +42,9 @@ namespace CptS321
         /// <param name="e"> paramet.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.dataGridView1.Columns.Clear();
+            this.dataGridView1.Rows.Clear();
+
             for (int column = 065; column <= 090; column++)
             {
                 char character = (char)column;
@@ -79,7 +82,7 @@ namespace CptS321
         /// </summary>
         /// <param name="sender"> Cell.</param>
         /// <param name="e"> changed in the value.</param>
-        private void Button1_Click(object sender, EventArgs e)
+        private void RunDemo_Click(object sender, EventArgs e)
         {
             Random rand = new Random();
             for (int i = 0; i < 50; i++)
@@ -94,6 +97,28 @@ namespace CptS321
                 this.sheet.GetCell(j, 1).Text = "This.is cell B" + (j + 1).ToString();
                 this.sheet.GetCell(j, 0).Text = "=B" + (j + 1).ToString();
             }
+        }
+
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            // get the Text property of the cell and save it into msg.
+            // msg is the value that we want to the datagrid cell.
+            string msg = this.sheet.GetCell(e.RowIndex, e.ColumnIndex).Text;
+            if(msg.Length > 0 && msg[0] == '=' )
+            {
+                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = msg;
+            }
+
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string msg = this.sheet.GetCell(e.RowIndex, e.ColumnIndex).Value;
+            if (msg.Length > 0)
+            {
+                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = msg;
+            }
+
         }
     }
 }

@@ -17,6 +17,7 @@ namespace CptS321
     /// </summary>
     public class ExpressionTree
     {
+        private Dictionary<string, double> variables = new Dictionary<string, double>();
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// constructor that takes expression as an argument.
@@ -25,13 +26,16 @@ namespace CptS321
         public ExpressionTree(string expression)
         {
             this.InFixExpression = expression;
-            this.Variables = new Dictionary<string, double>();
+            //this.Variables = new Dictionary<string, double>();
         }
 
         /// <summary>
         /// Gets or sets the variable value pairs from the dictionary Variable.
         /// </summary>
-        public Dictionary<string, double> Variables { get; set; }
+        public Dictionary<string, double> Variables
+        {
+            get { return this.variables; }
+        }
 
         /// <summary>
         /// Gets or sets the user expression from ExpressionTree constructor.
@@ -120,7 +124,7 @@ namespace CptS321
         /// </summary>
         /// <param name="op"> is an operator.</param>
         /// <returns> true if it is a operator node.</returns>
-        public bool IsOperator(char op)
+        private bool IsOperator(char op)
         {
             return OperatorNodeFactory.Variables.ContainsKey(op);
         }
@@ -224,6 +228,9 @@ namespace CptS321
                     if (!this.Variables.ContainsKey(variableNameBuilder))
                     {
                         this.Variables.Add(variableNameBuilder, 0);
+                        //throw new Exception("varibale is not set");
+                        //i--;
+
                     }
 
                     i--;

@@ -1,6 +1,8 @@
 ﻿// <copyright file="Cell.cs" company="Sonam Yangtso">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
+/* Sonam Yangtso
+   11689463 */
 
 namespace CptS321
 {
