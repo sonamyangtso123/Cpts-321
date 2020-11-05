@@ -50,8 +50,22 @@ namespace CptS321
                 {
                     this.ArrayOfCells[i, j] = new SpreadsheetCell(i, j);
 
-                    this.ArrayOfCells[i, j].PropertyChanged += this.OnPropertyChanged;
+                    //this.ArrayOfCells[i, j].PropertyChanged += this.OnPropertyChanged;
                 }
+            }
+        }
+
+        public int NumberOfRows
+        {
+
+            get { return this.numberOfRows = this.ArrayOfCells.GetLength(0); }
+        }
+
+        public int NumberOfColumns
+        {
+            get
+            {
+                return this.numberOfColumns = this.ArrayOfCells.GetLength(1);
             }
         }
 
@@ -97,7 +111,7 @@ namespace CptS321
                 }
             }
 
-              // CellPropertyChanged(Cell, new PropertyChangedEventArgs("Text"));
+            // CellPropertyChanged(Cell, new PropertyChangedEventArgs("Text"));
             this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(e.PropertyName));
         }
 
@@ -116,5 +130,7 @@ namespace CptS321
         {
             get { return this.numberOfColumns; }
         }
+
+
     }
 }

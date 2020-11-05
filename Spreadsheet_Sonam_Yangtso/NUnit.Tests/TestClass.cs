@@ -92,9 +92,9 @@ namespace NUnit.Tests
         [Test]
         public void TestExpressionTreeWithPlusOperator()
         {
-            ExpressionTree tree = new ExpressionTree("10+0");
+            ExpressionTree tree = new ExpressionTree("1+2/3*6");
             double value = tree.Evaluate();
-            Assert.AreEqual("10", value.ToString());
+            Assert.AreEqual("5", value.ToString());
         }
 
       /// <summary>
@@ -206,7 +206,7 @@ namespace NUnit.Tests
         [Test]
         public void TestParenthesisPrecedence()
         {
-            ExpressionTree tree = new ExpressionTree("(((3-3))-((2+2)))+ 8");
+            ExpressionTree tree = new ExpressionTree("((3-3)-((2+2)))+ 8");
             Assert.AreEqual("4", tree.Evaluate().ToString());
         }
 
@@ -268,7 +268,7 @@ namespace NUnit.Tests
         public void TestForNewVaraible()
         {
             ExpressionTree tree = new ExpressionTree("x");
-            Assert.AreEqual("0", tree.Evaluate().ToString());
+            Assert.AreEqual("variable not set", tree.Evaluate().ToString());
         }
     }
 }

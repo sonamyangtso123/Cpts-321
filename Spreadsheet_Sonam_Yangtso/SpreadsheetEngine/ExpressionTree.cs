@@ -54,7 +54,11 @@ namespace CptS321
         /// <param name="variableValue"> value corresponding to variable name.</param>
         public void SetVariable(string variableName, double variableValue)
         {
-            this.Variables[variableName] = variableValue;
+            if (this.Variables.ContainsKey(variableName))
+            {
+                this.Variables[variableName] = variableValue;
+            }
+            
         }
 
         /// <summary>
@@ -227,8 +231,8 @@ namespace CptS321
 
                     if (!this.Variables.ContainsKey(variableNameBuilder))
                     {
-                        this.Variables.Add(variableNameBuilder, 0);
-                        //throw new Exception("varibale is not set");
+                        //this.Variables.Add(variableNameBuilder, 0);
+                        throw new ArgumentException("varibale is not set");
                         //i--;
 
                     }
@@ -246,6 +250,17 @@ namespace CptS321
 
             // return the output list in postfix form expression.
             return output;
+        }
+
+        public List<string> GetVariableNames()
+        {
+            List<string> keys = new List<string>();
+            foreach (string key in this.Variables.Keys)
+            {
+                keys.Add(key);
+            }
+
+            return keys;
         }
     }
 }

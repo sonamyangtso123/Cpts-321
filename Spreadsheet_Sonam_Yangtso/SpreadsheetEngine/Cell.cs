@@ -27,12 +27,12 @@ namespace CptS321
         /// <summary>
         /// This is a row number of the cell.
         /// </summary>
-        private readonly int rowIndex;
+        protected int rowIndex;
 
         /// <summary
         /// This is a column number of the cell
         /// </summary>
-        private readonly int columnIndex;
+        protected int columnIndex;
 
         /// <summary>
         /// This is text that is typed into a cell.
@@ -46,6 +46,11 @@ namespace CptS321
         /// </summary>
         protected string value = string.Empty;
 
+        public event PropertyChangedEventHandler DependancyChanged = delegate { };
+
+
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.
         /// </summary>
@@ -56,6 +61,9 @@ namespace CptS321
             this.rowIndex = rowIndex;
             this.columnIndex = columnIndex;
         }
+
+        
+
 
         /// <summary>
         /// gets the row number of the cell.
@@ -118,11 +126,38 @@ namespace CptS321
 
             internal set
             {
+                if(value == this.value)
+                {
+                    return;
+                }
                 this.value = value;
 
                 // notify anything that subscribes to this event that the “Value” property has changed.
                 this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
             }
         }
+
+        // From here changes Imade 
+        private void OnPropertyChanged(string passedInName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(passedInName));
+        }
+
+        public void SubscribeDependancy(ref Cell target)
+        {
+            target.PropertyChanged += new PropertyChangedEventHandler(this.DependancyChangedHandler);
+        }
+
+        public void UnsubscribeDependancy(ref Cell target)
+        {
+            target.PropertyChanged -= new PropertyChangedEventHandler(this.DependancyChangedHandler);
+        }
+
+        protected void DependancyChangedHandler(object sender, PropertyChangedEventArgs e)
+        {
+            this.DependancyChanged?.Invoke(this, e);
+        }
+
+        
     }
 }

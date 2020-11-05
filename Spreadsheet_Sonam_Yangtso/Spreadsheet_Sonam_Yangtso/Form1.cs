@@ -42,10 +42,10 @@ namespace CptS321
         /// <param name="e"> paramet.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.dataGridView1.Columns.Clear();
-            this.dataGridView1.Rows.Clear();
+            //this.dataGridView1.Columns.Clear();
+            //this.dataGridView1.Rows.Clear();
 
-            for (int column = 065; column <= 090; column++)
+            for (int column = 65; column < 91; column++)
             {
                 char character = (char)column;
                 this.dataGridView1.Columns.Add(character.ToString(), character.ToString());
@@ -53,7 +53,7 @@ namespace CptS321
 
             for (int row = 1; row <= 50; row++)
             {
-                this.dataGridView1.Rows.Add(row);
+                this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[row - 1].HeaderCell.Value = row.ToString();
             }
 
@@ -118,6 +118,11 @@ namespace CptS321
             {
                 this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = msg;
             }
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }
