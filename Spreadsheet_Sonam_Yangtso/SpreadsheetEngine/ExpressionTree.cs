@@ -18,6 +18,7 @@ namespace CptS321
     public class ExpressionTree
     {
         private Dictionary<string, double> variables = new Dictionary<string, double>();
+        public Cell parent;
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// constructor that takes expression as an argument.
@@ -58,7 +59,7 @@ namespace CptS321
             {
                 this.Variables[variableName] = variableValue;
             }
-            
+
         }
 
         /// <summary>
@@ -232,8 +233,8 @@ namespace CptS321
                     if (!this.Variables.ContainsKey(variableNameBuilder))
                     {
                         //this.Variables.Add(variableNameBuilder, 0);
-                        throw new ArgumentException("varibale is not set");
-                        //i--;
+                        throw new ArgumentException("variable is not set");
+                        
 
                     }
 
@@ -262,5 +263,52 @@ namespace CptS321
 
             return keys;
         }
+
+        public void SubscribeToCell(Cell cell)
+        {
+            cell.PropertyChanged += this.CellChanged;
+
+            if (this.variables.ContainsKey(cell.IndexName))
+            {
+                // sets the variable in the dict to the value of the cell if it is a double or 0 if it is not.
+                if (double.TryParse(cell.Value, out double num))
+                {
+                    this.variables[cell.IndexName] = num;
+                }
+                else
+                {
+                    this.variables[cell.IndexName] = 0.0;
+                }
+            }
+        }
+
+        
+        // This event fires when a cell that has been subscribed to has been changed.
+        private void CellChanged(object sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(SpreadsheetCell))
+            {
+                SpreadsheetCell cell = sender as SpreadsheetCell;
+
+                if (this.variables.ContainsKey(cell.IndexName))
+                {
+                    // sets the variable in the dict to the value of the cell if it is a double or 0 if it is not.
+                    if (double.TryParse(cell.Value, out double num))
+                    {
+                        this.variables[cell.IndexName] = num;
+                    }
+                    else
+                    {
+                        this.variables[cell.IndexName] = 0.0;
+                    }
+
+                    // The expression has changed so the value of the cell that this tree belongs to must also change.
+                    this.parent.Value = this.Evaluate().ToString();
+                }
+            }
+
+        }
+
+
     }
 }

@@ -58,7 +58,7 @@ namespace CptS321
             }
 
             // subscribe to the property changed event
-            this.sheet.CellPropertyChanged += this.OnCellPropertyChanged;
+            this.sheet.PropertyChanged += this.OnCellPropertyChanged;
         }
 
         /// <summary>

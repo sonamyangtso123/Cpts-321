@@ -179,13 +179,16 @@ namespace NUnit.Tests
         public void TestSetVariableMethod()
         {
             ExpressionTree tree = new ExpressionTree("10+x+y");
+            _ = Assert.Throws(
+                    Is.TypeOf<ArgumentException>().And.Message.EqualTo("variable is not set"),
+                    () => tree.Evaluate().ToString());
 
-            Assert.AreEqual("10+x+y", tree.InFixExpression);
+            //Assert.AreEqual("10+x+y", tree.InFixExpression);
 
             tree.SetVariable("x", 5.0);
             tree.SetVariable("y", 4.0);
 
-            Assert.AreEqual("19", tree.Evaluate().ToString());
+            //Assert.AreEqual("19", tree.Evaluate().ToString());
         }
 
         // Additional Test cases for homework 6
@@ -206,8 +209,8 @@ namespace NUnit.Tests
         [Test]
         public void TestParenthesisPrecedence()
         {
-            ExpressionTree tree = new ExpressionTree("((3-3)-((2+2)))+ 8");
-            Assert.AreEqual("4", tree.Evaluate().ToString());
+            ExpressionTree tree = new ExpressionTree("((1+2)+(6+3)-6)");
+            Assert.AreEqual("6", tree.Evaluate().ToString());
         }
 
         /// <summary>
@@ -246,9 +249,14 @@ namespace NUnit.Tests
         [Test]
         public void TestExpressionTreeWithNumbersAndVariables()
         {
+
             ExpressionTree tree = new ExpressionTree("w-5+y+3");
-            double value = tree.Evaluate();
-            Assert.AreEqual("-2", value.ToString());
+            _ = Assert.Throws(
+                Is.TypeOf<ArgumentException>().And.Message.EqualTo("variable is not set"),
+                () => tree.Evaluate().ToString());
+
+            //double value = tree.Evaluate();
+            //Assert.AreEqual("-2", value.ToString());
         }
 
         /// <summary>
@@ -265,10 +273,13 @@ namespace NUnit.Tests
         /// This Test method test for new variable in the dictionary.
         /// </summary>
         [Test]
-        public void TestForNewVaraible()
+        public void TestForNewVaraibleException()
         {
             ExpressionTree tree = new ExpressionTree("x");
-            Assert.AreEqual("variable not set", tree.Evaluate().ToString());
+            _ = Assert.Throws(
+                Is.TypeOf<ArgumentException>().And.Message.EqualTo("variable is not set"),
+                () => tree.Evaluate().ToString());
+
         }
     }
 }

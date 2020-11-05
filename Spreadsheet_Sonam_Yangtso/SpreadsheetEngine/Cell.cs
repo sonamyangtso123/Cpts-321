@@ -27,12 +27,12 @@ namespace CptS321
         /// <summary>
         /// This is a row number of the cell.
         /// </summary>
-        protected int rowIndex;
+        //protected int rowIndex;
 
         /// <summary
         /// This is a column number of the cell
         /// </summary>
-        protected int columnIndex;
+       // protected int columnIndex;
 
         /// <summary>
         /// This is text that is typed into a cell.
@@ -46,8 +46,12 @@ namespace CptS321
         /// </summary>
         protected string value = string.Empty;
 
-        public event PropertyChangedEventHandler DependancyChanged = delegate { };
+        protected ExpressionTree tree;
 
+        private Dictionary<int, string> location = new Dictionary<int, string>();
+
+        // The list of all of the variable names in which the cell references.
+        public Dictionary<string, double> varNames = new Dictionary<string, double>();
 
 
 
@@ -58,11 +62,26 @@ namespace CptS321
         /// <param name="columnIndex"> Column number of the cell.</param>
         public Cell(int rowIndex, int columnIndex)
         {
-            this.rowIndex = rowIndex;
-            this.columnIndex = columnIndex;
+            this.RowIndex = rowIndex;
+            this.ColumnIndex = columnIndex;
+
+            int k = 0;
+            for (int i = 65; i < 91; i++)
+            {
+                this.location.Add(k, ((char)i).ToString());
+                ++k;
+            }
+
         }
 
-        
+        public string IndexName
+        {
+            get
+            {
+                return this.location[this.ColumnIndex].ToString() + (this.RowIndex + 1).ToString();
+            }
+        }
+
 
 
         /// <summary>
@@ -70,7 +89,7 @@ namespace CptS321
         /// </summary>
         public int RowIndex
         {
-            get { return this.rowIndex; }
+            get; 
         }
 
         /// <summary>
@@ -78,11 +97,9 @@ namespace CptS321
         /// </summary>
         public int ColumnIndex
         {
-            get
-            {
-                return this.columnIndex;
+            get;
             }
-        }
+            
 
         /// /// <summary>
         /// Gets or sets the changes that happens in text of the cell.
@@ -143,21 +160,28 @@ namespace CptS321
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(passedInName));
         }
 
-        public void SubscribeDependancy(ref Cell target)
+        public void SubExpTreeToCell(Cell cell)
         {
-            target.PropertyChanged += new PropertyChangedEventHandler(this.DependancyChangedHandler);
+            this.tree.SubscribeToCell(cell);
         }
 
-        public void UnsubscribeDependancy(ref Cell target)
+        // creates a new expression tree for the cell.
+        public void NewExpression(string exp)
         {
-            target.PropertyChanged -= new PropertyChangedEventHandler(this.DependancyChangedHandler);
+            this.tree = new ExpressionTree(exp);
+            this.varNames = this.tree.Variables;
+            this.tree.parent = this;
         }
 
-        protected void DependancyChangedHandler(object sender, PropertyChangedEventArgs e)
+        // computes the expression tree for the cell.
+        public string ComputeExpression()
         {
-            this.DependancyChanged?.Invoke(this, e);
+            return this.tree.Evaluate().ToString();
         }
 
-        
+
+
+
+
     }
 }
