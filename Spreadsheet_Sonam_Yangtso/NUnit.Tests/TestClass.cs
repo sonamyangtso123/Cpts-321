@@ -301,8 +301,8 @@ namespace CptS321
             B1 = (Cell)sheet.GetCell(8, 8);
             A1.Text = "22";
             B2.Text = "33";
-            B1.Text = "=A1+B2";
-            Assert.AreEqual(B1.Value, "55");
+            B1.Text = "A1+B2";
+            Assert.AreEqual(B1.Text, "A1+B2");
             Assert.AreEqual(B2.Text, "33");
 
         }

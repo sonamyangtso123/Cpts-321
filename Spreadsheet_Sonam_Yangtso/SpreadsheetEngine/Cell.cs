@@ -27,7 +27,7 @@ namespace CptS321
         /// <summary>
         /// This is a row number of the cell.
         /// </summary>
-        protected int rowIndex;
+        private int rowIndex;
 
         /// <summary
         /// This is a column number of the cell
