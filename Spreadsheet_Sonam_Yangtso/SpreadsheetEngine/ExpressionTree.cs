@@ -17,8 +17,10 @@ namespace CptS321
     /// </summary>
     public class ExpressionTree
     {
+
         private Dictionary<string, double> variables = new Dictionary<string, double>();
-        public Cell parent;
+        //private readonly OperatorNodeFactory operatorFactor = new OperatorNodeFactory();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// constructor that takes expression as an argument.
@@ -27,7 +29,8 @@ namespace CptS321
         public ExpressionTree(string expression)
         {
             this.InFixExpression = expression;
-            //this.Variables = new Dictionary<string, double>();
+            
+            this.Root = this.BuildExpressionTree(expression);
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace CptS321
         /// </summary>
         public Dictionary<string, double> Variables
         {
-            get { return this.variables; }
+            get {return this.variables; }
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace CptS321
         /// <summary>
         /// Gets or sets the root .
         /// </summary>
-        public OperatorNode Root { get; set; }
+        public ExpressionTreeNode Root { get; set; }
 
         /// <summary>
         /// this method set a value to a varibale in the Variable dictionary.
@@ -55,12 +58,9 @@ namespace CptS321
         /// <param name="variableValue"> value corresponding to variable name.</param>
         public void SetVariable(string variableName, double variableValue)
         {
-            if (this.Variables.ContainsKey(variableName))
-            {
-                this.Variables[variableName] = variableValue;
-            }
-
+            this.Variables[variableName] = variableValue;
         }
+
 
         /// <summary>
         ///  This method evaluate the given expression by first converting the expression to a postfix expression
@@ -69,12 +69,11 @@ namespace CptS321
         /// <returns> the evaluated value or 0.0  if Root is null.</returns>
         public double Evaluate()
         {
-            this.BuildExpressionTree();
 
             if (this.Root != null)
             {
-                OperatorNode root = this.Root;
-                return root.Evaluate();
+                ExpressionTreeNode root = this.Root;
+                return root.Evaluate(ref this.variables);
             }
 
             // if the root is empty.
@@ -85,43 +84,219 @@ namespace CptS321
         /// This method calls ConvertToPostFix method which converts the user expression into an postfix
         /// expression and then builds an expression tree.
         /// </summary>
-        private void BuildExpressionTree()
+
+        private ExpressionTreeNode BuildExpressionTree(string expression)
         {
-            Stack<ExpressionTreeNode> nodes = new Stack<ExpressionTreeNode>();
-
-            // calls ConvertToPostFix method
-            List<string> postFix = this.ConvertToPostFix();
-
-            // iterate each element in postFix
-            foreach (string item in postFix)
+            // Check whether given expression is null.
+            if (string.IsNullOrEmpty(expression))
             {
-                // If the item is a constant then call the constant node.
-                if (double.TryParse(item, out double result))
+                return null;
+            }
+            else
+            {
+                // Send the expression to evaluate as infix to postfix convert function.
+                List<ExpressionTreeNode> postfixNodes = this.ConvertToPostfix(expression);
+                Stack<ExpressionTreeNode> operandStack = new Stack<ExpressionTreeNode>();
+                foreach (ExpressionTreeNode tempNode in postfixNodes)
                 {
-                    ExpressionTreeNode newNode = new ConstantNode(result);
-                    nodes.Push(newNode);
+                    if (tempNode is ConstantNode)
+                    {
+                        operandStack.Push(tempNode);
+                    }
+                    else if (tempNode is VariableNode)
+                    {
+                        operandStack.Push(tempNode);
+                        this.variables.Add(((VariableNode)tempNode).Name, 0); // Variable values set to 0 by default
+                    }
+                    else
+                    {
+                        ((OperatorNode)tempNode).Right = operandStack.Pop();
+                        ((OperatorNode)tempNode).Left = operandStack.Pop();
+                        operandStack.Push(tempNode);
+                    }
                 }
 
-                // Check whether item is a variable.
-                else if (this.Variables.Keys.Contains(item))
+                return operandStack.Pop();
+            }
+        }
+
+        /// < summary >
+        /// This method converts the user expression to a postfix expression.
+        /// </summary>
+        /// <returns> a list of string . </returns>
+
+        private List<ExpressionTreeNode> ConvertToPostfix(string expression)
+        {
+            List<ExpressionTreeNode> postfixResult = new List<ExpressionTreeNode>();
+            Stack<ExpressionTreeNode> operatorStack = new Stack<ExpressionTreeNode>();
+            ExpressionTreeNode tempNode;
+            int i = 0;
+            string tempName = string.Empty;
+
+            // Check for a negative as the first symbol
+            if (expression[i] == '-')
+            {
+                tempName += '-';
+                i++;
+            }
+
+            // Separate expression into constant nodes, variable nodes, and operatornodes
+            while (i < expression.Length)
+            {
+                while (i < expression.Length && !this.IsOperator(expression[i]))
                 {
-                    ExpressionTreeNode newNode = new VariableNode(item, this.Variables[item]);
-                    nodes.Push(newNode);
+                    tempName += expression[i];
+                    i++;
                 }
 
-                // if the incoming item is an OperatorNode
-                else if (this.IsOperator(char.Parse(item)))
+                if (tempName == string.Empty)
                 {
-                    ExpressionTreeNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(item));
-                    ((OperatorNode)newNode).Left = nodes.Pop();
-                    ((OperatorNode)newNode).Right = nodes.Pop();
-                    nodes.Push(newNode);
+                    if (i < expression.Length)
+                    {
+                        tempName = expression[i].ToString();    // next operator
+                    }
+                }
+
+                tempNode = this.CreateNode(tempName);
+                if (tempNode is VariableNode || tempNode is ConstantNode)
+                {
+                    postfixResult.Add(tempNode);
+                    tempName = string.Empty;
+                }
+                else if (tempNode is OperatorNode)
+                {
+                    if (tempNode is LeftParentheses)
+                    {
+                        operatorStack.Push(tempNode);
+                        tempName = string.Empty;
+                        i++;
+                    }
+                    else if (tempNode is RightParentheses)
+                    {
+                        while (!(operatorStack.Peek() is LeftParentheses))
+                        {
+                            postfixResult.Add(operatorStack.Pop());
+                        }
+
+                        operatorStack.Pop();
+                        tempName = string.Empty;
+                        i++;
+                    }
+                    else
+                    {
+                        // Check the precedence of operators.
+                        while (operatorStack.Count > 0 && ((OperatorNode)tempNode).Precedence <= ((OperatorNode)operatorStack.Peek()).Precedence)
+                        {
+                            postfixResult.Add(operatorStack.Pop());
+                        }
+
+                        operatorStack.Push(tempNode);
+                        tempName = string.Empty;
+                        i++;
+
+                        if (expression[i] == '-')
+                        {
+                            tempName += '-';
+                            i++;
+                        }
+                    }
                 }
             }
 
-            // save each node to Root.
-            this.Root = nodes.Pop() as OperatorNode;
+            while (operatorStack.Count > 0)
+            {
+                postfixResult.Add(operatorStack.Pop());
+            }
+
+            return postfixResult;
         }
+
+        private ExpressionTreeNode CreateNode(string name)
+        {
+            int value;
+
+            if ((name[0] >= 48 && name[0] <= 57) || (name.Length > 1 && name[0] == '-'))
+            {
+                /* First character is a number: Constant Node */
+                if (int.TryParse(name, out value))
+                {
+                    return new ConstantNode(value);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else if (name.Length == 1 && this.IsOperator(name[0]))
+            {
+                /* Operator Node */
+                return OperatorNodeFactory.CreateNewNode(name[0]);
+            }
+            else
+            {
+                /* Variable Node */
+                return new VariableNode(name);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// This method calls ConvertToPostFix method which converts the user expression into an postfix
+        /// expression and then builds an expression tree.
+        /// </summary>
+        //private void BuildExpressionTree()
+        //{
+        //    Stack<ExpressionTreeNode> nodes = new Stack<ExpressionTreeNode>();
+
+        //    // calls ConvertToPostFix method
+        //    List<string> postFix = this.ConvertToPostFix();
+
+        //    // iterate each element in postFix
+        //    foreach (string item in postFix)
+        //    {
+        // If the item is a constant then call the constant node.
+        //        if (double.TryParse(item, out double result))
+        //        {
+        //            ExpressionTreeNode newNode = new ConstantNode(result);
+        //            nodes.Push(newNode);
+        //        }
+
+        //        // Check whether item is a variable.
+        //        else if (this.Variables.Keys.Contains(item))
+        //        {
+        //            ExpressionTreeNode newNode = new VariableNode(item, this.Variables[item]);
+        //            nodes.Push(newNode);
+        //        }
+
+        //        // if the incoming item is an OperatorNode
+        //        else if (this.IsOperator(char.Parse(item)))
+        //        {
+        //            ExpressionTreeNode newNode = OperatorNodeFactory.CreateNewNode(char.Parse(item));
+        //            ((OperatorNode)newNode).Left = nodes.Pop();
+        //            ((OperatorNode)newNode).Right = nodes.Pop();
+        //            nodes.Push(newNode);
+        //        }
+        //    }
+
+        //    // save each node to Root.
+        //    this.Root = nodes.Pop() as OperatorNode;
+        //}
 
         /// <summary>
         /// This method checks the incoming character is an operator node present in the dictionary Variables in
@@ -138,177 +313,134 @@ namespace CptS321
         /// This method converts the user expression to a postfix expression.
         /// </summary>
         /// <returns> a list of string . </returns>
-        private List<string> ConvertToPostFix()
+        //private List<string> ConvertToPostFix()
+        //{
+
+        //    Stack<string> opStack = new Stack<string>();
+        //    List<string> output = new List<string>();
+        //    for (int i = 0; i < this.InFixExpression.Length; i++)
+        //    {
+
+        //        char sub = this.InFixExpression[i];
+        //        if (char.IsDigit(this.InFixExpression[i]))
+        //        {
+        //            string digit = string.Empty;
+        //            while (char.IsDigit(sub) && i < this.InFixExpression.Length)
+        //            {
+        //                digit += sub;
+        //                i++;
+        //                if (i < this.InFixExpression.Length)
+        //                {
+        //                    sub = this.InFixExpression[i];
+        //                }
+        //            }
+
+        //            output.Add(digit + " ");
+        //            i--;
+        //        }
+
+        //        // 2. If the incoming symbol is a left parentheses, push it on the stack.
+        //        else if (sub == '(')
+        //        {
+        //            opStack.Push(sub.ToString());
+        //        }
+
+        //        // 3. If the incoming symbol is a right parenthesis: discard the right parenthesis,
+        //        //    pop and print the stack symbols until you see a left parenthesis.
+        //        //    Pop the left parenthesis and discard it.
+        //        else if (sub == ')')
+        //        {
+        //            string operand = opStack.Pop();
+        //            while (opStack.Count > 0 && (operand != "("))
+        //            {
+        //                output.Add(operand);
+        //                operand = opStack.Pop();
+        //            }
+
+        //            // if you don't see a left parenthesis that pairs for right parenthesis
+        //            if (operand != "(")
+        //            {
+        //                throw new ArgumentException("No matching left parenthesis.");
+        //            }
+        //        }
+
+        //        // If the incoming symbol is an operator
+        //        else if (this.IsOperator(sub))
+        //        {
+        //            OperatorNode currentNode = OperatorNodeFactory.CreateNewNode(sub);
+
+        //            // If the incoming symbol is an operator and has either lower precedence than the operator on the top of the stack,
+        //            // or has the same precedence as the operator on the top of the stack then pop it and add to output list.
+        //            while (opStack.Count > 0 && this.IsOperator(char.Parse(opStack.Peek())))
+        //            {
+        //                OperatorNode stackNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
+        //                if (currentNode.Precedence <= stackNode.Precedence)
+        //                {
+        //                    output.Add(opStack.Pop());
+        //                }
+        //                else
+        //                {
+        //                    break;
+        //                }
+        //            }
+
+        //            // If the incoming symbol is an operator and has either higher precedence than the operator on the top of the stack,
+        //            //  or has the same precedence as the operator on the top of the stack and push it on the stack.
+        //            opStack.Push(sub.ToString());
+
+        //        }
+        //        else
+        //        {
+        //            string variableNameBuilder = string.Empty;
+        //            while (!OperatorNodeFactory.Variables.ContainsKey(sub) && i < this.InFixExpression.Length)
+        //            {
+        //                variableNameBuilder += sub;
+        //                i++;
+        //                if (i < this.InFixExpression.Length)
+        //                {
+        //                    sub = this.InFixExpression[i];
+        //                }
+        //            }
+
+        //            output.Add(variableNameBuilder);
+
+        //            if (!this.Variables.ContainsKey(variableNameBuilder))
+        //            {
+        //                //this.Variables.Add(variableNameBuilder, 0);
+        //                throw new ArgumentException("variable is not set");
+        //            }
+
+        //            i--;
+        //        }
+        //    }
+
+        //    // pop out all the operators in opStack stack and add to output list untill the stack get empty.
+        //    while (opStack.Count > 0)
+        //    {
+        //        var top = opStack.Pop();
+        //        output.Add(top);
+        //    }
+
+        //    // return the output list in postfix form expression.
+        //    return output;
+        //}
+
+        /// <summary>
+        /// This method gets all the variableName from the dictionary Variables and save in a list.
+        /// </summary>
+        /// <returns> a list of variableNaame.</returns>
+        public List<string> GetVariableName()
         {
-
-            Stack<string> opStack = new Stack<string>();
-            List<string> output = new List<string>();
-            for (int i = 0; i < this.InFixExpression.Length; i++)
+            List<string> variableName = new List<string>();
+            foreach (string name in this.Variables.Keys)
             {
-
-                char sub = this.InFixExpression[i];
-                if (char.IsDigit(this.InFixExpression[i]))
-                {
-                    string digit = string.Empty;
-                    while (char.IsDigit(sub) && i < this.InFixExpression.Length)
-                    {
-                        digit += sub;
-                        i++;
-                        if (i < this.InFixExpression.Length)
-                        {
-                            sub = this.InFixExpression[i];
-                        }
-                    }
-
-                    output.Add(digit + " ");
-                    i--;
-                }
-
-                // 2. If the incoming symbol is a left parentheses, push it on the stack.
-                else if (sub == '(')
-                {
-                    opStack.Push(sub.ToString());
-                }
-
-                // 3. If the incoming symbol is a right parenthesis: discard the right parenthesis,
-                //    pop and print the stack symbols until you see a left parenthesis.
-                //    Pop the left parenthesis and discard it.
-                else if (sub == ')')
-                {
-                    string operand = opStack.Pop();
-                    while (opStack.Count > 0 && (operand != "("))
-                    {
-                        output.Add(operand);
-                        operand = opStack.Pop();
-                    }
-
-                    // if you don't see a left parenthesis that pairs for right parenthesis
-                    if (operand != "(")
-                    {
-                        throw new ArgumentException("No matching left parenthesis.");
-                    }
-                }
-
-                // If the incoming symbol is an operator
-                else if (this.IsOperator(sub))
-                {
-                    OperatorNode currentNode = OperatorNodeFactory.CreateNewNode(sub);
-
-                    // If the incoming symbol is an operator and has either lower precedence than the operator on the top of the stack,
-                    // or has the same precedence as the operator on the top of the stack then pop it and add to output list.
-                    while (opStack.Count > 0 && this.IsOperator(char.Parse(opStack.Peek())))
-                    {
-                        OperatorNode stackNode = OperatorNodeFactory.CreateNewNode(char.Parse(opStack.Peek()));
-                        if (currentNode.Precedence <= stackNode.Precedence)
-                        {
-                            output.Add(opStack.Pop());
-                            //opStack.Push(sub.ToString());
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    // If the incoming symbol is an operator and has either higher precedence than the operator on the top of the stack,
-                    //  or has the same precedence as the operator on the top of the stack and push it on the stack.
-                    opStack.Push(sub.ToString());
-
-                }
-                else
-                {
-                    string variableNameBuilder = string.Empty;
-                    while (!OperatorNodeFactory.Variables.ContainsKey(sub) && i < this.InFixExpression.Length)
-                    {
-                        variableNameBuilder += sub;
-                        i++;
-                        if (i < this.InFixExpression.Length)
-                        {
-                            sub = this.InFixExpression[i];
-                        }
-                    }
-
-                    output.Add(variableNameBuilder);
-
-                    if (!this.Variables.ContainsKey(variableNameBuilder))
-                    {
-                        //this.Variables.Add(variableNameBuilder, 0);
-                        throw new ArgumentException("variable is not set");
-                        
-
-                    }
-
-                    i--;
-                }
+                variableName.Add(name);
             }
 
-            // pop out all the operators in opStack stack and add to output list untill the stack get empty.
-            while (opStack.Count > 0)
-            {
-                var top = opStack.Pop();
-                output.Add(top);
-            }
-
-            // return the output list in postfix form expression.
-            return output;
+            return variableName;
         }
-
-        public List<string> GetVariableNames()
-        {
-            List<string> keys = new List<string>();
-            foreach (string key in this.Variables.Keys)
-            {
-                keys.Add(key);
-            }
-
-            return keys;
-        }
-
-        public void SubscribeToCell(Cell cell)
-        {
-            cell.PropertyChanged += this.CellChanged;
-
-            if (this.variables.ContainsKey(cell.IndexName))
-            {
-                // sets the variable in the dict to the value of the cell if it is a double or 0 if it is not.
-                if (double.TryParse(cell.Value, out double num))
-                {
-                    this.variables[cell.IndexName] = num;
-                }
-                else
-                {
-                    this.variables[cell.IndexName] = 0.0;
-                }
-            }
-        }
-
-        
-        // This event fires when a cell that has been subscribed to has been changed.
-        private void CellChanged(object sender, EventArgs e)
-        {
-            if (sender.GetType() == typeof(SpreadsheetCell))
-            {
-                SpreadsheetCell cell = sender as SpreadsheetCell;
-
-                if (this.variables.ContainsKey(cell.IndexName))
-                {
-                    // sets the variable in the dict to the value of the cell if it is a double or 0 if it is not.
-                    if (double.TryParse(cell.Value, out double num))
-                    {
-                        this.variables[cell.IndexName] = num;
-                    }
-                    else
-                    {
-                        this.variables[cell.IndexName] = 0.0;
-                    }
-
-                    // The expression has changed so the value of the cell that this tree belongs to must also change.
-                    this.parent.Value = this.Evaluate().ToString();
-                }
-            }
-
-        }
-
 
     }
+
+
 }

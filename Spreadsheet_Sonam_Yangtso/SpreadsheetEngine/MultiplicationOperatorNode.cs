@@ -41,9 +41,9 @@ namespace CptS321
         /// This is an override method for Evaluation.
         /// </summary>
         /// <returns> retruns the calculated value. </returns>
-        public override double Evaluate()
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Right .Evaluate() * this.Left.Evaluate();
+            return this.Right .Evaluate(ref variables) * this.Left.Evaluate(ref variables);
         }
     }
 }

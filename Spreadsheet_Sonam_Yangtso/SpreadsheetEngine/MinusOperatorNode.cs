@@ -39,9 +39,9 @@ namespace CptS321
         /// It is a evaluate method.
         /// </summary>
         /// <returns> gets the calculated value. </returns>
-        public override double Evaluate()
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Right.Evaluate() - this.Left.Evaluate();
+            return this.Left.Evaluate(ref variables) - this.Right.Evaluate(ref variables);
         }
     }
 }

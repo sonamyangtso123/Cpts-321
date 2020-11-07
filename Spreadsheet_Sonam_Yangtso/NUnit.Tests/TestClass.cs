@@ -2,14 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using CptS321;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System;
 
 namespace NUnit.Tests
 {
@@ -47,7 +41,7 @@ namespace NUnit.Tests
         public void TestSpreadsheetRowCount()
         {
             this.sheet = new Spreadsheet(8, 3);
-            Assert.That(this.sheet.RowCount, Is.EqualTo(8));
+            Assert.That(this.sheet.NumberOfRows, Is.EqualTo(8));
         }
 
         /// <summary>
@@ -58,7 +52,7 @@ namespace NUnit.Tests
         public void TestSpreadsheetColumnCount()
         {
             this.sheet = new Spreadsheet(3, 5);
-            Assert.That(this.sheet.ColumnCount, Is.EqualTo(5));
+            Assert.That(this.sheet.NumberOfColumns, Is.EqualTo(5));
         }
 
         /// <summary>
@@ -176,19 +170,20 @@ namespace NUnit.Tests
         /// test the setVaraible method.
         /// </summary>
         [Test]
-        public void TestSetVariableMethod()
+        public void TestSetVariableMethodException()
         {
             ExpressionTree tree = new ExpressionTree("10+x+y");
-            _ = Assert.Throws(
-                    Is.TypeOf<ArgumentException>().And.Message.EqualTo("variable is not set"),
-                    () => tree.Evaluate().ToString());
+            Assert.AreEqual("10",tree.Evaluate().ToString());
+        }
 
-            //Assert.AreEqual("10+x+y", tree.InFixExpression);
-
+        [Test]
+        public void SetVariableMethod()
+        {
+            ExpressionTree tree = new ExpressionTree("x+y");
             tree.SetVariable("x", 5.0);
             tree.SetVariable("y", 4.0);
 
-            //Assert.AreEqual("19", tree.Evaluate().ToString());
+            Assert.AreEqual("9", tree.Evaluate().ToString());
         }
 
         // Additional Test cases for homework 6
@@ -251,12 +246,8 @@ namespace NUnit.Tests
         {
 
             ExpressionTree tree = new ExpressionTree("w-5+y+3");
-            _ = Assert.Throws(
-                Is.TypeOf<ArgumentException>().And.Message.EqualTo("variable is not set"),
-                () => tree.Evaluate().ToString());
+            Assert.AreEqual("-2",  tree.Evaluate().ToString());
 
-            //double value = tree.Evaluate();
-            //Assert.AreEqual("-2", value.ToString());
         }
 
         /// <summary>
@@ -276,9 +267,8 @@ namespace NUnit.Tests
         public void TestForNewVaraibleException()
         {
             ExpressionTree tree = new ExpressionTree("x");
-            _ = Assert.Throws(
-                Is.TypeOf<ArgumentException>().And.Message.EqualTo("variable is not set"),
-                () => tree.Evaluate().ToString());
+
+            Assert.AreEqual("0", tree.Evaluate().ToString());
 
         }
     }

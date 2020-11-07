@@ -15,10 +15,10 @@ namespace CptS321
         /// <summary>
         /// Initializes a new instance of the <see cref="SpreadsheetCell"/> class.
         /// </summary>
-        /// <param name="rowIndex">it is a row number of the cell. </param>
-        /// <param name="columnIndex">It is a column number of the cell.</param>
-        public SpreadsheetCell(int rowIndex, int columnIndex)
-            : base(rowIndex, columnIndex)
+        /// <param name="row">it is a row number of the cell. </param>
+        /// <param name="column">It is a column number of the cell.</param>
+        public SpreadsheetCell(int row, int column)
+            : base(row, column)
         {
         }
     }

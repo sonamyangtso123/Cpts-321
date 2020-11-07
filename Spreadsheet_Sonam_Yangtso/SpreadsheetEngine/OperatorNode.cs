@@ -67,6 +67,6 @@ namespace CptS321
         /// <returns>
         /// double value after evaluation.
         /// </returns>
-        public abstract override double Evaluate();
+        public abstract override double Evaluate(ref Dictionary<string, double> variables);
     }
 }

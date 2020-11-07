@@ -39,9 +39,12 @@ namespace CptS321
         /// This is an override method that returns the evaluated value.
         /// </summary>
         /// <returns> caluated value. </returns>
-        public override double Evaluate()
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Right.Evaluate() / this.Left.Evaluate();
+            
+                return this.Left.Evaluate(ref variables) / this.Right.Evaluate(ref variables);
+           
+
         }
     }
 }

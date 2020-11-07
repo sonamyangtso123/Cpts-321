@@ -16,16 +16,21 @@ namespace CptS321
     /// </summary>
     public class VariableNode : ExpressionTreeNode
     {
+        public VariableNode(string name)
+        {
+            Name = name;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
         /// </summary>
         /// <param name="item"> variable name. </param>
         /// <param name="value">value corresponding to varibale name. </param>
-        public VariableNode(string item, double value)
-        {
-            this.Name = item;
-            this.Value = value;
-        }
+        //public VariableNode(string item, double value)
+        //{
+        //    this.Name = item;
+        //    this.Value = value;
+        //}
 
         /// <summary>
         /// Gets or sets get and set the varible name.
@@ -38,19 +43,21 @@ namespace CptS321
         /// <summary>
         /// Gets or sets get and set the varible value.
         /// </summary>
-        public double Value
-        {
-            get; set;
-        }
+        //public double Value
+        //{
+        //    get; set;
+        //}
 
         /// <summary>
         ///  This is an override Evaluate method.
         ///  This method returns the value of the corresponding varible name.
         /// </summary>
         /// <returns> value of the varibel name.</returns>
-        public override double Evaluate()
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Value;
+            return variables[this.Name];
         }
     }
 }
+
+

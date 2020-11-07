@@ -21,7 +21,8 @@ namespace CptS321
     public partial class Form1 : Form
     {
         private Spreadsheet sheet;
-
+        private readonly DataGridView dataGridView11;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
         /// Initialze a spreadsheet oject in form's constructor with 50 rows and 26 colums.
@@ -32,8 +33,11 @@ namespace CptS321
 
             // Initialize a Spreadsheet object with 50rows and 26 columns.
             this.sheet = new Spreadsheet(50, 26);
+            // subscribe to the property changed event
+            
+            
         }
-
+        
         /// <summary>
         /// This methods created a Spreadsheet with 50 rows and 26 columns.
         /// Subscribe to the spreadsheet's CellPropertyChangedEvent.
@@ -42,8 +46,7 @@ namespace CptS321
         /// <param name="e"> paramet.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            //this.dataGridView1.Columns.Clear();
-            //this.dataGridView1.Rows.Clear();
+
 
             for (int column = 65; column < 91; column++)
             {
@@ -56,11 +59,9 @@ namespace CptS321
                 this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[row - 1].HeaderCell.Value = row.ToString();
             }
+            this.sheet.CellPropertyChanged += new PropertyChangedEventHandler(this.OnCellPropertyChanged);
 
-            // subscribe to the property changed event
-            this.sheet.PropertyChanged += this.OnCellPropertyChanged;
         }
-
         /// <summary>
         /// This method implements when a cell's Value changes it gets updates in the DataGridView.
         /// </summary>
@@ -70,33 +71,13 @@ namespace CptS321
         {
             SpreadsheetCell updateCell = sender as SpreadsheetCell;
 
-            if (e.PropertyName == "Value")
+            if (e.PropertyName == "value")
             {
                 // Modify the value in the ColumnIndex cell of the RowIndex row.
                 this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Value = updateCell.Value;
             }
-        }
 
-        /// <summary>
-        /// this is demo method.
-        /// </summary>
-        /// <param name="sender"> Cell.</param>
-        /// <param name="e"> changed in the value.</param>
-        private void RunDemo_Click(object sender, EventArgs e)
-        {
-            Random rand = new Random();
-            for (int i = 0; i < 50; i++)
-            {
-                int randRow = rand.Next(50);
-                int randColumn = rand.Next(26);
-                this.sheet.GetCell(randRow, randColumn).Text = "Cpts321";
-            }
 
-            for (int j = 0; j < 50; j++)
-            {
-                this.sheet.GetCell(j, 1).Text = "This.is cell B" + (j + 1).ToString();
-                this.sheet.GetCell(j, 0).Text = "=B" + (j + 1).ToString();
-            }
         }
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -104,26 +85,21 @@ namespace CptS321
             // get the Text property of the cell and save it into msg.
             // msg is the value that we want to the datagrid cell.
             string msg = this.sheet.GetCell(e.RowIndex, e.ColumnIndex).Text;
-            if(msg.Length > 0 && msg[0] == '=' )
+
+            if (msg.Length > 0 && msg[0] == '=')
             {
                 this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = msg;
             }
+
 
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string msg = this.sheet.GetCell(e.RowIndex, e.ColumnIndex).Value;
-            if (msg.Length > 0)
-            {
-                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = msg;
-            }
+            this.sheet.CellTextChanged(e.RowIndex, e.ColumnIndex, (string)this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        
     }
 }

@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
+    <Compile Include="RightParenthesis.cs" />
+    <Compile Include="LeftParentheses.cs" />
     <Compile Include="OperatorNodeFactory.cs" />
     <Compile Include="DivisionOperatorNode.cs" />
     <Compile Include="MultiplicationOperatorNode.cs" />
