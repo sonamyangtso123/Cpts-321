@@ -45,7 +45,7 @@ namespace CptS321
             {
                 for (int j = 0; j < this.NumberOfColumns; j++)
                 {
-                    //this.ArrayOfCells[i, j] = new SpreadsheetCell(i, j);
+                    
                     Cell cell = new SpreadsheetCell(i, j);
                     cell.PropertyChanged += this.SpreadsheetPropertyChanged;
                     this.ArrayOfCells[i, j] = cell;
@@ -126,14 +126,9 @@ namespace CptS321
                 /* Can assume that all variables will be cells in the form (A1, B2, etc.) for this Assignment */
                 foreach (string key in variableList)
                 {
-                    int colNum = key[0]-65 ;       // convert ascii to index
+                    int colNum = key[0] - 65;       // convert ascii to index
                     int rowNum = int.Parse(key[1].ToString()) - 1;
 
-                    /* subscribe dependant cell's dependancychanged to needed cell's propertychanged */
-
-                    //currentCell.UnsubscribeDependancy(ref this.ArrayOfCells[rowNum, colNum]);
-                    //currentCell.SubscribeDependancy(ref this.ArrayOfCells[rowNum, colNum]);
-                    //currentCell.DependancyChanged += new PropertyChangedEventHandler(this.SheetDependancyChangedHandler);
 
                     if (double.TryParse(this.GetCell(rowNum, colNum).Value, out double value))
                     {
@@ -151,10 +146,7 @@ namespace CptS321
             }
         }
 
-        //private void SheetDependancyChangedHandler(object sender, PropertyChangedEventArgs e)
-        //{
-        //    this.EvaluateNewCellValue((Cell)sender);
-        //}
+
 
         private void SpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -162,6 +154,7 @@ namespace CptS321
             this.CellPropertyChanged.Invoke(sender, e);
 
         }
+
 
 
 

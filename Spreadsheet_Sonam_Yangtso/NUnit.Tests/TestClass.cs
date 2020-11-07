@@ -4,8 +4,11 @@
 
 using NUnit.Framework;
 using CptS321;
+using System.Runtime.CompilerServices;
+using System.Diagnostics.SymbolStore;
+using System.Security.Cryptography;
 
-namespace NUnit.Tests
+namespace CptS321
 {
     /// <summary>
     /// Test class for the Assignment4.
@@ -17,12 +20,14 @@ namespace NUnit.Tests
         /// create an instance of Spreadsheet class.
         /// </summary>
         private Spreadsheet sheet;
+        private Spreadsheet sheet1;
+       
+        private SpreadsheetCell cell;
 
         /// <summary>
         /// create an instance of cell class.
         /// </summary>
-        private SpreadsheetCell cell;
-
+        
         /// <summary>
         /// test the SpreadsheetCell class constructor.
         /// </summary>
@@ -91,7 +96,7 @@ namespace NUnit.Tests
             Assert.AreEqual("5", value.ToString());
         }
 
-      /// <summary>
+        /// <summary>
         /// test evaluate method for addition expression.
         /// </summary>
         [Test]
@@ -173,7 +178,7 @@ namespace NUnit.Tests
         public void TestSetVariableMethodException()
         {
             ExpressionTree tree = new ExpressionTree("10+x+y");
-            Assert.AreEqual("10",tree.Evaluate().ToString());
+            Assert.AreEqual("10", tree.Evaluate().ToString());
         }
 
         [Test]
@@ -246,7 +251,7 @@ namespace NUnit.Tests
         {
 
             ExpressionTree tree = new ExpressionTree("w-5+y+3");
-            Assert.AreEqual("-2",  tree.Evaluate().ToString());
+            Assert.AreEqual("-2", tree.Evaluate().ToString());
 
         }
 
@@ -269,6 +274,36 @@ namespace NUnit.Tests
             ExpressionTree tree = new ExpressionTree("x");
 
             Assert.AreEqual("0", tree.Evaluate().ToString());
+
+        }
+
+        //Homework7 test cases starts here
+
+       [Test]
+        public void TestTextValueProperty()
+        {
+            this.sheet = new Spreadsheet(50, 26);
+            this.sheet.GetCell(3, 5).Text = "99";
+            Assert.AreEqual("99",this.sheet.GetCell(3, 5).Value);
+            this.sheet.GetCell(3, 5).Value = "99";
+            Assert.AreEqual("99",this.sheet.GetCell(3, 5).Text);
+        }
+
+        [Test]
+        public void Test()
+        {
+            Cell A1;
+            Cell B2;
+            Cell B1;
+            Spreadsheet sheet = new Spreadsheet(10, 10);
+            A1 = (Cell)sheet.GetCell(5, 5);
+            B2 = (Cell)sheet.GetCell(6, 6);
+            B1 = (Cell)sheet.GetCell(8, 8);
+            A1.Text = "22";
+            B2.Text = "33";
+            B1.Text = "=A1+B2";
+            Assert.AreEqual(B1.Value, "55");
+            Assert.AreEqual(B2.Text, "33");
 
         }
     }

@@ -116,39 +116,17 @@ namespace CptS321
                 }
 
                 this.value = value;
-                this.OnPropertyChanged("value");
+                this.OnPropertyChanged("Value");
 
             }
         }
-
-
-
-        //public event PropertyChangedEventHandler DependancyChanged = delegate{ };
-
-        //public void SubscribeDependancy(ref Cell target)
-        //{
-        //    target.PropertyChanged += new PropertyChangedEventHandler(this.DependancyChangedHandler);
-        //}
-
-        /// <summary>
-        /// Unsubscribes the dependancy event handler of the cell to the property changed of another cell.
-        /// </summary>
-        /// <param name="target">The cell which will be unsubscribed to.
-        /// </param>
-        //public void UnsubscribeDependancy(ref Cell target)
-        //{
-        //    target.PropertyChanged -= new PropertyChangedEventHandler(this.DependancyChangedHandler);
-        //}
-
 
         protected virtual void OnPropertyChanged(string name)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        //protected void DependancyChangedHandler(object sender, PropertyChangedEventArgs e)
-        //{
-        //    this.DependancyChanged?.Invoke(this, e);
-        //}
+
+
     }
 }

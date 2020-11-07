@@ -71,7 +71,7 @@ namespace CptS321
         {
             SpreadsheetCell updateCell = sender as SpreadsheetCell;
 
-            if (e.PropertyName == "value")
+            if (e.PropertyName == "Value")
             {
                 // Modify the value in the ColumnIndex cell of the RowIndex row.
                 this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Value = updateCell.Value;
