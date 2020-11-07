@@ -37,13 +37,14 @@ namespace CptS321
             get { return Associative.Left; }
         }
 
-       /// <summary>
-        /// This is an override method for Evaluation.
+        /// <summary>
+        /// This is an override method that returns the evaluated value.
         /// </summary>
-        /// <returns> retruns the calculated value. </returns>
+        /// <param name="variables"> variable.</param>
+        /// <returns>calcualted value.</returns>
         public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Right .Evaluate(ref variables) * this.Left.Evaluate(ref variables);
+            return this.Right.Evaluate(ref variables) * this.Left.Evaluate(ref variables);
         }
     }
 }

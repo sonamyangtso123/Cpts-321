@@ -17,9 +17,7 @@ namespace CptS321
     /// </summary>
     public class ExpressionTree
     {
-
         private Dictionary<string, double> variables = new Dictionary<string, double>();
-        //private readonly OperatorNodeFactory operatorFactor = new OperatorNodeFactory();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
@@ -29,16 +27,16 @@ namespace CptS321
         public ExpressionTree(string expression)
         {
             this.InFixExpression = expression;
-            
+
             this.Root = this.BuildExpressionTree(expression);
         }
 
         /// <summary>
-        /// Gets or sets the variable value pairs from the dictionary Variable.
+        /// Gets the variable value pairs from the dictionary Variable.
         /// </summary>
         public Dictionary<string, double> Variables
         {
-            get {return this.variables; }
+            get { return this.variables; }
         }
 
         /// <summary>
@@ -61,7 +59,6 @@ namespace CptS321
             this.Variables[variableName] = variableValue;
         }
 
-
         /// <summary>
         ///  This method evaluate the given expression by first converting the expression to a postfix expression
         ///  and then build the postfix expression to a Tree.
@@ -69,7 +66,6 @@ namespace CptS321
         /// <returns> the evaluated value or 0.0  if Root is null.</returns>
         public double Evaluate()
         {
-
             if (this.Root != null)
             {
                 ExpressionTreeNode root = this.Root;
@@ -84,7 +80,6 @@ namespace CptS321
         /// This method calls ConvertToPostFix method which converts the user expression into an postfix
         /// expression and then builds an expression tree.
         /// </summary>
-
         private ExpressionTreeNode BuildExpressionTree(string expression)
         {
             // Check whether given expression is null.
@@ -97,22 +92,22 @@ namespace CptS321
                 // Send the expression to evaluate as infix to postfix convert function.
                 List<ExpressionTreeNode> postfixNodes = this.ConvertToPostfix(expression);
                 Stack<ExpressionTreeNode> operandStack = new Stack<ExpressionTreeNode>();
-                foreach (ExpressionTreeNode tempNode in postfixNodes)
+                foreach (ExpressionTreeNode node in postfixNodes)
                 {
-                    if (tempNode is ConstantNode)
+                    if (node is ConstantNode)
                     {
-                        operandStack.Push(tempNode);
+                        operandStack.Push(node);
                     }
-                    else if (tempNode is VariableNode)
+                    else if (node is VariableNode)
                     {
-                        operandStack.Push(tempNode);
-                        this.variables.Add(((VariableNode)tempNode).Name, 0); // Variable values set to 0 by default
+                        operandStack.Push(node);
+                        this.variables.Add(((VariableNode)node).Name, 0); // Variable values set to 0 by default
                     }
                     else
                     {
-                        ((OperatorNode)tempNode).Right = operandStack.Pop();
-                        ((OperatorNode)tempNode).Left = operandStack.Pop();
-                        operandStack.Push(tempNode);
+                        ((OperatorNode)node).Left = operandStack.Pop();
+                        ((OperatorNode)node).Right = operandStack.Pop();
+                        operandStack.Push(node);
                     }
                 }
 
@@ -124,7 +119,6 @@ namespace CptS321
         /// This method converts the user expression to a postfix expression.
         /// </summary>
         /// <returns> a list of string . </returns>
-
         private List<ExpressionTreeNode> ConvertToPostfix(string expression)
         {
             List<ExpressionTreeNode> postfixResult = new List<ExpressionTreeNode>();
@@ -222,6 +216,11 @@ namespace CptS321
             return OperatorNodeFactory.Variables.ContainsKey(op);
         }
 
+        /// <summary>
+        /// create a nod.
+        /// </summary>
+        /// <param name="name"> name.</param>
+        /// <returns> node .</returns>
         private ExpressionTreeNode CreateNode(string name)
         {
             int value;
@@ -249,6 +248,11 @@ namespace CptS321
                 return new VariableNode(name);
             }
         }
+
+        /// <summary>
+        /// This method get alllthe variable name from the variables dictionary and save into a list.
+        /// </summary>
+        /// <returns> a list of variable name.</returns>
         public List<string> GetVariableName()
         {
             List<string> variableName = new List<string>();
@@ -259,8 +263,5 @@ namespace CptS321
 
             return variableName;
         }
-
     }
-
-
 }

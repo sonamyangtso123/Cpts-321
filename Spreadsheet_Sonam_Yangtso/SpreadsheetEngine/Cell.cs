@@ -24,15 +24,17 @@ namespace CptS321
 #pragma warning disable SA1130 // Use lambda syntax
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 #pragma warning restore SA1130 // Use lambda syntax
+
         /// <summary>
-        /// This is a row number of the cell.
+        /// number of rows in a cell.
         /// </summary>
+        ///
         private int rowIndex;
 
-        /// <summary
-        /// This is a column number of the cell
+        /// <summary>
+        /// Number of comumns in a cell.
         /// </summary>
-        protected int columnIndex;
+        private int columnIndex;
 
         /// <summary>
         /// This is text that is typed into a cell.
@@ -46,6 +48,11 @@ namespace CptS321
         /// </summary>
         protected string value;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cell"/> class.
+        /// </summary>
+        /// <param name="row"> row.</param>
+        /// <param name="column">column.</param>
         public Cell(int row, int column)
         {
             this.rowIndex = row;
@@ -55,16 +62,15 @@ namespace CptS321
         }
 
         /// <summary>
-        /// gets the row number of the cell.
+        /// gets the row index of the cell.
         /// </summary>
-        public  int RowIndex
+        public int RowIndex
         {
             get { return this.rowIndex; }
         }
 
-
         /// <summary>
-        /// gets the column number of the cell.
+        /// gets the column index of the cell.
         /// </summary>
         public int ColumnIndex
         {
@@ -97,16 +103,17 @@ namespace CptS321
                 }
             }
         }
+
         /// <summary>
-        /// Gets the value of the cell. .
+        /// Gets or sets the value of the cell. .
         /// sets can be done by only by the Spreadsheet class.
         /// </summary>
-
-
         public string Value
         {
-            // only spreadsheet should be allowed to change this value
-            get { return this.value; }
+            get
+            {
+                return this.value;
+            }
 
             set
             {
@@ -117,16 +124,16 @@ namespace CptS321
 
                 this.value = value;
                 this.OnPropertyChanged("Value");
-
             }
         }
 
+        /// <summary>
+        /// Cell text or value changes event handler.
+        /// </summary>
+        /// <param name="name">Text or Value.</param>
         protected virtual void OnPropertyChanged(string name)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
-
-
     }
 }

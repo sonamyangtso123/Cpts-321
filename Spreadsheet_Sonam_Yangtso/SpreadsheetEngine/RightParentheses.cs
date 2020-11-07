@@ -1,7 +1,8 @@
-﻿// <copyright file="LeftParentheses.cs" company="PlaceholderCompany">
+﻿// <copyright file="RightParentheses.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using CptS321;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,16 @@ using System.Threading.Tasks;
 namespace CptS321
 {
     /// <summary>
-    /// LeftParentheses.
+    /// RightParenthesesNode.
     /// </summary>
-    internal class LeftParentheses : CptS321.OperatorNode
+    internal class RightParentheses : OperatorNode
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LeftParentheses"/> class.
+        /// Initializes a new instance of the <see cref="RightParentheses"/> class.
         /// // sets the operator variable from the base class to '('.
         /// </summary>
-        public LeftParentheses()
-            : base('(')
+        public RightParentheses()
+            : base(')')
         {
         }
 

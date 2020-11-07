@@ -20,9 +20,8 @@ namespace CptS321
     /// </summary>
     public partial class Form1 : Form
     {
-        private Spreadsheet sheet;
-        private readonly DataGridView dataGridView11;
-        
+        private readonly Spreadsheet sheet;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
         /// Initialze a spreadsheet oject in form's constructor with 50 rows and 26 colums.
@@ -33,9 +32,6 @@ namespace CptS321
 
             // Initialize a Spreadsheet object with 50rows and 26 columns.
             this.sheet = new Spreadsheet(50, 26);
-            // subscribe to the property changed event
-            
-            
         }
         
         /// <summary>

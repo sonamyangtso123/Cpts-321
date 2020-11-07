@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 
 namespace CptS321
 {
-    /// <summary>
+    /// <summary
     /// Test class for the Assignment4.
     /// </summary>
     [TestFixture]
@@ -20,14 +20,12 @@ namespace CptS321
         /// create an instance of Spreadsheet class.
         /// </summary>
         private Spreadsheet sheet;
-        private Spreadsheet sheet1;
-       
-        private SpreadsheetCell cell;
 
         /// <summary>
         /// create an instance of cell class.
         /// </summary>
-        
+        private SpreadsheetCell cell;
+
         /// <summary>
         /// test the SpreadsheetCell class constructor.
         /// </summary>
@@ -97,6 +95,7 @@ namespace CptS321
         }
 
         /// <summary>
+        ///
         /// test evaluate method for addition expression.
         /// </summary>
         [Test]
@@ -181,6 +180,9 @@ namespace CptS321
             Assert.AreEqual("10", tree.Evaluate().ToString());
         }
 
+        /// <summary>
+        /// Test setvaraible method.
+        /// </summary>
         [Test]
         public void SetVariableMethod()
         {
@@ -249,10 +251,8 @@ namespace CptS321
         [Test]
         public void TestExpressionTreeWithNumbersAndVariables()
         {
-
             ExpressionTree tree = new ExpressionTree("w-5+y+3");
             Assert.AreEqual("-2", tree.Evaluate().ToString());
-
         }
 
         /// <summary>
@@ -274,37 +274,66 @@ namespace CptS321
             ExpressionTree tree = new ExpressionTree("x");
 
             Assert.AreEqual("0", tree.Evaluate().ToString());
-
         }
 
-        //Homework7 test cases starts here
+        // Homework7 test cases starts here
+        [Test]
+        public void TestDecimal()
+        {
+            ExpressionTree tree = new ExpressionTree("(1.3+2.3)");
 
-       [Test]
+            Assert.AreEqual("5", tree.Evaluate().ToString());
+        }
+        /// <summary>
+        /// Test parentheses
+        /// </summary>
+        [Test]
+        public void TestParentheses()
+        {
+            ExpressionTree tree = new ExpressionTree("((9+2)-(1+(6-1)))");
+
+            Assert.AreEqual("5", tree.Evaluate().ToString());
+        }
+
+        /// <summary>
+        /// Tset set and get method of cell property.
+        /// </summary>
+        [Test]
+
         public void TestTextValueProperty()
         {
             this.sheet = new Spreadsheet(50, 26);
             this.sheet.GetCell(3, 5).Text = "99";
-            Assert.AreEqual("99",this.sheet.GetCell(3, 5).Value);
+            Assert.AreEqual("99", this.sheet.GetCell(3, 5).Value);
             this.sheet.GetCell(3, 5).Value = "99";
-            Assert.AreEqual("99",this.sheet.GetCell(3, 5).Text);
+            Assert.AreEqual("99", this.sheet.GetCell(3, 5).Text);
         }
 
+        /// <summary>
+        /// Cell property test.
+        /// </summary>
         [Test]
         public void Test()
         {
+#pragma warning disable SA1312 // Variable names should begin with lower-case letter
             Cell A1;
+#pragma warning restore SA1312 // Variable names should begin with lower-case letter
+#pragma warning disable SA1312 // Variable names should begin with lower-case letter
             Cell B2;
+#pragma warning restore SA1312 // Variable names should begin with lower-case letter
+#pragma warning disable SA1312 // Variable names should begin with lower-case letter
             Cell B1;
+#pragma warning restore SA1312 // Variable names should begin with lower-case letter
             Spreadsheet sheet = new Spreadsheet(10, 10);
             A1 = (Cell)sheet.GetCell(5, 5);
             B2 = (Cell)sheet.GetCell(6, 6);
             B1 = (Cell)sheet.GetCell(8, 8);
-            A1.Text = "22";
-            B2.Text = "33";
+            A1.Text = "2";
+            B2.Text = "8";
             B1.Text = "A1+B2";
             Assert.AreEqual(B1.Text, "A1+B2");
-            Assert.AreEqual(B2.Text, "33");
-
+            Assert.AreEqual(B2.Text, "8");
         }
+
     }
 }

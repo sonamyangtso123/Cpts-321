@@ -45,7 +45,6 @@ namespace CptS321
             {
                 for (int j = 0; j < this.NumberOfColumns; j++)
                 {
-                    
                     Cell cell = new SpreadsheetCell(i, j);
                     cell.PropertyChanged += this.SpreadsheetPropertyChanged;
                     this.ArrayOfCells[i, j] = cell;
@@ -53,10 +52,9 @@ namespace CptS321
             }
         }
 
-
-
-
-
+        /// <summary>
+        /// Gets method for RowCount, It will return the number of rows.
+        /// </summary>
         public int NumberOfRows
         {
             get
@@ -65,6 +63,9 @@ namespace CptS321
             }
         }
 
+        /// <summary>
+        /// Gets method for CoulumnCount. It will return the number of columns in a given Spreadsheet.
+        /// </summary>
         public int NumberOfColumns
         {
             get
@@ -89,6 +90,19 @@ namespace CptS321
             return this.ArrayOfCells[row, column];
         }
 
+        /// <summary>
+        /// This method get called in the Form class when the text of cell get changes to value.
+        /// This method serve as a way for outside world.
+        /// subscribe to a single event that lets them know when any property for any cell in the worksheet has changed.
+        /// The spreadsheet class has to subscribe to all the PropertyChanged events for every cell in order to allow this to happen.
+        ///   This is where the spreadsheet will set the value for a particular cell if its text has just changed. The implementation of
+        ///   this is discussed more in step 6.
+        ///   When a cell triggers the event the spreadsheet will “route” it by calling its CellPropertyChanged event.
+        /// </summary>
+        /// <param name="rowIndex">row index of the cell.</param>
+        /// <param name="columnIndex">column number. </param>
+        /// <param name="newText"> new text.</param>
+        /// <returns>True /False.</returns>
         public bool CellTextChanged(int rowIndex, int columnIndex, string newText)
         {
             /* Subscribe to cell property changed event */
@@ -103,11 +117,8 @@ namespace CptS321
             else
             {
                 return false;
-
             }
         }
-
-
 
         private void EvaluateNewCellValue(Cell currentCell)
         {
@@ -129,15 +140,13 @@ namespace CptS321
                     int colNum = key[0] - 65;       // convert ascii to index
                     int rowNum = int.Parse(key[1].ToString()) - 1;
 
-
                     if (double.TryParse(this.GetCell(rowNum, colNum).Value, out double value))
                     {
                         expTree.SetVariable(key, value);
                     }
                     else
                     {
-                        expTree.SetVariable(key, 0.0);
-
+                        expTree.SetVariable(key, 0);
                     }
                 }
 
@@ -146,17 +155,10 @@ namespace CptS321
             }
         }
 
-
-
         private void SpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.EvaluateNewCellValue((Cell)sender);
             this.CellPropertyChanged.Invoke(sender, e);
-
         }
-
-
-
-
     }
 }

@@ -27,9 +27,8 @@ namespace CptS321
             { '-', typeof(MinusOperatorNode) },
             { '*', typeof(MultiplicationOperatorNode) },
             { '/', typeof(DivisionOperatorNode) },
-            {'(', typeof(LeftParentheses)},
-            {')',typeof(RightParentheses) },
-          
+            { '(', typeof(LeftParentheses) },
+            { ')', typeof(RightParentheses) },
         };
 
         /// <summary>
@@ -77,8 +76,5 @@ namespace CptS321
 
             return precedenceValue;
         }
-
-        
-
     }
 }
