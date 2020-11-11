@@ -46,7 +46,7 @@ namespace CptS321
                 for (int j = 0; j < this.NumberOfColumns; j++)
                 {
                     Cell cell = new SpreadsheetCell(i, j);
-                    //cell.PropertyChanged += this.OnSpreadsheetPropertyChanged;
+                    cell.PropertyChanged += this.OnSpreadsheetPropertyChanged;
                     this.ArrayOfCells[i, j] = cell;
                 }
             }
@@ -106,12 +106,12 @@ namespace CptS321
         public bool CellTextChanged(int rowIndex, int columnIndex, string newText)
         {
             /* Subscribe to cell property changed event */
-            this.GetCell(rowIndex, columnIndex).PropertyChanged += this.CellPropertyChanged;
+            //this.GetCell(rowIndex, columnIndex).PropertyChanged += this.CellPropertyChanged;
 
             if (this.GetCell(rowIndex, columnIndex) != null)
             {
                 this.GetCell(rowIndex, columnIndex).Text = newText;
-                this.EvaluateNewCellValue(this.GetCell(rowIndex, columnIndex));
+                //this.EvaluateNewCellValue(this.GetCell(rowIndex, columnIndex));
                 return true;
             }
             else
@@ -154,5 +154,13 @@ namespace CptS321
                 Console.WriteLine(currentCell.Value);
             }
         }
+
+        private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.EvaluateNewCellValue((Cell)sender);
+            this.CellPropertyChanged.Invoke(sender, e);
+        }
+
+
     }
 }

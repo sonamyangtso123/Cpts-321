@@ -100,9 +100,23 @@ namespace CptS321
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             this.sheet.CellTextChanged(e.RowIndex, e.ColumnIndex, (string)this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
-
+           
         }
 
-        
+        private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            // Keeps the user from selecting a custom color.
+            MyDialog.AllowFullOpen = false;
+            // Allows the user to get help. (The default is false.)
+            MyDialog.ShowHelp = true;
+            // Sets the initial color select to the current text color.
+            // MyDialog.Color = textBox1.ForeColor;
+
+            // Update the text box color if the user clicks OK 
+            if (MyDialog.ShowDialog() == DialogResult.OK) ;
+               // textBox1.ForeColor = MyDialog.Color;
+
+        }
     }
 }
