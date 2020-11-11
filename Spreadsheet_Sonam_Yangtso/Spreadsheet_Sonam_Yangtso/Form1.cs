@@ -59,7 +59,9 @@ namespace CptS321
 
         }
         /// <summary>
-        /// This method implements when a cell's Value changes it gets updates in the DataGridView.
+        /// This method implements when a cell's Value changes 
+        /// it gets updates in the DataGridView.
+        /// Event Handler
         /// </summary>
         /// <param name="sender"> for the cell.</param>
         /// <param name="e">for thecell. </param>
@@ -72,9 +74,14 @@ namespace CptS321
                 // Modify the value in the ColumnIndex cell of the RowIndex row.
                 this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Value = updateCell.Value;
             }
-
-
+            else if(e.PropertyName =="Color")
+            {
+                this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Style.BackColor = Color.FromArgb((Int32)(updateCell).BGColor);
+            }
         }
+
+
+        
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {

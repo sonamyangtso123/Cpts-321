@@ -6,6 +6,7 @@
 
 namespace CptS321
 {
+    using System.CodeDom;
     using System.ComponentModel;
 
     /// <summary>
@@ -43,6 +44,12 @@ namespace CptS321
         protected string value;
 
         /// <summary>
+        /// / This represent the background color of the cell.
+        /// </summary>
+
+        protected uint bgcolor;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.
         /// </summary>
         /// <param name="row"> row.</param>
@@ -53,6 +60,7 @@ namespace CptS321
             this.columnIndex = column;
             this.text = string.Empty;
             this.value = string.Empty;
+            this.bgcolor = 0xFFFFFFFF;
         }
 
         /// <summary>
@@ -122,6 +130,31 @@ namespace CptS321
 
                 // call onPropertyChanged when ever updates
                 this.OnPropertyChanged("Value");
+            }
+        }
+
+        public uint BGColor
+        {
+            get
+            {
+                return this.bgcolor;
+            }
+
+            set
+            {
+                // don't set the color if the color is same as the value
+                if (value == this.bgcolor)
+                {
+                    return;
+                }
+                else
+                {
+                    this.bgcolor = value;
+                }
+
+                // call onPropertyChanged when ever updates
+                this.OnPropertyChanged("Color");
+
             }
         }
 

@@ -154,11 +154,5 @@ namespace CptS321
                 Console.WriteLine(currentCell.Value);
             }
         }
-
-        //private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    this.EvaluateNewCellValue((Cell)sender);
-        //    this.CellPropertyChanged.Invoke(sender, e);
-        //}
     }
 }
