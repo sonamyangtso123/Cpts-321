@@ -19,6 +19,6 @@ namespace CptS321
         /// It is an abstract method.
         /// </summary>
         /// <returns> nothing. </returns>
-        public abstract double Evaluate();
+        public abstract double Evaluate(ref Dictionary<string, double> variables);
     }
 }

@@ -8,6 +8,7 @@ namespace CptS321
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
     using CptS321;
@@ -21,8 +22,6 @@ namespace CptS321
         /// ArrayOfCells is a 2D array of type Cell.
         /// </summary>
         public Cell[,] ArrayOfCells;
-        private int numberOfRows;
-        private int numberOfColumns;
 
         /// <summary>
         /// Initailize am  a property changed event handler to empty.
@@ -41,17 +40,37 @@ namespace CptS321
         /// </param>
         public Spreadsheet(int rowCount, int columnCount)
         {
-            this.numberOfRows = rowCount;
-            this.numberOfColumns = columnCount;
             this.ArrayOfCells = new Cell[rowCount, columnCount];
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < this.NumberOfRows; i++)
             {
-                for (int j = 0; j < columnCount; j++)
+                for (int j = 0; j < this.NumberOfColumns; j++)
                 {
-                    this.ArrayOfCells[i, j] = new SpreadsheetCell(i, j);
-
-                    this.ArrayOfCells[i, j].PropertyChanged += this.OnPropertyChanged;
+                    Cell cell = new SpreadsheetCell(i, j);
+                    //cell.PropertyChanged += this.OnSpreadsheetPropertyChanged;
+                    this.ArrayOfCells[i, j] = cell;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets method for RowCount, It will return the number of rows.
+        /// </summary>
+        public int NumberOfRows
+        {
+            get
+            {
+                return this.ArrayOfCells.GetLength(0);
+            }
+        }
+
+        /// <summary>
+        /// Gets method for CoulumnCount. It will return the number of columns in a given Spreadsheet.
+        /// </summary>
+        public int NumberOfColumns
+        {
+            get
+            {
+                return this.ArrayOfCells.GetLength(1);
             }
         }
 
@@ -72,49 +91,74 @@ namespace CptS321
         }
 
         /// <summary>
-        /// Function to keep track of property changes.
+        /// This method get called in the Form class when the text of cell get changes to value.
+        /// This method serve as a way for outside world.
+        /// subscribe to a single event that lets them know when any property for any cell in the worksheet has changed.
+        /// The spreadsheet class has to subscribe to all the PropertyChanged events for every cell in order to allow this to happen.
+        ///   This is where the spreadsheet will set the value for a particular cell if its text has just changed. The implementation of
+        ///   this is discussed more in step 6.
+        ///   When a cell triggers the event the spreadsheet will “route” it by calling its CellPropertyChanged event.
         /// </summary>
-        /// <param name="sender">
-        /// sender contains a reference to the control/object that raised the event.
-        /// </param>
-        /// <param name="e">
-        ///  e containts the event data.
-        /// </param>
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <param name="rowIndex">row index of the cell.</param>
+        /// <param name="columnIndex">column number. </param>
+        /// <param name="newText"> new text.</param>
+        /// <returns>True /False.</returns>
+        public bool CellTextChanged(int rowIndex, int columnIndex, string newText)
         {
-            SpreadsheetCell cell = sender as SpreadsheetCell;
-            if (e.PropertyName == "Text")
+            /* Subscribe to cell property changed event */
+            this.GetCell(rowIndex, columnIndex).PropertyChanged += this.CellPropertyChanged;
+
+            if (this.GetCell(rowIndex, columnIndex) != null)
             {
-                if (cell.Text[0] != '=')
-                {
-                    cell.Value = cell.Text;
-                }
-                else
-                {
-                    int rowIndex = int.Parse(cell.Text.Substring(2)) - 1;
-                    int columnIndex = (int)(cell.Text[1] - 065);
-                    cell.Value = this.GetCell(rowIndex, columnIndex).Value;
-                }
+                this.GetCell(rowIndex, columnIndex).Text = newText;
+                this.EvaluateNewCellValue(this.GetCell(rowIndex, columnIndex));
+                return true;
             }
-
-              // CellPropertyChanged(Cell, new PropertyChangedEventArgs("Text"));
-            this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(e.PropertyName));
+            else
+            {
+                return false;
+            }
         }
 
-        /// <summary>
-        /// Gets method for RowCount, It will return the number of rows.
-        /// </summary>
-        public int RowCount
+        private void EvaluateNewCellValue(Cell currentCell)
         {
-            get { return this.numberOfRows; }
+            /* Conversion Required */
+            if (currentCell.Text[0] != '=')
+            {
+                currentCell.Value = currentCell.Text;
+            }
+            else
+            {
+                /* Set value equal to another cell's value */
+                ExpressionTree expTree = new ExpressionTree(currentCell.Text.Substring(1));
+
+                List<string> variableList = expTree.GetVariableName();
+
+                /* Can assume that all variables will be cells in the form (A1, B2, etc.) for this Assignment */
+                foreach (string key in variableList)
+                {
+                    int colNum = key[0] - 65;       // convert ascii to index
+                    int rowNum = int.Parse(key[1].ToString()) - 1;
+
+                    if (double.TryParse(this.GetCell(rowNum, colNum).Value, out double value))
+                    {
+                        expTree.SetVariable(key, value);
+                    }
+                    else
+                    {
+                        expTree.SetVariable(key, 0);
+                    }
+                }
+
+                currentCell.Value = expTree.Evaluate().ToString();
+                Console.WriteLine(currentCell.Value);
+            }
         }
 
-        /// <summary>
-        /// Gets method for CoulumnCount. It will return the number of columns in a given Spreadsheet.
-        /// </summary>
-        public int ColumnCount
-        {
-            get { return this.numberOfColumns; }
-        }
+        //private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    this.EvaluateNewCellValue((Cell)sender);
+        //    this.CellPropertyChanged.Invoke(sender, e);
+        //}
     }
 }

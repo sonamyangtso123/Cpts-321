@@ -18,13 +18,12 @@ namespace CptS321
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
+        /// variableNode.
         /// </summary>
-        /// <param name="item"> variable name. </param>
-        /// <param name="value">value corresponding to varibale name. </param>
-        public VariableNode(string item, double value)
+        /// <param name="name">variable name.</param>
+        public VariableNode(string name)
         {
-            this.Name = item;
-            this.Value = value;
+            this.Name = name;
         }
 
         /// <summary>
@@ -44,13 +43,13 @@ namespace CptS321
         }
 
         /// <summary>
-        ///  This is an override Evaluate method.
-        ///  This method returns the value of the corresponding varible name.
+        /// This is an override method that returns the evaluated value.
         /// </summary>
-        /// <returns> value of the varibel name.</returns>
-        public override double Evaluate()
+        /// <param name="variables"> variable.</param>
+        /// <returns>calcualted value.</returns>
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Value;
+            return variables[this.Name];
         }
     }
 }

@@ -43,7 +43,7 @@ namespace CptS321
 
         /// <inheritdoc/>
         /// Override the Evaluate method
-        public override double Evaluate()
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
             return this.Value;
         }

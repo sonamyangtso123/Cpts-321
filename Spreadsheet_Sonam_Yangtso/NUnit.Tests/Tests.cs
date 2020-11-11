@@ -277,23 +277,6 @@ namespace CptS321
         }
 
         // Homework7 test cases starts here
-        //[Test]
-        //public void TestDecimal()
-        //{
-        //    ExpressionTree tree = new ExpressionTree("(1.3+2.3)");
-
-        //    Assert.AreEqual("5", tree.Evaluate().ToString());
-        //}
-        /// <summary>
-        /// Test parentheses
-        /// </summary>
-        [Test]
-        public void TestParentheses()
-        {
-            ExpressionTree tree = new ExpressionTree("((9+2)-(1+(6-1)))");
-
-            Assert.AreEqual("5", tree.Evaluate().ToString());
-        }
 
         /// <summary>
         /// Tset set and get method of cell property.
@@ -328,12 +311,11 @@ namespace CptS321
             A1 = (Cell)sheet.GetCell(5, 5);
             B2 = (Cell)sheet.GetCell(6, 6);
             B1 = (Cell)sheet.GetCell(8, 8);
-            A1.Text = "2";
-            B2.Text = "8";
-            B1.Text = "A1+B2";
-            Assert.AreEqual(B1.Text, "A1+B2");
-            Assert.AreEqual(B2.Text, "8");
+            A1.Text = "22";
+            B2.Text = "33";
+            B1.Text = "=A1+B2";
+            Assert.AreEqual(B1.Text, "=A1+B2");
+            Assert.AreEqual(B2.Text, "33");
         }
-
     }
 }

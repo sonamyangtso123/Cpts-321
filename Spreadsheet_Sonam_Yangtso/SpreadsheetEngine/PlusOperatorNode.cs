@@ -36,13 +36,14 @@ namespace CptS321
         /// </summary>
         public static Associative Associativity => Associative.Left;
 
-         /// <summary>
-        /// Evaluate the left and right subnodes.
+        /// <summary>
+        /// This is an override method that returns the evaluated value.
         /// </summary>
-        /// <returns> calcualated value. </returns>
-        public override double Evaluate()
+        /// <param name="variables"> variable.</param>
+        /// <returns>calcualted value.</returns>
+        public override double Evaluate(ref Dictionary<string, double> variables)
         {
-            return this.Left.Evaluate() + this.Right.Evaluate();
+            return this.Left.Evaluate(ref variables) + this.Right.Evaluate(ref variables);
         }
     }
 }

@@ -1,16 +1,12 @@
 ﻿// <copyright file="Cell.cs" company="Sonam Yangtso">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
+/* Sonam Yangtso
+   11689463 */
 
 namespace CptS321
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Runtime.InteropServices.WindowsRuntime;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// This is abstract base class and it represents one cell in the Spreadsheet
@@ -22,41 +18,45 @@ namespace CptS321
 #pragma warning disable SA1130 // Use lambda syntax
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 #pragma warning restore SA1130 // Use lambda syntax
-        /// <summary>
-        /// This is a row number of the cell.
-        /// </summary>
-        private readonly int rowIndex;
 
-        /// <summary
-        /// This is a column number of the cell
+        /// <summary>
+        /// number of rows in a cell.
         /// </summary>
-        private readonly int columnIndex;
+        ///
+        private int rowIndex;
+
+        /// <summary>
+        /// Number of comumns in a cell.
+        /// </summary>
+        private int columnIndex;
 
         /// <summary>
         /// This is text that is typed into a cell.
         /// </summary>
 #pragma warning disable SA1401 // Fields should be private
-        protected string text = string.Empty;
+        protected string text;
 #pragma warning restore SA1401 // Fields should be private
 
         /// <summary>
         /// This is the value of the cell.
         /// </summary>
-        protected string value = string.Empty;
+        protected string value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.
         /// </summary>
-        /// <param name="rowIndex">row number of the cell. </param>
-        /// <param name="columnIndex"> Column number of the cell.</param>
-        public Cell(int rowIndex, int columnIndex)
+        /// <param name="row"> row.</param>
+        /// <param name="column">column.</param>
+        public Cell(int row, int column)
         {
-            this.rowIndex = rowIndex;
-            this.columnIndex = columnIndex;
+            this.rowIndex = row;
+            this.columnIndex = column;
+            this.text = string.Empty;
+            this.value = string.Empty;
         }
 
         /// <summary>
-        /// gets the row number of the cell.
+        /// gets the row index of the cell.
         /// </summary>
         public int RowIndex
         {
@@ -64,14 +64,11 @@ namespace CptS321
         }
 
         /// <summary>
-        /// gets the column number of the cell.
+        /// gets the column index of the cell.
         /// </summary>
         public int ColumnIndex
         {
-            get
-            {
-                return this.columnIndex;
-            }
+            get { return this.columnIndex; }
         }
 
         /// /// <summary>
@@ -97,14 +94,14 @@ namespace CptS321
                 {
                     this.text = value;
 
-                    // notify anything that subscribes to this event that the “Text” property has changed.
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Text"));
+                    // call onPrpertyChanged when ever updates
+                    this.OnPropertyChanged("Text");
                 }
             }
         }
 
         /// <summary>
-        /// Gets the value of the cell. .
+        /// Gets or sets the value of the cell. .
         /// sets can be done by only by the Spreadsheet class.
         /// </summary>
         public string Value
@@ -114,12 +111,33 @@ namespace CptS321
                 return this.value;
             }
 
-            internal set
+            set
             {
+                if (value == this.value)
+                {
+                    return;
+                }
+
                 this.value = value;
 
-                // notify anything that subscribes to this event that the “Value” property has changed.
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
+                // call onPropertyChanged when ever updates
+                this.OnPropertyChanged("Value");
+            }
+        }
+
+
+        // Create the OnPropertyChanged method to raise the event
+        // The calling member's name will be used as the parameter.
+
+        /// <summary>
+        /// Cell text or value changes event handler.
+        /// </summary>
+        /// <param name="name">Text or Value.</param>
+        protected virtual void OnPropertyChanged(string name)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
     }

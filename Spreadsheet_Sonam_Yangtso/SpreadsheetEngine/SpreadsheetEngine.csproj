@@ -42,12 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
+    <Compile Include="LeftParentheses.cs" />
     <Compile Include="OperatorNodeFactory.cs" />
     <Compile Include="DivisionOperatorNode.cs" />
     <Compile Include="MultiplicationOperatorNode.cs" />
     <Compile Include="MinusOperatorNode.cs" />
     <Compile Include="PlusOperatorNode.cs" />
     <Compile Include="OperatorNode.cs" />
+    <Compile Include="RightParentheses.cs" />
     <Compile Include="VariableNode.cs" />
     <Compile Include="ConstantNode.cs" />
     <Compile Include="ExpressionTreeNode.cs" />
