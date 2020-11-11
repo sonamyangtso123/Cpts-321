@@ -6,13 +6,7 @@
 
 namespace CptS321
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Runtime.InteropServices.WindowsRuntime;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// This is abstract base class and it represents one cell in the Spreadsheet
@@ -99,6 +93,8 @@ namespace CptS321
                 else
                 {
                     this.text = value;
+
+                    // call onPrpertyChanged when ever updates
                     this.OnPropertyChanged("Text");
                 }
             }
@@ -123,9 +119,15 @@ namespace CptS321
                 }
 
                 this.value = value;
+
+                // call onPropertyChanged when ever updates
                 this.OnPropertyChanged("Value");
             }
         }
+
+
+        // Create the OnPropertyChanged method to raise the event
+        // The calling member's name will be used as the parameter.
 
         /// <summary>
         /// Cell text or value changes event handler.
@@ -133,7 +135,10 @@ namespace CptS321
         /// <param name="name">Text or Value.</param>
         protected virtual void OnPropertyChanged(string name)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
     }
 }

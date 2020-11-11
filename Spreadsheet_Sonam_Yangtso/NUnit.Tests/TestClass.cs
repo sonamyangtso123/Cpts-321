@@ -277,13 +277,13 @@ namespace CptS321
         }
 
         // Homework7 test cases starts here
-        [Test]
-        public void TestDecimal()
-        {
-            ExpressionTree tree = new ExpressionTree("(1.3+2.3)");
+        //[Test]
+        //public void TestDecimal()
+        //{
+        //    ExpressionTree tree = new ExpressionTree("(1.3+2.3)");
 
-            Assert.AreEqual("5", tree.Evaluate().ToString());
-        }
+        //    Assert.AreEqual("5", tree.Evaluate().ToString());
+        //}
         /// <summary>
         /// Test parentheses
         /// </summary>

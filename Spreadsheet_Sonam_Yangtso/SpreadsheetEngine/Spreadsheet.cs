@@ -46,7 +46,7 @@ namespace CptS321
                 for (int j = 0; j < this.NumberOfColumns; j++)
                 {
                     Cell cell = new SpreadsheetCell(i, j);
-                    cell.PropertyChanged += this.SpreadsheetPropertyChanged;
+                    //cell.PropertyChanged += this.OnSpreadsheetPropertyChanged;
                     this.ArrayOfCells[i, j] = cell;
                 }
             }
@@ -155,10 +155,10 @@ namespace CptS321
             }
         }
 
-        private void SpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            this.EvaluateNewCellValue((Cell)sender);
-            this.CellPropertyChanged.Invoke(sender, e);
-        }
+        //private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    this.EvaluateNewCellValue((Cell)sender);
+        //    this.CellPropertyChanged.Invoke(sender, e);
+        //}
     }
 }

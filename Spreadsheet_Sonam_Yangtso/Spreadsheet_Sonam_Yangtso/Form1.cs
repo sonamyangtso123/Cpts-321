@@ -55,7 +55,7 @@ namespace CptS321
                 this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[row - 1].HeaderCell.Value = row.ToString();
             }
-            this.sheet.CellPropertyChanged += new PropertyChangedEventHandler(this.OnCellPropertyChanged);
+            this.sheet.CellPropertyChanged += this.OnCellPropertyChanged;
 
         }
         /// <summary>
