@@ -42,6 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
+    <Compile Include="ChangeColor.cs" />
+    <Compile Include="ChangeText.cs" />
+    <Compile Include="Invoker.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="LeftParentheses.cs" />
     <Compile Include="OperatorNodeFactory.cs" />
     <Compile Include="DivisionOperatorNode.cs" />

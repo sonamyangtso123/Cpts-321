@@ -157,7 +157,11 @@ namespace CptS321
 
         private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.EvaluateNewCellValue((Cell)sender);
+            if (e.PropertyName == "Text")
+            {
+                this.EvaluateNewCellValue((Cell)sender);
+            }
+
             this.CellPropertyChanged.Invoke(sender, e);
         }
 

@@ -21,6 +21,7 @@ namespace CptS321
     public partial class Form1 : Form
     {
         private readonly Spreadsheet sheet;
+        private readonly Invoker commandControl = new Invoker();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
@@ -32,6 +33,7 @@ namespace CptS321
 
             // Initialize a Spreadsheet object with 50rows and 26 columns.
             this.sheet = new Spreadsheet(50, 26);
+            //this.CheckUndoRedo();
         }
         
         /// <summary>
@@ -100,23 +102,48 @@ namespace CptS321
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             this.sheet.CellTextChanged(e.RowIndex, e.ColumnIndex, (string)this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
-           
+            //Icommand cmd = new ChangeText(this.sheet.GetCell(e.RowIndex, e.ColumnIndex), (string)this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+            //CommandList commands = new CommandList("Text Change", cmd);
+            //this.commandControl.CommandOfExecution(commands);
+            //this.CheckUndoRedo();
         }
 
         private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            // Keeps the user from selecting a custom color.
-            MyDialog.AllowFullOpen = false;
-            // Allows the user to get help. (The default is false.)
-            MyDialog.ShowHelp = true;
-            // Sets the initial color select to the current text color.
-            // MyDialog.Color = textBox1.ForeColor;
+            List<Cell> cells = new List<Cell>();
+            List<uint> oldColors = new List<uint>();
+            //ColorDialog myDialog = new ColorDialog()
 
-            // Update the text box color if the user clicks OK 
-            if (MyDialog.ShowDialog() == DialogResult.OK) ;
-               // textBox1.ForeColor = MyDialog.Color;
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                //CommandList commands = new CommandList("Background Color Change");
+
+                foreach (DataGridViewCell cell in this.dataGridView1.SelectedCells)
+                {
+                    cells.Add(this.sheet.GetCell(cell.RowIndex, cell.ColumnIndex));
+                    oldColors.Add(this.sheet.GetCell(cell.RowIndex, cell.ColumnIndex).BGColor);
+                    this.sheet.GetCell(cell.RowIndex, cell.ColumnIndex).BGColor = (uint)this.colorDialog1.Color.ToArgb();
+                }
+                ICommand cmd = new ChangeColor(cells, oldColors, (uint)this.colorDialog1.Color.ToArgb());
+                            
+                    this.commandControl.Execution(cmd);
+                
+
+                    
+                   
+
+                }
+               
 
         }
+
+        
+
+       
     }
+
+
 }
+

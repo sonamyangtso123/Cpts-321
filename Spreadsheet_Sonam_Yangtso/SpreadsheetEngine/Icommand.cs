@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CptS321
 {
-    public interface Icommand
+    public interface ICommand
     {
         void Execute();
 
