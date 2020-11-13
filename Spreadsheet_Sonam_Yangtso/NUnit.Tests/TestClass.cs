@@ -277,15 +277,9 @@ namespace CptS321
         }
 
         // Homework7 test cases starts here
-        //[Test]
-        //public void TestDecimal()
-        //{
-        //    ExpressionTree tree = new ExpressionTree("(1.3+2.3)");
 
-        //    Assert.AreEqual("5", tree.Evaluate().ToString());
-        //}
         /// <summary>
-        /// Test parentheses
+        /// This is to test the parentheses
         /// </summary>
         [Test]
         public void TestParentheses()
@@ -334,6 +328,5 @@ namespace CptS321
             Assert.AreEqual(B1.Text, "A1+B2");
             Assert.AreEqual(B2.Text, "8");
         }
-
     }
 }

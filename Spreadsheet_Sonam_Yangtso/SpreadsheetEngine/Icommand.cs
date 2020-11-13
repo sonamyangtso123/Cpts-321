@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace CptS321
 {
+    
     public interface ICommand
     {
-        void Execute();
 
-        void Undo();
+        //string CommandType();
+         void  Execute();
+
+        void UnExecute ();
     }
 }

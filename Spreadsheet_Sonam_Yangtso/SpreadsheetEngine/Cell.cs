@@ -46,8 +46,7 @@ namespace CptS321
         /// <summary>
         /// / This represent the background color of the cell.
         /// </summary>
-
-        protected uint bgcolor;
+        private uint bgcolor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.
@@ -133,6 +132,9 @@ namespace CptS321
             }
         }
 
+        /// <summary>
+        /// Gets or sets or set the back ground color of the cell.
+        /// </summary>
         public uint BGColor
         {
             get
@@ -154,10 +156,8 @@ namespace CptS321
 
                 // call onPropertyChanged when ever updates
                 this.OnPropertyChanged("Color");
-
             }
         }
-
 
         // Create the OnPropertyChanged method to raise the event
         // The calling member's name will be used as the parameter.

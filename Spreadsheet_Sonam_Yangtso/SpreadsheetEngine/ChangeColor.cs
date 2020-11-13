@@ -12,9 +12,8 @@ namespace CptS321
         private List<Cell> cells;
         private uint newColor;
         private Cell cell;
-        private uint bGColor;
-        private uint v;
-
+        
+        
         public ChangeColor(List<Cell> cells, List<uint>oldColor, uint newColor)
         {
             this.oldColor = oldColor;
@@ -22,13 +21,9 @@ namespace CptS321
             this.cells = cells;
         }
 
-        public ChangeColor(Cell cell, uint bGColor, uint v)
-        {
-            this.cell = cell;
-            this.bGColor = bGColor;
-            this.v = v;
-        }
+        
 
+        
         public void Execute()
         {
             foreach (Cell cell in this.cells)
@@ -38,7 +33,7 @@ namespace CptS321
 
         }
 
-        public void Undo()
+        public void UnExecute()
         {
             for (int i = 0; i < cells.Count; i++)
             {

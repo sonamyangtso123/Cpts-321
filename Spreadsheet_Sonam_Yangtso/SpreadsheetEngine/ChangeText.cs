@@ -12,6 +12,8 @@ namespace CptS321
         private string oldText;
         private string newText;
         private Cell cell;
+        
+        
 
         public ChangeText(Cell cell, string oldText,  string newText)
         {
@@ -20,12 +22,13 @@ namespace CptS321
             this.newText = newText;
         }
 
+       
         public void Execute()
         {
             this.cell.Text = this.newText;
         }
 
-        public void Undo()
+        public void UnExecute()
         {
             this.cell.Text = this.oldText;
         }
