@@ -101,14 +101,8 @@ namespace CptS321
                     else if (node is VariableNode)
                     {
                         operandStack.Push(node);
-                        //if (variables.ContainsKey(((VariableNode)node).Name)){
-                        //    SetVariable(((VariableNode)node).Name, ((VariableNode)node).Value);
-                        //}
-                        //else
-                        //{
-                        //    throw new Exception("dfha");
-                        //}
-                        this.variables.Add(((VariableNode)node).Name, 0); // Variable values set to 0 by default
+
+                        this.variables.Add(((VariableNode)node).Name, 0);
                     }
                     else
                     {
@@ -230,7 +224,6 @@ namespace CptS321
         /// <returns> node .</returns>
         private ExpressionTreeNode CreateNode(string name)
         {
-
             if ((name[0] >= 48 && name[0] <= 57) || (name.Length > 1 && name[0] == '-'))
             {
                 /* First character is a number: Constant Node */

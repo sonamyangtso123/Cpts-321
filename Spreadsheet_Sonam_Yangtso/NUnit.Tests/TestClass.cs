@@ -279,7 +279,7 @@ namespace CptS321
         // Homework7 test cases starts here
 
         /// <summary>
-        /// This is to test the parentheses
+        /// This is to test the parentheses.
         /// </summary>
         [Test]
         public void TestParentheses()

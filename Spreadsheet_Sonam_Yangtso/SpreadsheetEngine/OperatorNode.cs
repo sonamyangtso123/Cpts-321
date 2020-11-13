@@ -67,6 +67,8 @@ namespace CptS321
         /// <returns>
         /// double value after evaluation.
         /// </returns>
+#pragma warning disable SA1611 // Element parameters should be documented
         public abstract override double Evaluate(ref Dictionary<string, double> variables);
+#pragma warning restore SA1611 // Element parameters should be documented
     }
 }

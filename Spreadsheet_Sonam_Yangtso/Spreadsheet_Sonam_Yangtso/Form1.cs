@@ -50,13 +50,14 @@ namespace CptS321
                 this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[row - 1].HeaderCell.Value = row.ToString();
             }
+
             this.sheet.CellPropertyChanged += this.OnCellPropertyChanged;
         }
 
         /// <summary>
-        /// This method implements when a cell's Value changes 
+        /// This method implements when a cell's Value changes.
         /// it gets updates in the DataGridView.
-        /// Event Handler
+        /// Event Handler.
         /// </summary>
         /// <param name="sender"> for the cell.</param>
         /// <param name="e">for thecell. </param>
@@ -69,10 +70,9 @@ namespace CptS321
                 // Modify the value in the ColumnIndex cell of the RowIndex row.
                 this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Value = updateCell.Value;
             }
-
             else if (e.PropertyName == "Color")
             {
-                this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Style.BackColor = Color.FromArgb((Int32)(updateCell).BGColor);
+                this.dataGridView1.Rows[updateCell.RowIndex].Cells[updateCell.ColumnIndex].Style.BackColor = Color.FromArgb((int)updateCell.BGColor);
             }
         }
 
@@ -98,12 +98,11 @@ namespace CptS321
         }
 
         /// <summary>
-        /// This event handler fr any chenges in cell text
+        /// This event handler fr any chenges in cell text.
         /// </summary>
         /// <param name="sender">object sender.</param>
-        /// <param name="e"> event handler</param>
+        /// <param name="e"> event handler.</param>
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-
         {
             // this.sheet.GetCell(e.RowIndex, e.ColumnIndex).Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             this.sheet.CellTextChanged(e.RowIndex, e.ColumnIndex, (string)this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
@@ -115,16 +114,15 @@ namespace CptS321
         /// <summary>
         /// event handler for back ground color change in the cell.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object sender.</param>
+        /// <param name="e"> e.</param>
         private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<Cell> cells = new List<Cell>();
             List<uint> oldColors = new List<uint>();
 
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            if (this.colorDialog1.ShowDialog() == DialogResult.OK)
             {
-
                 foreach (DataGridViewCell cell in this.dataGridView1.SelectedCells)
                 {
                     cells.Add(this.sheet.GetCell(cell.RowIndex, cell.ColumnIndex));
@@ -133,16 +131,17 @@ namespace CptS321
                 }
 
                 ICommand cmd = new ChangeColor(cells, oldColors, (uint)this.colorDialog1.Color.ToArgb());
-                commandManager.AddUndo(cmd);
+                this.commandManager.AddUndo(cmd);
                 this.UndoRedoAvailable();
             }
         }
+
     /// <summary>
-    /// This method checks there is any undo or redo available on the cell grid
+    /// This method checks there is any undo or redo available on the cell grid.
     /// </summary>
         private void UndoRedoAvailable()
         {
-            if (commandManager.UndoAvailable() == false)
+            if (this.commandManager.UndoAvailable() == false)
             {
                 this.undoToolStripMenuItem.Enabled = false;
             }
@@ -172,10 +171,5 @@ namespace CptS321
             this.commandManager.RedoCommand();
             this.UndoRedoAvailable();
         }
-
     }
 }
-
-
-
-
