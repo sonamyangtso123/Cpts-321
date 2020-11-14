@@ -328,5 +328,36 @@ namespace CptS321
             Assert.AreEqual(B1.Text, "A1+B2");
             Assert.AreEqual(B2.Text, "8");
         }
+
+        // Homework #8
+
+        /// <summary>
+        /// This method test the ICommand execute method..
+        /// </summary>
+        [Test]
+        public void TestChangeColortExecuteMethod()
+        {
+            Spreadsheet spreadsheet = new Spreadsheet(26, 50);
+            Invoker commandControl = new Invoker();
+
+            ICommand cmd1 = new ChangeText(spreadsheet.GetCell(1, 1), "10", "50");
+            cmd1.Execute();
+
+            Assert.AreEqual(spreadsheet.GetCell(1, 1).Text, "50");
+            cmd1.UnExecute();
+            Assert.AreEqual(spreadsheet.GetCell(1, 1).Text, "10");
+        }
+
+        /// <summary>
+        /// TestCahnge method.
+        /// </summary>
+        [Test]
+        public void TestCellTextChanged()
+        {
+            Spreadsheet spreadsheet = new Spreadsheet(26, 50);
+
+            spreadsheet.CellTextChanged(5, 5, "10");
+            Assert.AreEqual(double.Parse(spreadsheet.GetCell(5, 5).Value), 10);
+        }
     }
 }
