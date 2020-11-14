@@ -349,6 +349,31 @@ namespace CptS321
         }
 
         /// <summary>
+        /// This method test the Invoker class methods.
+        /// </summary>
+        [Test]
+        public void TestRedoUNdoCommand()
+        {
+            Spreadsheet spreadsheet = new Spreadsheet(26, 50);
+            Invoker commandControl = new Invoker();
+
+            ICommand cmd = new ChangeText(spreadsheet.GetCell(1, 1), "40","20");
+            cmd.Execute();
+            commandControl.AddUndo(cmd);
+
+            Assert.AreEqual(spreadsheet.GetCell(1, 1).Text, "20");
+
+            commandControl.UndoCommand();
+
+            Assert.AreEqual(spreadsheet.GetCell(1, 1).Text, "40");
+
+            commandControl.RedoCommand();
+
+            Assert.AreEqual(spreadsheet.GetCell(1, 1).Text, "20");
+        }
+
+
+        /// <summary>
         /// TestCahnge method.
         /// </summary>
         [Test]
