@@ -171,5 +171,10 @@ namespace CptS321
             this.commandManager.RedoCommand();
             this.UndoRedoAvailable();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
