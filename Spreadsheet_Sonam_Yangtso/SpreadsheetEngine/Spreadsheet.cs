@@ -158,9 +158,9 @@ namespace CptS321
 
         private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-                this.EvaluateNewCellValue((Cell)sender);
+            this.EvaluateNewCellValue((Cell)sender);
 
-                this.CellPropertyChanged.Invoke(sender, e);
+            this.CellPropertyChanged.Invoke(sender, e);
         }
 
         public void Save(Stream stream)
@@ -198,12 +198,15 @@ namespace CptS321
             writeFile.Close();
         }
 
-        public void Load(Stream stream)
+
+
+
+        public void Load(Stream filename)
         {
-            Cell tempCell = new SpreadsheetCell(-1, -1);
+            Cell temporyCell = new SpreadsheetCell(-1, -1);
 
             // Create a file to read
-            XmlReader readFile = XmlReader.Create(stream);
+            XmlReader file = XmlReader.Create(filename);
 
             // Clear all cells before loading
             foreach (Cell cell in this.ArrayOfCells)
@@ -213,32 +216,34 @@ namespace CptS321
             }
 
             // Read through the file
-            while (!readFile.EOF)
+            while (!file.EOF)
             {
-                if (readFile.NodeType == XmlNodeType.Element && readFile.Name == "cell")
+                if (file.NodeType == XmlNodeType.Element && file.Name == "cell")
                 {
-                    tempCell = this.ArrayOfCells[int.Parse(readFile.GetAttribute("row")), int.Parse(readFile.GetAttribute("col"))];
-                    readFile.Read();
+                    temporyCell = this.ArrayOfCells[int.Parse(file.GetAttribute("row")), int.Parse(file.GetAttribute("column"))];
+                    file.Read();
                 }
-                else if (readFile.NodeType == XmlNodeType.Element && readFile.Name == "BGColor")
-                    tempCell.BGColor = uint.Parse(readFile.ReadElementContentAsString());
-            
-                else if (readFile.NodeType == XmlNodeType.Element && readFile.Name == "Text")
-            {
-                tempCell.Text = readFile.ReadElementContentAsString();
+                else if (file.NodeType == XmlNodeType.Element && file.Name == "BGColor")
+                {
+                    temporyCell.BGColor = uint.Parse(file.ReadElementContentAsString());
+                }
+                else if (file.NodeType == XmlNodeType.Element && file.Name == "Text")
+                {
+                    temporyCell.Text = file.ReadElementContentAsString();
+                }
+                else
+                {
+                    file.Read();
+                }
             }
-            else
-            {
-                readFile.Read();
-            }
+
+            // Close the file
+            file.Close();
         }
 
-        // Close the file
-        readFile.Close();
-        }
 
 
 
-
+    }
 }
-}
+

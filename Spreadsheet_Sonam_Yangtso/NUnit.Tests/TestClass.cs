@@ -7,6 +7,8 @@ using CptS321;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.SymbolStore;
 using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 
 namespace CptS321
 {
@@ -371,7 +373,6 @@ namespace CptS321
 
             Assert.AreEqual(spreadsheet.GetCell(1, 1).Text, "20");
         }
-
 
         /// <summary>
         /// TestCahnge method.

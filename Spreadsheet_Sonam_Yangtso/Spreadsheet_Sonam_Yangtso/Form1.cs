@@ -172,44 +172,55 @@ namespace CptS321
             this.UndoRedoAvailable();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        /// <summary>
+        /// Save button will execute the save method in the spreadsheet cell.
+        /// </summary>
+        /// <param name="sender"> sender.</param>
+        /// <param name="e">e .</param>
 
+        private void SaveToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            // Only allow to save XML files.
             this.saveFileDialog1.Filter = "XML Files (*.xml)|*.xml";
-            this.saveFileDialog1.Title = "Save an XML File";
             this.saveFileDialog1.FilterIndex = 0;
+            this.saveFileDialog1.Title = "Save an XML File";
             this.saveFileDialog1.DefaultExt = "xml";
-            this.saveFileDialog1.ShowDialog();
-            if (this.saveFileDialog1.FileName != string.Empty)
+
+            if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 System.IO.FileStream fileStream = (System.IO.FileStream)this.saveFileDialog1.OpenFile();
-
                 this.sheet.Save(fileStream);
-
                 fileStream.Close();
+
             }
+
         }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// this Load button will execute the load method from spreadsheet class.
+        /// </summary>
+        /// <param name="sender">sender.</param>
+        /// <param name="e">e.</param>
+        private void LoadToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            this.saveFileDialog1.Filter = "XML Files (*.xml)|*.xml";
-            this.saveFileDialog1.Title = "Save an XML File";
-            this.saveFileDialog1.FilterIndex = 0;
-            this.saveFileDialog1.DefaultExt = "xml";
-            this.saveFileDialog1.ShowDialog();
-            if (this.saveFileDialog1.FileName != string.Empty)
-            {
-                System.IO.FileStream fileStream = (System.IO.FileStream)this.saveFileDialog1.OpenFile();
+            // Only open xml files.
+            this.openFileDialog1.Filter = "XML Files (*.xml)|*.xml";
+            this.openFileDialog1.FilterIndex = 0;
+            this.openFileDialog1.DefaultExt = "xml";
+            this.openFileDialog1.Title = "Open an XML File";
 
-                this.commandManager.ClearRedoStack();
+            if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.FileStream fileStream = (System.IO.FileStream)this.openFileDialog1.OpenFile();
+
                 this.commandManager.ClearUndoStack();
-                this.UndoRedoAvailable();
+                this.commandManager.ClearRedoStack();
                 this.sheet.Load(fileStream);
 
                 fileStream.Close();
-            }
-        }
 
-        
+            }
+
+        }
     }
 }
