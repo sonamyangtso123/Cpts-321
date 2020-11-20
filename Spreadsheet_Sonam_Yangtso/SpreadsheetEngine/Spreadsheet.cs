@@ -163,6 +163,10 @@ namespace CptS321
             this.CellPropertyChanged.Invoke(sender, e);
         }
 
+        /// <summary>
+        /// this function save the xml function on a local desktop.
+        /// </summary>
+        /// <param name="stream"> file name.</param>
         public void Save(Stream stream)
         {
             // create an writeFile for xml file
@@ -198,15 +202,16 @@ namespace CptS321
             writeFile.Close();
         }
 
-
-
-
-        public void Load(Stream filename)
+        /// <summary>
+        /// this function loads the xml file.
+        /// </summary>
+        /// <param name="stream"> file name.</param>
+        public void Load(Stream stream)
         {
             Cell temporyCell = new SpreadsheetCell(-1, -1);
 
             // Create a file to read
-            XmlReader file = XmlReader.Create(filename);
+            XmlReader file = XmlReader.Create(stream);
 
             // Clear all cells before loading
             foreach (Cell cell in this.ArrayOfCells)
@@ -240,10 +245,5 @@ namespace CptS321
             // Close the file
             file.Close();
         }
-
-
-
-
     }
 }
-

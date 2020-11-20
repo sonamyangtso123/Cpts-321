@@ -177,7 +177,6 @@ namespace CptS321
         /// </summary>
         /// <param name="sender"> sender.</param>
         /// <param name="e">e .</param>
-
         private void SaveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             // Only allow to save XML files.
@@ -191,9 +190,7 @@ namespace CptS321
                 System.IO.FileStream fileStream = (System.IO.FileStream)this.saveFileDialog1.OpenFile();
                 this.sheet.Save(fileStream);
                 fileStream.Close();
-
             }
-
         }
 
         /// <summary>
@@ -218,9 +215,7 @@ namespace CptS321
                 this.sheet.Load(fileStream);
 
                 fileStream.Close();
-
             }
-
         }
     }
 }
