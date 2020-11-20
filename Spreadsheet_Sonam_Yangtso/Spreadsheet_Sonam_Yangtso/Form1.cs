@@ -172,9 +172,44 @@ namespace CptS321
             this.UndoRedoAvailable();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            this.saveFileDialog1.Filter = "XML Files (*.xml)|*.xml";
+            this.saveFileDialog1.Title = "Save an XML File";
+            this.saveFileDialog1.FilterIndex = 0;
+            this.saveFileDialog1.DefaultExt = "xml";
+            this.saveFileDialog1.ShowDialog();
+            if (this.saveFileDialog1.FileName != string.Empty)
+            {
+                System.IO.FileStream fileStream = (System.IO.FileStream)this.saveFileDialog1.OpenFile();
+
+                this.sheet.Save(fileStream);
+
+                fileStream.Close();
+            }
         }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.saveFileDialog1.Filter = "XML Files (*.xml)|*.xml";
+            this.saveFileDialog1.Title = "Save an XML File";
+            this.saveFileDialog1.FilterIndex = 0;
+            this.saveFileDialog1.DefaultExt = "xml";
+            this.saveFileDialog1.ShowDialog();
+            if (this.saveFileDialog1.FileName != string.Empty)
+            {
+                System.IO.FileStream fileStream = (System.IO.FileStream)this.saveFileDialog1.OpenFile();
+
+                this.commandManager.ClearRedoStack();
+                this.commandManager.ClearUndoStack();
+                this.UndoRedoAvailable();
+                this.sheet.Load(fileStream);
+
+                fileStream.Close();
+            }
+        }
+
+        
     }
 }

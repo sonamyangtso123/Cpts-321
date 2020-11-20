@@ -7,10 +7,12 @@ namespace CptS321
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
     using CptS321;
 
     /// <summary>
@@ -160,5 +162,83 @@ namespace CptS321
 
                 this.CellPropertyChanged.Invoke(sender, e);
         }
-    }
+
+        public void Save(Stream stream)
+        {
+            // create an writeFile for xml file
+            XmlWriter writeFile = XmlWriter.Create(stream);
+            writeFile.WriteStartDocument();
+
+            // create outermost element of the xml file
+            writeFile.WriteStartElement("Spreadsheet");
+            foreach (var cell in this.ArrayOfCells)
+            {
+                // if each cell has non default value
+                if (cell.Text != string.Empty || cell.BGColor != 0xFFFFFFFF)
+                {
+                    writeFile.WriteStartElement("cell");
+                    writeFile.WriteAttributeString("row", cell.RowIndex.ToString());
+                    writeFile.WriteAttributeString("column", cell.ColumnIndex.ToString());
+
+                    writeFile.WriteStartElement("BGColor");
+                    writeFile.WriteString(cell.BGColor.ToString());
+                    writeFile.WriteEndElement();
+
+                    writeFile.WriteStartElement("Text");
+                    writeFile.WriteString(cell.Text);
+                    writeFile.WriteEndElement();
+
+                    writeFile.WriteEndElement();
+                }
+            }
+
+            writeFile.WriteEndElement();
+            writeFile.WriteEndDocument();
+
+            writeFile.Close();
+        }
+
+        public void Load(Stream stream)
+        {
+            Cell tempCell = new SpreadsheetCell(-1, -1);
+
+            // Create a file to read
+            XmlReader readFile = XmlReader.Create(stream);
+
+            // Clear all cells before loading
+            foreach (Cell cell in this.ArrayOfCells)
+            {
+                cell.BGColor = 0xFFFFFFFF;
+                cell.Text = string.Empty;
+            }
+
+            // Read through the file
+            while (!readFile.EOF)
+            {
+                if (readFile.NodeType == XmlNodeType.Element && readFile.Name == "cell")
+                {
+                    tempCell = this.ArrayOfCells[int.Parse(readFile.GetAttribute("row")), int.Parse(readFile.GetAttribute("col"))];
+                    readFile.Read();
+                }
+                else if (readFile.NodeType == XmlNodeType.Element && readFile.Name == "BGColor")
+                    tempCell.BGColor = uint.Parse(readFile.ReadElementContentAsString());
+            
+                else if (readFile.NodeType == XmlNodeType.Element && readFile.Name == "Text")
+            {
+                tempCell.Text = readFile.ReadElementContentAsString();
+            }
+            else
+            {
+                readFile.Read();
+            }
+        }
+
+        // Close the file
+        readFile.Close();
+        }
+
+
+
+
+}
 }
