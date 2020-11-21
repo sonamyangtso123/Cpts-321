@@ -9,6 +9,7 @@ namespace CptS321
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
+    using System.IO;
 
     /// <summary>
     /// This is another main class.
@@ -187,7 +188,7 @@ namespace CptS321
 
             if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                System.IO.FileStream fileStream = (System.IO.FileStream)this.saveFileDialog1.OpenFile();
+                FileStream fileStream = (FileStream)this.saveFileDialog1.OpenFile();
                 this.sheet.Save(fileStream);
                 fileStream.Close();
             }
@@ -208,7 +209,7 @@ namespace CptS321
 
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                System.IO.FileStream fileStream = (System.IO.FileStream)this.openFileDialog1.OpenFile();
+                FileStream fileStream = (FileStream)this.openFileDialog1.OpenFile();
 
                 this.commandManager.ClearUndoStack();
                 this.commandManager.ClearRedoStack();
