@@ -392,7 +392,7 @@ namespace CptS321
         {
             Spreadsheet sheet = new Spreadsheet(26, 50);
             sheet.CellTextChanged(5, 5, "=6+Cell*231");
-            Assert.AreEqual(sheet.GetCell(5, 5).Value, "!(Invalid Reference)");
+            Assert.AreEqual(sheet.GetCell(5, 5).Value, "!(Bad Reference)");
         }
 
         [Test]
@@ -407,8 +407,17 @@ namespace CptS321
         public void TestSelfReference()
         {
             Spreadsheet sheet = new Spreadsheet(26, 50);
-            sheet.CellTextChanged(0, 0, "=3+B1*A1");
-            Assert.AreEqual(sheet.GetCell(2, 1).Value, "!(self Reference)");
+            sheet.CellTextChanged(0, 0, "=(100*B1/A2)");
+
+            Assert.AreEqual(sheet.GetCell(0, 0).Value, "!(Self Reference)");
+        }
+
+        [Test]
+        public void TestValueText()
+        {
+            Spreadsheet sheet = new Spreadsheet(26, 50);
+            sheet.CellTextChanged(2, 3, "Cpts321");
+            Assert.AreEqual(sheet.GetCell(2, 3).Value, "Cpts321");
         }
     }
 }

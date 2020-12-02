@@ -123,40 +123,36 @@ namespace CptS321
 
         private void EvaluateNewCellValue(Cell currentCell)
         {
-            /* Conversion Required */
+            // if the cell text was not start with '=' then cell value is eqaul with cell text
             if (currentCell.Text[0] != '=')
             {
                 currentCell.Value = currentCell.Text;
             }
             else
             {
-                int col = 0;
-                int row = 0;
-                
-
-                /* Set value equal to another cell's value */
+                // if the cell text with '=' then we take expression in the ExpressionTree after '='
                 ExpressionTree expTree = new ExpressionTree(currentCell.Text.Substring(1));
 
+                // save all the variables names in the ExpressionTree into variableList
                 List<string> variableList = expTree.GetVariableName();
 
-                /* Can assume that all variables will be cells in the form (A1, B2, etc.) for this Assignment */
+                // iterate each keys from variableList
                 foreach (string key in variableList)
                 {
-                    int colNum = key[0] - 65;       // convert ascii to index
+                    // convert col to its unicode representation
+                    int col = key[0] - 65;
 
-
-                    if (int.TryParse(key.Substring(1), out row))
+                    if (int.TryParse(key.Substring(1), out int row))
                     {
                         row -= 1;
                     }
-
-
                     else
                     {
                         currentCell.Value = "!(Bad Reference)";
                         return;
                     }
 
+                    // check if the cell is within the bounds of the spreadsheet
                     if (col < 0 || col > this.NumberOfColumns || row < 0 || row > this.NumberOfRows)
                     {
                         currentCell.Value = "!(Out of Bound)";
@@ -169,12 +165,7 @@ namespace CptS321
                         currentCell.Value = "!(Self Reference)";
                         return;
                     }
-                    /* Check non-empty */
-                    if (key == string.Empty)
-                    {
-                        currentCell.Value = "!(Empty Reference)";
-                        return;
-                    }
+
                     // check for circular reference
                     try
                     {
@@ -193,7 +184,33 @@ namespace CptS321
                 }
 
                 currentCell.Value = expTree.Evaluate().ToString();
+            }
+        }
 
+        private void CheckCircularRef(Cell previousCell, Cell currentCell)
+        {
+            // If the base cell and current cell are same then it is a circular reference.
+            if (currentCell == previousCell)
+            {
+                throw new CircularReferenceException();
+            }
+            else
+            {
+                // See whether the cell has an expression
+                if (currentCell.Text != string.Empty && currentCell.Text[0] == '=')
+                {
+                    ExpressionTree expTree = new ExpressionTree(currentCell.Text.Substring(1));
+
+                    List<string> variableList = expTree.GetVariableName();
+
+                    foreach (string var in variableList)
+                    {
+                        int column = var[0] - 65;
+                        int row = int.Parse(var[1].ToString()) - 1;
+
+                        this.CheckCircularRef(previousCell, this.ArrayOfCells[row, column]);
+                    }
+                }
             }
         }
 
@@ -285,33 +302,6 @@ namespace CptS321
 
             // Close the file
             file.Close();
-        }
-
-        private void CheckCircularRef(Cell previousCell, Cell currentCell)
-        {
-            // If the base cell and current cell are same then it is a circular reference.
-            if (currentCell == previousCell)
-            {
-                throw new CircularReferenceException();
-            }
-            else
-            {
-                // See whether the cell has an expression
-                if (currentCell.Text != string.Empty && currentCell.Text[0] == '=')
-                {
-                    ExpressionTree expTree = new ExpressionTree(currentCell.Text.Substring(1));
-
-                    List<string> variableList = expTree.GetVariableName();
-
-                    foreach (string var in variableList)
-                    {
-                        int column = var[0] - 65;
-                        int row = int.Parse(var[1].ToString()) - 1;
-
-                        this.CheckCircularRef(previousCell, this.ArrayOfCells[row, column]);
-                    }
-                }
-            }
         }
     }
 }

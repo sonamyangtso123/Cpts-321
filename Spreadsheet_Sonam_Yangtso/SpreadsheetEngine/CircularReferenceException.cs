@@ -22,17 +22,5 @@ namespace CptS321
         public CircularReferenceException()
         {
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CircularReferenceException"/> class.
-        /// This constructor takes in a message to output during a circular reference.
-        /// </summary>
-        /// <param name="message">
-        /// Takes in the string.
-        /// </param>
-        public CircularReferenceException(string message)
-            : base(string.Format("Circular Reference: {0}", message))
-        {
-        }
     }
 }
