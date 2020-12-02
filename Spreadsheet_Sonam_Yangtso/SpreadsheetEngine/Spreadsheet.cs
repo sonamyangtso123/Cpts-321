@@ -130,6 +130,10 @@ namespace CptS321
             }
             else
             {
+                int col = 0;
+                int row = 0;
+                
+
                 /* Set value equal to another cell's value */
                 ExpressionTree expTree = new ExpressionTree(currentCell.Text.Substring(1));
 
@@ -139,20 +143,57 @@ namespace CptS321
                 foreach (string key in variableList)
                 {
                     int colNum = key[0] - 65;       // convert ascii to index
-                    int rowNum = int.Parse(key[1].ToString()) - 1;
 
-                    if (double.TryParse(this.GetCell(rowNum, colNum).Value, out double value))
+
+                    if (int.TryParse(key.Substring(1), out row))
                     {
-                        expTree.SetVariable(key, value);
+                        row -= 1;
                     }
+
+
                     else
                     {
-                        expTree.SetVariable(key, 0);
+                        currentCell.Value = "!(Bad Reference)";
+                        return;
+                    }
+
+                    if (col < 0 || col > this.NumberOfColumns || row < 0 || row > this.NumberOfRows)
+                    {
+                        currentCell.Value = "!(Out of Bound)";
+                        return;
+                    }
+
+                    // check for self reference
+                    if (currentCell.RowIndex == row && currentCell.ColumnIndex == col)
+                    {
+                        currentCell.Value = "!(Self Reference)";
+                        return;
+                    }
+                    /* Check non-empty */
+                    if (key == string.Empty)
+                    {
+                        currentCell.Value = "!(Empty Reference)";
+                        return;
+                    }
+                    // check for circular reference
+                    try
+                    {
+                        this.CheckCircularRef(currentCell, this.ArrayOfCells[row, col]);
+                    }
+                    catch (CircularReferenceException)
+                    {
+                        currentCell.Value = "!(Circular Reference)";
+                        return;
+                    }
+
+                    if (double.TryParse(this.ArrayOfCells[row, col].Value, out double value))
+                    {
+                        expTree.SetVariable(key, value);
                     }
                 }
 
                 currentCell.Value = expTree.Evaluate().ToString();
-                Console.WriteLine(currentCell.Value);
+
             }
         }
 
@@ -244,6 +285,33 @@ namespace CptS321
 
             // Close the file
             file.Close();
+        }
+
+        private void CheckCircularRef(Cell previousCell, Cell currentCell)
+        {
+            // If the base cell and current cell are same then it is a circular reference.
+            if (currentCell == previousCell)
+            {
+                throw new CircularReferenceException();
+            }
+            else
+            {
+                // See whether the cell has an expression
+                if (currentCell.Text != string.Empty && currentCell.Text[0] == '=')
+                {
+                    ExpressionTree expTree = new ExpressionTree(currentCell.Text.Substring(1));
+
+                    List<string> variableList = expTree.GetVariableName();
+
+                    foreach (string var in variableList)
+                    {
+                        int column = var[0] - 65;
+                        int row = int.Parse(var[1].ToString()) - 1;
+
+                        this.CheckCircularRef(previousCell, this.ArrayOfCells[row, column]);
+                    }
+                }
+            }
         }
     }
 }
