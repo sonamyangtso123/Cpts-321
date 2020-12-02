@@ -7,10 +7,12 @@ namespace CptS321
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
     using CptS321;
 
     /// <summary>
@@ -156,9 +158,92 @@ namespace CptS321
 
         private void OnSpreadsheetPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-                this.EvaluateNewCellValue((Cell)sender);
+            this.EvaluateNewCellValue((Cell)sender);
 
-                this.CellPropertyChanged.Invoke(sender, e);
+            this.CellPropertyChanged.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// this function save the xml function on a local desktop.
+        /// </summary>
+        /// <param name="stream"> file name.</param>
+        public void Save(Stream stream)
+        {
+            // create an writeFile for xml file
+            XmlWriter writeFile = XmlWriter.Create(stream);
+            writeFile.WriteStartDocument();
+
+            // create outermost element of the xml file
+            writeFile.WriteStartElement("Spreadsheet");
+            foreach (var cell in this.ArrayOfCells)
+            {
+                // if each cell has non default value
+                if (cell.Text != string.Empty || cell.BGColor != 0xFFFFFFFF)
+                {
+                    writeFile.WriteStartElement("cell");
+                    writeFile.WriteAttributeString("row", cell.RowIndex.ToString());
+                    writeFile.WriteAttributeString("column", cell.ColumnIndex.ToString());
+
+                    writeFile.WriteStartElement("BGColor");
+                    writeFile.WriteString(cell.BGColor.ToString());
+                    writeFile.WriteEndElement();
+
+                    writeFile.WriteStartElement("Text");
+                    writeFile.WriteString(cell.Text);
+                    writeFile.WriteEndElement();
+
+                    writeFile.WriteEndElement();
+                }
+            }
+
+            writeFile.WriteEndElement();
+            writeFile.WriteEndDocument();
+
+            writeFile.Close();
+        }
+
+        /// <summary>
+        /// this function loads the xml file.
+        /// </summary>
+        /// <param name="stream"> file name.</param>
+        public void Load(Stream stream)
+        {
+            Cell temporyCell = new SpreadsheetCell(-1, -1);
+
+            // Create a file to read
+            XmlReader file = XmlReader.Create(stream);
+
+            // Clear all cells before loading
+            foreach (Cell cell in this.ArrayOfCells)
+            {
+                cell.BGColor = 0xFFFFFFFF;
+                cell.Text = string.Empty;
+            }
+
+            // Read through the file
+            while (!file.EOF)
+            {
+                if (file.NodeType == XmlNodeType.Element && file.Name == "cell")
+                {
+                    temporyCell = this.ArrayOfCells[int.Parse(file.GetAttribute("row")), int.Parse(file.GetAttribute("column"))];
+                    file.Read();
+                }
+                else if (file.NodeType == XmlNodeType.Element && file.Name == "BGColor")
+                {
+                    temporyCell.BGColor = uint.Parse(file.ReadElementContentAsString());
+                }
+                else if (file.NodeType == XmlNodeType.Element && file.Name == "Text")
+                {
+                    temporyCell.Text = file.ReadElementContentAsString();
+                }
+                else
+                {
+                    file.Read();
+                }
+            }
+
+            // Close the file
+            file.Close();
         }
     }
 }

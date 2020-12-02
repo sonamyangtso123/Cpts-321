@@ -87,5 +87,15 @@ namespace CptS321
 
             return false;
         }
+
+        public void ClearUndoStack()
+        {
+            this.undoStack.Clear();
+        }
+
+        public void ClearRedoStack()
+        {
+            this.redoStack.Clear();
+        }
     }
 }
