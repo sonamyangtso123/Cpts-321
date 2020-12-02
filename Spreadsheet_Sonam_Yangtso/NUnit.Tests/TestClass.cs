@@ -359,7 +359,7 @@ namespace CptS321
             Spreadsheet spreadsheet = new Spreadsheet(26, 50);
             Invoker commandControl = new Invoker();
 
-            ICommand cmd = new ChangeText(spreadsheet.GetCell(1, 1), "40","20");
+            ICommand cmd = new ChangeText(spreadsheet.GetCell(1, 1), "40", "20");
             cmd.Execute();
             commandControl.AddUndo(cmd);
 
@@ -384,6 +384,31 @@ namespace CptS321
 
             spreadsheet.CellTextChanged(5, 5, "10");
             Assert.AreEqual(double.Parse(spreadsheet.GetCell(5, 5).Value), 10);
+        }
+
+        // Homework10 test cases:
+        [Test]
+        public void TestBadReference()
+        {
+            Spreadsheet sheet = new Spreadsheet(26, 50);
+            sheet.CellTextChanged(5, 5, "=6+Cell*231");
+            Assert.AreEqual(sheet.GetCell(5, 5).Value, "!(Invalid Reference)");
+        }
+
+        [Test]
+        public void TestOutOfBound()
+        {
+            Spreadsheet sheet = new Spreadsheet(26, 50);
+            sheet.CellTextChanged(2, 1, "=A54");
+            Assert.AreEqual(sheet.GetCell(2, 1).Value, "!(Out of Bound)");
+        }
+
+        [Test]
+        public void TestSelfReference()
+        {
+            Spreadsheet sheet = new Spreadsheet(26, 50);
+            sheet.CellTextChanged(0, 0, "=3+B1*A1");
+            Assert.AreEqual(sheet.GetCell(2, 1).Value, "!(self Reference)");
         }
     }
 }
