@@ -187,10 +187,10 @@ namespace CptS321
             }
         }
 
-        private void CheckCircularRef(Cell previousCell, Cell currentCell)
+        private void CheckCircularRef(Cell preCell, Cell currentCell)
         {
             // If the base cell and current cell are same then it is a circular reference.
-            if (currentCell == previousCell)
+            if (currentCell == preCell)
             {
                 throw new CircularReferenceException();
             }
@@ -208,7 +208,7 @@ namespace CptS321
                         int column = var[0] - 65;
                         int row = int.Parse(var[1].ToString()) - 1;
 
-                        this.CheckCircularRef(previousCell, this.ArrayOfCells[row, column]);
+                        this.CheckCircularRef(preCell, this.ArrayOfCells[row, column]);
                     }
                 }
             }

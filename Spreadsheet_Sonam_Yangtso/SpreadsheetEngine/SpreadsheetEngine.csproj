@@ -45,6 +45,7 @@
     <Compile Include="ChangeColor.cs" />
     <Compile Include="ChangeText.cs" />
     <Compile Include="CircularReferenceException.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Invoker.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="LeftParentheses.cs" />
