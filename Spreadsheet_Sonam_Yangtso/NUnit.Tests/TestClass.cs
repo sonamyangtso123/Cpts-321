@@ -387,6 +387,10 @@ namespace CptS321
         }
 
         // Homework10 test cases:
+
+        /// <summary>
+        /// This is for bad reference test.
+        /// </summary>
         [Test]
         public void TestBadReference()
         {
@@ -395,23 +399,35 @@ namespace CptS321
             Assert.AreEqual(sheet.GetCell(5, 5).Value, "!(Bad Reference)");
         }
 
+        /// <summary>
+        /// This is to test the out of bound.
+        /// </summary>
         [Test]
         public void TestOutOfBound()
         {
             Spreadsheet sheet = new Spreadsheet(26, 50);
             sheet.CellTextChanged(2, 1, "=A54");
-            Assert.AreEqual(sheet.GetCell(2, 1).Value, "!(Out of Bound)");
+            Assert.AreEqual(sheet.GetCell(2, 1).Value, "!(Beyond the range)");
         }
 
+        /// <summary>
+        /// This is to test the self reference.
+        /// </summary>
         [Test]
         public void TestSelfReference()
         {
             Spreadsheet sheet = new Spreadsheet(26, 50);
-            sheet.CellTextChanged(0, 0, "=(100*B1/A2)");
+            sheet.CellTextChanged(0, 0, "=(100*A1+100)");
 
             Assert.AreEqual(sheet.GetCell(0, 0).Value, "!(Self Reference)");
+            sheet.CellTextChanged(0, 0, "=100+(100*0+100)");
+
+            Assert.AreEqual(sheet.GetCell(0, 0).Value, "200");
         }
 
+        /// <summary>
+        /// this to test if the value in the cell is not start with '='.
+        /// </summary>
         [Test]
         public void TestValueText()
         {

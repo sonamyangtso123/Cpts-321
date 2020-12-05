@@ -121,6 +121,10 @@ namespace CptS321
             }
         }
 
+        /// <summary>
+        ///  this function checks the current cell has something that doesnot exit in spreadsheet.
+        /// </summary>
+        /// <param name="currentCell"> current working cell.</param>
         private void EvaluateNewCellValue(Cell currentCell)
         {
             // if the cell text was not start with '=' then cell value is eqaul with cell text
@@ -155,7 +159,7 @@ namespace CptS321
                     // check if the cell is within the bounds of the spreadsheet
                     if (col < 0 || col > this.NumberOfColumns || row < 0 || row > this.NumberOfRows)
                     {
-                        currentCell.Value = "!(Out of Bound)";
+                        currentCell.Value = "!(Beyond the range)";
                         return;
                     }
 
@@ -187,6 +191,11 @@ namespace CptS321
             }
         }
 
+        /// <summary>
+        /// This method checks is there any cell who has circular reference.
+        /// </summary>
+        /// <param name="preCell"> prevouseCell.</param>
+        /// <param name="currentCell">current Cell.</param>
         private void CheckCircularRef(Cell preCell, Cell currentCell)
         {
             // If the base cell and current cell are same then it is a circular reference.
