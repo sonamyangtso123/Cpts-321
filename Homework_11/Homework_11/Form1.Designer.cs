@@ -45,7 +45,7 @@ namespace Homework_11
             // 
             // urlDownloadButton
             // 
-            this.urlDownloadButton.Location = new System.Drawing.Point(428, 104);
+            this.urlDownloadButton.Location = new System.Drawing.Point(420, 84);
             this.urlDownloadButton.Name = "urlDownloadButton";
             this.urlDownloadButton.Size = new System.Drawing.Size(309, 36);
             this.urlDownloadButton.TabIndex = 1;
@@ -55,16 +55,17 @@ namespace Homework_11
             // 
             // resultDataTextBox
             // 
-            this.resultDataTextBox.Location = new System.Drawing.Point(434, 236);
+            this.resultDataTextBox.Location = new System.Drawing.Point(408, 149);
             this.resultDataTextBox.Multiline = true;
             this.resultDataTextBox.Name = "resultDataTextBox";
-            this.resultDataTextBox.Size = new System.Drawing.Size(321, 250);
+            this.resultDataTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.resultDataTextBox.Size = new System.Drawing.Size(321, 318);
             this.resultDataTextBox.TabIndex = 2;
             // 
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(441, 20);
+            this.Label1.Location = new System.Drawing.Point(429, 20);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(42, 20);
             this.Label1.TabIndex = 3;
@@ -73,7 +74,8 @@ namespace Homework_11
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(445, 218);
+            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label2.Location = new System.Drawing.Point(416, 136);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(197, 20);
             this.label2.TabIndex = 4;

@@ -30,7 +30,6 @@ namespace Homework_11
             urlTextBox.Enabled = false;
             resultDataTextBox.Enabled = false;
             urlDownloadButton.Enabled = false;
-
             // create an array of type byte to save the data from a resource
             //byte[] data;
             // instantaite an webClient class
@@ -39,13 +38,13 @@ namespace Homework_11
 
             // create a new thread to download
             Thread thread = new Thread(() =>
-                { 
-                    resultData = cleint.DownloadString(urlTextBox.Text);
-                    this.Invoke(new Action(() =>
-                    {
-                        resultDataTextBox.Text = resultData;
-                    }));
-                });
+            {
+                resultData = cleint.DownloadString(urlTextBox.Text);
+                this.Invoke(new Action(() =>
+                {
+                    resultDataTextBox.Text = resultData;
+                }));
+            });
             // start a thread
             thread.Start();
             // re-enable the UI compoments
@@ -53,6 +52,8 @@ namespace Homework_11
             urlTextBox.Enabled = true;
             resultDataTextBox.Enabled = true;
             urlDownloadButton.Enabled = true;
+
+
 
         }
 
