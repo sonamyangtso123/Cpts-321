@@ -11,7 +11,7 @@ namespace Homework_11
     using System.Windows.Forms;
 
     /// <summary>
-    /// This is main class and we don't use at the moment
+    /// This is main class and we don't use at the moment.
     /// </summary>
     public static class Program
     {
